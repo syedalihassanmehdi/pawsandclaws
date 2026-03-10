@@ -3,74 +3,221 @@ import Link from "next/link";
 
 export default function CTASection() {
   return (
-    <section className="mx-auto max-w-7xl px-6 lg:px-12 py-10">
-      <div
-        className="relative overflow-hidden rounded-2xl"
-        style={{ background: "#0f1628", display: "grid", gridTemplateColumns: "1fr 1fr" }}
-      >
+    <section style={{ fontFamily: "'Poppins', sans-serif" }} className="px-6 lg:px-12 py-16">
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');
+
+        .cta-btn-dark {
+          display: inline-flex;
+          align-items: center;
+          gap: 10px;
+          background: #1a1a2e;
+          color: #fff;
+          font-family: 'Poppins', sans-serif;
+          font-weight: 700;
+          font-size: 13px;
+          letter-spacing: 0.08em;
+          text-transform: uppercase;
+          padding: 16px 40px;
+          border-radius: 999px;
+          text-decoration: none;
+          transition: background 0.2s, transform 0.15s;
+          white-space: nowrap;
+        }
+        .cta-btn-dark:hover {
+          background: #2d2d4e;
+          transform: translateY(-2px);
+        }
+
+        .cta-wrap {
+          position: relative;
+          overflow: hidden;
+          border-radius: 28px;
+          background: #f57c20;
+          min-height: 300px;
+          display: flex;
+          align-items: stretch;
+          width: 100%;
+        }
+
+        .cta-left {
+          position: relative;
+          z-index: 3;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          gap: 22px;
+          padding: 64px 52px 64px 72px;
+          flex: 0 0 50%;
+          max-width: 50%;
+        }
+
+        .cta-right {
+          position: absolute;
+          top: 0;
+          right: 0;
+          bottom: 0;
+          width: 55%;
+          z-index: 1;
+        }
+
+        .cta-right img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          object-position: center top;
+          display: block;
+        }
+
+        .cta-blob-pink {
+          position: absolute;
+          width: 320px;
+          height: 340px;
+          background: rgba(255, 200, 170, 0.5);
+          border-radius: 60% 40% 55% 45% / 50% 60% 40% 50%;
+          top: 50%;
+          left: 22%;
+          transform: translate(-50%, -50%);
+          z-index: 0;
+          pointer-events: none;
+        }
+        .cta-blob-yellow {
+          position: absolute;
+          width: 220px;
+          height: 220px;
+          background: rgba(255, 215, 60, 0.7);
+          border-radius: 50%;
+          bottom: -50px;
+          right: 40px;
+          z-index: 0;
+          pointer-events: none;
+        }
+
+        .cta-swoosh-1 {
+          position: absolute;
+          width: 420px;
+          height: 420px;
+          border-radius: 50%;
+          border: 56px solid rgba(255,255,255,0.08);
+          top: -160px;
+          left: -100px;
+          pointer-events: none;
+          z-index: 2;
+        }
+        .cta-swoosh-2 {
+          position: absolute;
+          width: 240px;
+          height: 240px;
+          border-radius: 50%;
+          border: 34px solid rgba(255,255,255,0.06);
+          bottom: -100px;
+          left: 280px;
+          pointer-events: none;
+          z-index: 2;
+        }
+
+        .cta-fade {
+          position: absolute;
+          top: 0;
+          bottom: 0;
+          right: 45%;
+          width: 200px;
+          background: linear-gradient(to right, #f57c20 0%, transparent 100%);
+          z-index: 2;
+          pointer-events: none;
+        }
+
+        @media (max-width: 1024px) {
+          .cta-left {
+            padding: 52px 44px 52px 56px;
+            flex: 0 0 54%;
+            max-width: 54%;
+          }
+          .cta-right { width: 52%; }
+        }
+
+        @media (max-width: 768px) {
+          .cta-wrap { min-height: 260px; }
+          .cta-left {
+            padding: 40px 32px 40px 40px;
+            flex: 0 0 58%;
+            max-width: 58%;
+            gap: 16px;
+          }
+          .cta-right { width: 48%; }
+          .cta-fade { right: 50%; width: 140px; }
+        }
+
+        @media (max-width: 580px) {
+          .cta-wrap { min-height: 220px; border-radius: 20px; }
+          .cta-left {
+            padding: 30px 20px 30px 28px;
+            flex: 0 0 60%;
+            max-width: 60%;
+            gap: 12px;
+          }
+          .cta-right { width: 46%; }
+          .cta-fade { right: 52%; width: 100px; }
+          .cta-btn-dark { padding: 12px 20px; font-size: 11px; }
+        }
+
+        @media (max-width: 400px) {
+          .cta-wrap { min-height: 190px; }
+          .cta-left {
+            padding: 24px 14px 24px 20px;
+            flex: 0 0 62%;
+            max-width: 62%;
+            gap: 10px;
+          }
+          .cta-btn-dark { padding: 10px 16px; font-size: 10px; gap: 5px; }
+        }
+      `}</style>
+
+      <div className="cta-wrap">
+        <div className="cta-swoosh-1" />
+        <div className="cta-swoosh-2" />
+
         {/* LEFT */}
-        <div className="flex flex-col justify-center gap-5 p-10 lg:p-14">
-          <span style={{
-            display: "inline-block",
-            width: "fit-content",
-            background: "#f57c20",
+        <div className="cta-left">
+          <h2 style={{
+            fontFamily: "'Poppins', sans-serif",
+            fontWeight: 800,
+            fontSize: "clamp(28px, 3.2vw, 56px)",
             color: "#fff",
-            fontSize: 11,
-            fontWeight: 700,
-            letterSpacing: "0.08em",
-            textTransform: "uppercase",
-            padding: "5px 12px",
-            borderRadius: 999,
+            margin: 0,
+            lineHeight: 1.1,
+            letterSpacing: "-0.02em",
           }}>
-            Limited Time Offer
-          </span>
+            Get 50%<br />discount
+          </h2>
 
-          <div>
-            <h2 style={{ fontWeight: 800, fontSize: "clamp(24px, 3vw, 38px)", color: "#fff", margin: 0, lineHeight: 1.2 }}>
-              Special Launch Offer:
-            </h2>
-            <h2 style={{ fontWeight: 800, fontSize: "clamp(24px, 3vw, 38px)", color: "#f57c20", margin: 0, lineHeight: 1.2 }}>
-              50% Off!
-            </h2>
-          </div>
-
-          <p style={{ fontSize: 14, color: "rgba(255,255,255,0.6)", lineHeight: 1.75, margin: 0, maxWidth: 380 }}>
-            Get half off your first year of premium pet care. Don't miss out on giving your pet the best care available.
+          <p style={{
+            fontFamily: "'Poppins', sans-serif",
+            fontSize: "clamp(12px, 1.1vw, 16px)",
+            color: "rgba(255,255,255,0.9)",
+            lineHeight: 1.7,
+            margin: 0,
+            maxWidth: 400,
+            fontWeight: 400,
+          }}>
+            Register now and get a discount on your first visit with our expert veterinary team.
           </p>
 
-          <Link
-            href="/register"
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: 8,
-              width: "fit-content",
-              background: "#f57c20",
-              color: "#fff",
-              fontWeight: 700,
-              fontSize: 14,
-              padding: "13px 24px",
-              borderRadius: 10,
-              textDecoration: "none",
-              transition: "background 0.2s, transform 0.15s",
-            }}
-            className="hover:bg-[#e06b10] hover:-translate-y-0.5"
-          >
-            Claim Discount
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+          <Link href="/register" className="cta-btn-dark">
+            Get a Discount
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
               <path d="M5 12h14M12 5l7 7-7 7"/>
             </svg>
           </Link>
         </div>
 
         {/* RIGHT */}
-        <div className="relative" style={{ background: "#e8d5b0", minHeight: 280 }}>
-          <img
-            src="/cta-pets.png"
-            alt="Pets"
-            className="w-full h-full object-cover object-center"
-          />
+        <div className="cta-right">
+          
+          <img src="/Ctaimage.png" alt="Happy pets" style={{ objectFit: "contain", zIndex: 1 }} />
         </div>
+
+        <div className="cta-fade" />
       </div>
     </section>
   );

@@ -5,185 +5,19 @@ import { Card, CardContent } from "@/components/ui/card"
 import TestimonialsSection from "@/components/ui/testimonials"
 import CTASection from "@/components/ui/Ctasection"
 import TeamSection from "@/components/TeamSection"
+import Home from "@/components/herosection"
+import ServicesSection from "@/components/servicesection"
+import WhyChooseUs from "@/components/whychooseus"
 export default function HomePage() {
   return (
     <div className="flex flex-col">
       {/* Hero Section */}
-      <section
-  style={{
-    background: "linear-gradient(135deg, #eeedf8 0%, #e8e7f5 50%, #ece9f7 100%)",
-    fontFamily: "'DM Sans', sans-serif",
-    minHeight: "420px",
-    position: "relative",
-    overflow: "hidden",
-  }}
->
-  <style>{`
-    @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700;800&display=swap');
-    .hero-cta {
-      background: #f57c20;
-      color: #fff;
-      font-family: 'DM Sans', sans-serif;
-      font-weight: 700;
-      font-size: 13px;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      padding: 14px 32px;
-      border-radius: 8px;
-      border: none;
-      cursor: pointer;
-      transition: background 0.2s, transform 0.15s;
-      display: inline-block;
-      text-decoration: none;
-    }
-    .hero-cta:hover { background: #e06b10; transform: translateY(-1px); }
-    .stat-divider { width: 1px; height: 40px; background: rgba(0,0,0,0.12); }
-  `}</style>
-
-  {/* Background blobs matching the image */}
-  <div style={{ position: "absolute", width: 500, height: 500, background: "#b8b0e8", borderRadius: "50%", filter: "blur(100px)", opacity: 0.25, top: -150, right: 0, pointerEvents: "none" }} />
-  <div style={{ position: "absolute", width: 400, height: 400, background: "#c9b8f0", borderRadius: "50%", filter: "blur(90px)", opacity: 0.2, bottom: -100, right: 200, pointerEvents: "none" }} />
-  <div style={{ position: "absolute", width: 300, height: 300, background: "#a8a0e0", borderRadius: "50%", filter: "blur(80px)", opacity: 0.15, top: 50, left: -100, pointerEvents: "none" }} />
-
-  <div style={{ maxWidth: 1200, margin: "0 auto", padding: "60px 48px", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 48, alignItems: "center", minHeight: 420, position: "relative", zIndex: 1 }}>
-
-    {/* LEFT: Content */}
-    <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
-      <h1 style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 800, fontSize: "clamp(32px, 4vw, 52px)", lineHeight: 1.15, color: "#1a1a2e", margin: 0, letterSpacing: "-0.02em" }}>
-        Professional Veterinary Care for Your Pets$
-      </h1>
-
-      <p style={{ fontSize: 16, color: "#555570", lineHeight: 1.65, margin: 0, maxWidth: 460 }}>
-        Your trusted partner in pet health. Our experienced veterinarians provide comprehensive care with compassion and expertise, ensuring your furry friends receive the best treatment possible.{" "}
-        <span style={{ color: "#f57c20", fontWeight: 700 }}>50% off</span> your first consultation!
-      </p>
-
-      <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginTop: 4 }}>
-        <a href="/locations" className="hero-cta">Book Appointment</a>
-        <a href="/services" style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 600, fontSize: 13, letterSpacing: "0.06em", textTransform: "uppercase", padding: "14px 28px", borderRadius: 8, border: "1.5px solid rgba(0,0,0,0.18)", color: "#1a1a2e", background: "transparent", cursor: "pointer", textDecoration: "none", display: "inline-block" }}>
-          View Services
-        </a>
-      </div>
-
-      <div style={{ display: "flex", alignItems: "center", gap: 24, marginTop: 12 }}>
-        <div>
-          <p style={{ fontSize: 28, fontWeight: 800, color: "#1a1a2e", margin: 0 }}>15+</p>
-          <p style={{ fontSize: 12, color: "#888", margin: 0, marginTop: 2 }}>Years Experience</p>
-        </div>
-        <div className="stat-divider" />
-        <div>
-          <p style={{ fontSize: 28, fontWeight: 800, color: "#1a1a2e", margin: 0 }}>50K+</p>
-          <p style={{ fontSize: 12, color: "#888", margin: 0, marginTop: 2 }}>Pets Treated</p>
-        </div>
-        <div className="stat-divider" />
-        <div>
-          <p style={{ fontSize: 28, fontWeight: 800, color: "#1a1a2e", margin: 0 }}>4.9</p>
-          <p style={{ fontSize: 12, color: "#888", margin: 0, marginTop: 2 }}>Star Rating</p>
-        </div>
-      </div>
-    </div>
-
-    {/* RIGHT: Image */}
-    <div style={{ height: 380, position: "relative" }}>
-      <img
-        src="/hero-image.png"
-        alt="Veterinarian caring for a pet"
-        style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: 24 }}
-      />
-    </div>
-
-  </div>
-</section>
-
-      {/* Services Section */}
-      <section className="py-20 lg:py-28 bg-background">
-        <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <div className="text-center max-w-2xl mx-auto mb-16">
-            <p className="text-primary font-medium mb-2">Our Services</p>
-            <h2 className="font-serif text-3xl font-bold text-foreground sm:text-4xl text-balance">
-              Comprehensive Pet Care Services
-            </h2>
-            <p className="mt-4 text-muted-foreground">
-              From routine checkups to emergency care, we provide a full range of veterinary services to keep your pets healthy and happy.
-            </p>
-          </div>
-
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {services.map((service) => (
-              <Card key={service.title} className="group hover:shadow-lg transition-shadow bg-card">
-                <CardContent className="p-6">
-                  <div className="h-12 w-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
-                    <service.icon className="h-6 w-6 text-primary" />
-                  </div>
-                  <h3 className="font-semibold text-foreground mb-2">{service.title}</h3>
-                  <p className="text-sm text-muted-foreground leading-relaxed">{service.description}</p>
-                  <Link 
-                    href="/services" 
-                    className="inline-flex items-center gap-1 text-sm font-medium text-primary mt-4 hover:underline"
-                  >
-                    Learn more
-                    <ArrowRightIcon className="h-4 w-4" />
-                  </Link>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-
-          <div className="text-center mt-12">
-            <Button variant="outline" asChild>
-              <Link href="/services">View All Services</Link>
-            </Button>
-          </div>
-        </div>
-      </section>
-
-      {/* Why Choose Us Section */}
-      <section className="py-20 lg:py-28 bg-muted">
-        <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
-            <div>
-              <p className="text-primary font-medium mb-2">Why Choose Us</p>
-              <h2 className="font-serif text-3xl font-bold text-foreground sm:text-4xl text-balance mb-6">
-                Trusted Care for Your Beloved Companions
-              </h2>
-              <p className="text-muted-foreground leading-relaxed mb-8">
-                At PawCare, we combine medical expertise with genuine compassion. Our state-of-the-art facilities and dedicated team ensure your pets receive the highest quality care in a comfortable, stress-free environment.
-              </p>
-              <div className="grid sm:grid-cols-2 gap-6">
-                {benefits.map((benefit) => (
-                  <div key={benefit.title} className="flex gap-4">
-                    <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
-                      <benefit.icon className="h-5 w-5 text-primary" />
-                    </div>
-                    <div>
-                      <h3 className="font-medium text-foreground mb-1">{benefit.title}</h3>
-                      <p className="text-sm text-muted-foreground">{benefit.description}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div className="relative">
-              <div className="aspect-[4/3] rounded-3xl overflow-hidden bg-card">
-                <img
-                  src="/placeholder.svg?height=450&width=600"
-                  alt="Modern veterinary clinic"
-                  className="object-cover w-full h-full"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-      {/* whats Bothering your pet */}   
-      <PetProblemsSection />       
-      {/* team section */}
+      < Home/>
+      <ServicesSection />
+      <WhyChooseUs />
+      <PetProblemsSection /> 
       <TeamSection />
-
-                  {/* CTA Section */}
       < CTASection/>
-      
-      {/* Testimonials Section */}
       <TestimonialsSection />
 
       

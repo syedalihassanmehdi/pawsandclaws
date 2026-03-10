@@ -65,102 +65,282 @@ const team = [
 export default function TeamSection() {
   return (
     <section
-      className="py-20 lg:py-28"
       style={{
-        background: "#f7f6fb",
-        fontFamily: "'DM Sans', sans-serif",
+        background: "linear-gradient(135deg, #eeedf8 0%, #e8e7f5 50%, #ece9f7 100%)",
+        fontFamily: "'Poppins', sans-serif",
+        padding: "80px 0 100px",
+        position: "relative",
+        overflow: "hidden",
       }}
     >
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');
+
+        .team-blob-1 { position:absolute; width:500px; height:500px; background:#b8b0e8; border-radius:50%; filter:blur(100px); opacity:0.22; top:-150px; right:0; pointer-events:none; }
+        .team-blob-2 { position:absolute; width:400px; height:400px; background:#c9b8f0; border-radius:50%; filter:blur(90px); opacity:0.18; bottom:-100px; right:200px; pointer-events:none; }
+        .team-blob-3 { position:absolute; width:300px; height:300px; background:#a8a0e0; border-radius:50%; filter:blur(80px); opacity:0.13; top:50px; left:-100px; pointer-events:none; }
+
+        .team-inner {
+          max-width: 1200px;
+          margin: 0 auto;
+          padding: 0 48px;
+          position: relative;
+          z-index: 1;
+        }
+
+        .team-card {
+          background: rgba(255,255,255,0.78);
+          backdrop-filter: blur(12px);
+          -webkit-backdrop-filter: blur(12px);
+          border: 1.5px solid rgba(255,255,255,0.95);
+          border-radius: 22px;
+          overflow: hidden;
+          transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+        .team-card:hover {
+          transform: translateY(-6px);
+          box-shadow: 0 24px 60px rgba(124,111,205,0.18);
+        }
+
+        .team-card-image {
+          position: relative;
+          height: 240px;
+          overflow: hidden;
+        }
+        .team-card-image img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          display: block;
+          transition: transform 0.4s ease;
+        }
+        .team-card:hover .team-card-image img {
+          transform: scale(1.04);
+        }
+
+        .team-exp-badge {
+          position: absolute;
+          top: 14px;
+          right: 14px;
+          background: #f57c20;
+          color: #fff;
+          font-family: 'Poppins', sans-serif;
+          font-size: 11px;
+          font-weight: 700;
+          letter-spacing: 0.06em;
+          padding: 5px 12px;
+          border-radius: 999px;
+          z-index: 2;
+        }
+
+        .team-initials {
+          position: absolute;
+          inset: 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          z-index: 0;
+        }
+
+        .team-name-overlay {
+          position: absolute;
+          bottom: 14px;
+          left: 14px;
+          right: 14px;
+          background: rgba(255,255,255,0.95);
+          backdrop-filter: blur(10px);
+          -webkit-backdrop-filter: blur(10px);
+          border-radius: 14px;
+          padding: 12px 14px;
+          z-index: 2;
+        }
+
         .specialty-tag {
           display: inline-flex;
           align-items: center;
           gap: 4px;
           background: #eeedf8;
+          border: 1px solid rgba(155,151,196,0.2);
           border-radius: 6px;
           padding: 3px 8px;
+          font-family: 'Poppins', sans-serif;
           font-size: 11px;
           font-weight: 600;
           color: #6b68a8;
         }
+
+        .team-bio {
+          padding: 16px 18px 20px;
+          border-top: 1px solid rgba(0,0,0,0.04);
+        }
+
+        .team-cta {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          background: #f57c20;
+          color: #fff;
+          font-family: 'Poppins', sans-serif;
+          font-weight: 700;
+          font-size: 13px;
+          letter-spacing: 0.06em;
+          text-transform: uppercase;
+          padding: 14px 32px;
+          border-radius: 10px;
+          text-decoration: none;
+          transition: background 0.2s, transform 0.15s;
+        }
+        .team-cta:hover {
+          background: #e06b10;
+          transform: translateY(-2px);
+        }
+
+        /* Carousel nav overrides */
+        [data-slot="carousel-previous"],
+        [data-slot="carousel-next"] {
+          position: static !important;
+          transform: none !important;
+          width: 40px !important;
+          height: 40px !important;
+          border-radius: 12px !important;
+          border: 1.5px solid rgba(255,255,255,0.9) !important;
+          background: rgba(255,255,255,0.7) !important;
+          backdrop-filter: blur(8px) !important;
+          box-shadow: none !important;
+          transition: background 0.2s, box-shadow 0.2s !important;
+        }
+        [data-slot="carousel-previous"]:hover,
+        [data-slot="carousel-next"]:hover {
+          background: white !important;
+          box-shadow: 0 4px 16px rgba(124,111,205,0.15) !important;
+        }
+
+        @media (max-width: 768px) {
+          .team-inner { padding: 0 20px; }
+          .team-header { text-align: left !important; }
+          .team-header p, .team-header h2, .team-header .team-desc {
+            margin-left: 0 !important;
+            margin-right: 0 !important;
+            text-align: left !important;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .team-inner { padding: 0 16px; }
+          .team-card-image { height: 200px; }
+        }
       `}</style>
 
-      <div className="mx-auto max-w-7xl px-6 lg:px-12">
+      <div className="team-blob-1" />
+      <div className="team-blob-2" />
+      <div className="team-blob-3" />
+
+      <div className="team-inner">
 
         {/* Header */}
-        <div className="text-center mb-14">
-  <p className="text-primary font-medium mb-2" style={{ fontSize: 14 }}>Our Experts</p>
-  <h2 style={{ fontWeight: 800, fontSize: "clamp(28px, 4vw, 44px)", letterSpacing: "-0.02em", color: "#1a1a2e", margin: 0 }}>
-    Meet Our Lead Veterinarians
-  </h2>
-  <p style={{ fontSize: 15, color: "#888", marginTop: 12, maxWidth: 480, marginLeft: "auto", marginRight: "auto", lineHeight: 1.7 }}>
-    A dedicated team of specialists committed to providing the highest quality care for your beloved pets.
-  </p>
-</div>
+        <div className="team-header" style={{ textAlign: "center", marginBottom: 48 }}>
+          <p style={{
+            fontFamily: "'Poppins', sans-serif",
+            fontSize: 13,
+            fontWeight: 600,
+            color: "#f57c20",
+            letterSpacing: "0.08em",
+            textTransform: "uppercase",
+            margin: "0 0 10px",
+          }}>
+            Our Experts
+          </p>
+          <h2 style={{
+            fontFamily: "'Poppins', sans-serif",
+            fontWeight: 800,
+            fontSize: "clamp(26px, 4vw, 44px)",
+            letterSpacing: "-0.02em",
+            color: "#1a1a2e",
+            margin: "0 0 14px",
+            lineHeight: 1.15,
+          }}>
+            Meet Our Lead{" "}
+            <span style={{ color: "#f57c20", fontStyle: "italic" }}>Veterinarians</span>
+          </h2>
+          <p className="team-desc" style={{
+            fontSize: 15,
+            color: "#555570",
+            margin: "0 auto",
+            maxWidth: 480,
+            lineHeight: 1.75,
+            fontWeight: 400,
+          }}>
+            A dedicated team of specialists committed to providing the highest quality care for your beloved pets.
+          </p>
+        </div>
 
         {/* Carousel */}
         <Carousel opts={{ align: "start", dragFree: true }} className="w-full">
 
-          <div className="flex justify-end gap-2 mb-6">
-            <CarouselPrevious className="static translate-x-0 translate-y-0 w-10 h-10 rounded-xl border border-gray-200 bg-white hover:bg-[#eeedf8] shadow-none" />
-            <CarouselNext className="static translate-x-0 translate-y-0 w-10 h-10 rounded-xl border border-gray-200 bg-white hover:bg-[#eeedf8] shadow-none" />
+          {/* Nav */}
+          <div style={{ display: "flex", justifyContent: "flex-end", gap: 8, marginBottom: 24 }}>
+            <CarouselPrevious className="static translate-x-0 translate-y-0" />
+            <CarouselNext className="static translate-x-0 translate-y-0" />
           </div>
 
           <CarouselContent className="-ml-5">
             {team.map((member) => (
-              <CarouselItem key={member.name} className="pl-5 md:basis-1/2 lg:basis-1/3">
-                <div className="bg-white rounded-2xl overflow-hidden transition-all duration-200 hover:-translate-y-1 hover:shadow-xl" style={{ border: "1px solid rgba(0,0,0,0.05)" }}>
+              <CarouselItem
+                key={member.name}
+                className="pl-5 md:basis-1/2 lg:basis-1/3"
+              >
+                <div className="team-card">
 
                   {/* Image area */}
-                  <div className="relative" style={{ height: 260, background: member.color }}>
+                  <div className="team-card-image" style={{ background: member.color }}>
                     <img
                       src={member.image}
                       alt={member.name}
-                      className="w-full h-full object-cover"
                       onError={(e) => {
                         (e.target as HTMLImageElement).style.display = "none";
                       }}
                     />
 
+                    {/* Initials fallback */}
+                    <div className="team-initials">
+                      <span style={{
+                        fontSize: 72,
+                        fontWeight: 800,
+                        fontFamily: "'Poppins', sans-serif",
+                        color: "rgba(255,255,255,0.28)",
+                        letterSpacing: "-0.04em",
+                      }}>
+                        {member.initials}
+                      </span>
+                    </div>
+
                     {/* Experience badge */}
-                    <div style={{
-                      position: "absolute",
-                      top: 14,
-                      right: 14,
-                      background: "#f57c20",
-                      color: "#fff",
-                      fontSize: 11,
-                      fontWeight: 700,
-                      letterSpacing: "0.06em",
-                      padding: "5px 10px",
-                      borderRadius: 999,
-                    }}>
-                      {member.experience}
-                    </div>
+                    <div className="team-exp-badge">{member.experience}</div>
 
-                    {/* Initials fallback overlay */}
-                    <div className="absolute inset-0 flex items-center justify-center" style={{ zIndex: 0 }}>
-                      <span style={{ fontSize: 64, fontWeight: 800, color: "rgba(255,255,255,0.3)" }}>{member.initials}</span>
-                    </div>
-
-                    {/* Name card overlay */}
-                    <div style={{
-                      position: "absolute",
-                      bottom: 14,
-                      left: 14,
-                      right: 14,
-                      background: "rgba(255,255,255,0.95)",
-                      backdropFilter: "blur(8px)",
-                      borderRadius: 14,
-                      padding: "12px 14px",
-                    }}>
-                      <p style={{ fontWeight: 800, fontSize: 15, color: "#1a1a2e", margin: 0 }}>{member.name}</p>
-                      <p style={{ fontSize: 12, color: "#f57c20", fontWeight: 600, margin: "2px 0 8px" }}>{member.role}</p>
-                      <div className="flex flex-wrap gap-1">
+                    {/* Name overlay */}
+                    <div className="team-name-overlay">
+                      <p style={{
+                        fontFamily: "'Poppins', sans-serif",
+                        fontWeight: 800,
+                        fontSize: 15,
+                        color: "#1a1a2e",
+                        margin: "0 0 2px",
+                      }}>
+                        {member.name}
+                      </p>
+                      <p style={{
+                        fontFamily: "'Poppins', sans-serif",
+                        fontSize: 12,
+                        color: "#f57c20",
+                        fontWeight: 600,
+                        margin: "0 0 8px",
+                      }}>
+                        {member.role}
+                      </p>
+                      <div style={{ display: "flex", flexWrap: "wrap", gap: 4 }}>
                         {member.specialties.map((s) => (
                           <span key={s} className="specialty-tag">
-                            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#9b97c4" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                            <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#9b97c4" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
                               <polyline points="20 6 9 17 4 12"/>
                             </svg>
                             {s}
@@ -171,8 +351,15 @@ export default function TeamSection() {
                   </div>
 
                   {/* Bio */}
-                  <div style={{ padding: "16px 18px 18px" }}>
-                    <p style={{ fontSize: 13, color: "#888", lineHeight: 1.7, margin: 0 }}>
+                  <div className="team-bio">
+                    <p style={{
+                      fontFamily: "'Poppins', sans-serif",
+                      fontSize: 13,
+                      color: "#555570",
+                      lineHeight: 1.75,
+                      margin: 0,
+                      fontWeight: 400,
+                    }}>
                       {member.bio}
                     </p>
                   </div>
@@ -181,31 +368,13 @@ export default function TeamSection() {
               </CarouselItem>
             ))}
           </CarouselContent>
-
         </Carousel>
 
         {/* CTA */}
-        <div className="flex justify-center mt-12">
-          <Link
-            href="/team"
-            style={{
-              background: "#f57c20",
-              color: "#fff",
-              fontWeight: 700,
-              fontSize: 14,
-              letterSpacing: "0.04em",
-              padding: "14px 32px",
-              borderRadius: 999,
-              textDecoration: "none",
-              display: "inline-flex",
-              alignItems: "center",
-              gap: 8,
-              transition: "background 0.2s, transform 0.15s",
-            }}
-            className="hover:bg-[#e06b10] hover:-translate-y-0.5"
-          >
+        <div style={{ display: "flex", justifyContent: "center", marginTop: 52 }}>
+          <Link href="/team" className="team-cta">
             View Full Team
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
               <polyline points="9 18 15 12 9 6"/>
             </svg>
           </Link>
