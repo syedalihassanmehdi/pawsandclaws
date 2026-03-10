@@ -52,7 +52,7 @@ function ServiceHero({ service }: { service: Service }) {
 
           {/* WhatsApp */}
           <a
-            href={`https://wa.me/971581289605?text=${encodeURIComponent(`Hello! I would like to inquire about your *${service.title}* service. Could you please share more details and available appointment slots?`)}`}
+            href={`https://wa.me/971521511465?text=${encodeURIComponent(`Hello! I would like to inquire about your *${service.title}* service. Could you please share more details and available appointment slots?`)}`}
             target="_blank"
             rel="noopener noreferrer"
             style={{
@@ -72,7 +72,7 @@ function ServiceHero({ service }: { service: Service }) {
 
           {/* Call */}
           <a
-            href="tel:+971581289605"
+            href="tel:+971521511465"
             style={{
               display: "inline-flex", alignItems: "center", gap: 9,
               background: "rgba(255,255,255,0.75)", color: "#1a1a2e",

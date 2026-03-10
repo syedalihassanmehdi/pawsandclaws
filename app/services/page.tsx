@@ -115,7 +115,7 @@ function ServiceCard({ service }: { service: typeof services[0] }) {
 
           {/* WhatsApp */}
           <a
-            href={`https://wa.me/971581289605?text=${encodeURIComponent(`Hello! I would like to inquire about your *${service.title}* service. Could you please share more details and available appointment slots?`)}`}
+            href={`https://wa.me/971521511465?text=${encodeURIComponent(`Hello! I would like to inquire about your *${service.title}* service. Could you please share more details and available appointment slots?`)}`}
             target="_blank"
             rel="noopener noreferrer"
             onClick={(e) => e.stopPropagation()}
@@ -137,7 +137,7 @@ function ServiceCard({ service }: { service: typeof services[0] }) {
 
           {/* Call */}
           <a
-            href="tel:+971581289605"
+            href="tel:+971521511465"
             onClick={(e) => e.stopPropagation()}
             title="Call Us"
             style={{
