@@ -50,7 +50,7 @@ export default function HomePage() {
     {/* LEFT: Content */}
     <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
       <h1 style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 800, fontSize: "clamp(32px, 4vw, 52px)", lineHeight: 1.15, color: "#1a1a2e", margin: 0, letterSpacing: "-0.02em" }}>
-        Professional Veterinary Care for Your Pets
+        Professional Veterinary Care for Your Pets$
       </h1>
 
       <p style={{ fontSize: 16, color: "#555570", lineHeight: 1.65, margin: 0, maxWidth: 460 }}>
