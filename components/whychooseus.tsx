@@ -224,7 +224,7 @@ export default function WhyChooseUs() {
           <div className="wcu-image-col" style={{ position: "relative" }}>
             <div className="wcu-image-wrap">
               <img
-                src="/clinic.png"
+                src="/whychooseus.png"
                 alt="Modern veterinary clinic"
               />
               {/* Gradient overlay */}

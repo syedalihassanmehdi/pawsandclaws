@@ -1,12 +1,11 @@
 import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import PetProblemsSection from "@/components/ui/PetProblemsSection"
-import { Card, CardContent } from "@/components/ui/card"
+
+import PetProblemsSection from "@/components/home/PetProblemsSection"
 import TestimonialsSection from "@/components/ui/testimonials"
 import CTASection from "@/components/ui/Ctasection"
 import TeamSection from "@/components/TeamSection"
-import Home from "@/components/herosection"
-import ServicesSection from "@/components/servicesection"
+import Home from "@/components/home/herosection"
+import ServicesSection from "@/components/home/servicesection"
 import WhyChooseUs from "@/components/whychooseus"
 export default function HomePage() {
   return (
