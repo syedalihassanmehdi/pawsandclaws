@@ -138,13 +138,11 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
 
   const overlayRef = useRef<HTMLDivElement>(null);
 
-  // Lock body scroll when open
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "";
-      // reset on close
       setTimeout(() => {
         setStep(1); setDirection("forward"); setDone(false);
         setPetName(""); setPetType(""); setPetAge(""); setService("");
@@ -155,12 +153,10 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
     return () => { document.body.style.overflow = ""; };
   }, [isOpen]);
 
-  // Close on backdrop click
   const handleOverlayClick = (e: React.MouseEvent) => {
     if (e.target === overlayRef.current) onClose();
   };
 
-  // Close on Escape
   useEffect(() => {
     const handler = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
     window.addEventListener("keydown", handler);
@@ -196,7 +192,6 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
   const next = () => {
     if (!validate()) return;
     if (step < 4) { goTo(step + 1, "forward"); return; }
-    // Submit → WhatsApp
     const loc = LOCATIONS.find((l) => l.id === location)!;
     const svc = SERVICES.find((s) => s.id === service)?.label ?? service;
     const msg =
@@ -248,6 +243,10 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
           animation: bmSlideUp 0.28s cubic-bezier(0.34,1.26,0.64,1);
           font-family: 'Poppins', sans-serif;
           position: relative;
+          /* Let the modal grow with content but cap it so it doesn't exceed viewport */
+          max-height: 92vh;
+          display: flex;
+          flex-direction: column;
         }
         @keyframes bmSlideUp {
           from { opacity: 0; transform: translateY(32px) scale(0.97); }
@@ -258,6 +257,7 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
         .bm-header {
           padding: 28px 28px 0;
           position: relative;
+          flex-shrink: 0;
         }
         .bm-close {
           position: absolute; top: 20px; right: 20px;
@@ -299,6 +299,41 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
           min-height: 320px;
           position: relative;
           overflow: hidden;
+          flex-shrink: 0;
+        }
+
+        /* Step 2 gets its own scrollable body */
+        .bm-body.scrollable {
+          overflow-y: auto;
+          min-height: unset;
+          /* Takes remaining space between header and footer */
+          flex: 1;
+        }
+        .bm-body.scrollable::-webkit-scrollbar {
+          width: 4px;
+        }
+        .bm-body.scrollable::-webkit-scrollbar-track {
+          background: #f0edf9;
+          border-radius: 2px;
+          margin: 8px 0;
+        }
+        .bm-body.scrollable::-webkit-scrollbar-thumb {
+          background: #d4cff0;
+          border-radius: 2px;
+        }
+        .bm-body.scrollable::-webkit-scrollbar-thumb:hover {
+          background: #f57c20;
+        }
+
+        /* Scroll hint fade at bottom of step 2 */
+        .bm-scroll-hint {
+          position: sticky;
+          bottom: 0;
+          left: 0; right: 0;
+          height: 36px;
+          background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.95));
+          pointer-events: none;
+          margin: -8px -28px 0;
         }
 
         /* Slide animations */
@@ -391,6 +426,10 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
         .bm-footer {
           padding: 0 28px 28px;
           display: flex; gap: 10px; align-items: center;
+          flex-shrink: 0;
+          /* Subtle top separator so footer always feels grounded */
+          border-top: 1px solid #f0edf9;
+          padding-top: 16px;
         }
         .bm-btn-back {
           padding: 12px 20px; border-radius: 12px;
@@ -438,9 +477,12 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
           .bm-modal { border-radius: 20px; }
           .bm-header { padding: 20px 20px 0; }
           .bm-body { padding: 20px 20px 24px; min-height: 280px; }
-          .bm-footer { padding: 0 20px 20px; }
-          .bm-service-grid { grid-template-columns: 1fr; }
+          .bm-footer { padding: 16px 20px 20px; }
+          .bm-service-grid { grid-template-columns: 1fr 1fr; }
           .bm-grid2 { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 380px) {
+          .bm-service-grid { grid-template-columns: 1fr; }
         }
       `}</style>
 
@@ -460,7 +502,7 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
             </div>
           ) : (
             <>
-              {/* Header */}
+              {/* Header — always visible */}
               <div className="bm-header">
                 <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 4 }}>
                   <div style={{ width: 32, height: 32, borderRadius: 9, background: "#fff5ee", border: "1px solid #fdd5b0", display: "flex", alignItems: "center", justifyContent: "center" }}>
@@ -480,12 +522,10 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
                   </span>
                 </div>
 
-                {/* Progress bar */}
                 <div className="bm-progress-track">
                   <div className="bm-progress-fill" style={{ width: `${progress}%` }} />
                 </div>
 
-                {/* Step dots */}
                 <div className="bm-steps">
                   {[1, 2, 3, 4].map((s) => (
                     <div key={s} className={`bm-step-dot ${s === step ? "active" : s < step ? "done" : ""}`} />
@@ -496,8 +536,8 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
                 </div>
               </div>
 
-              {/* Body */}
-              <div className="bm-body">
+              {/* Body — scrollable only on step 2 */}
+              <div className={`bm-body${step === 2 ? " scrollable" : ""}`}>
                 <div className={animating
                   ? (direction === "forward" ? "bm-step-exit-forward" : "bm-step-exit-back")
                   : (direction === "forward" ? "bm-step-enter-forward" : "bm-step-enter-back")
@@ -505,7 +545,7 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
                   <p className="bm-step-title">{STEP_META[step - 1].title}</p>
                   <p className="bm-step-sub">{STEP_META[step - 1].subtitle}</p>
 
-                  {/* ── STEP 1: Pet Info ── */}
+                  {/* ── STEP 1 ── */}
                   {step === 1 && (
                     <>
                       <div className="bm-grid2">
@@ -547,7 +587,7 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
                     </>
                   )}
 
-                  {/* ── STEP 2: Service ── */}
+                  {/* ── STEP 2 ── */}
                   {step === 2 && (
                     <div className="bm-field">
                       <div className="bm-service-grid">
@@ -572,10 +612,12 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
                         ))}
                       </div>
                       {errors.service && <span className="bm-err" style={{ marginTop: 8 }}>{errors.service}</span>}
+                      {/* Scroll hint fade */}
+                      <div className="bm-scroll-hint" />
                     </div>
                   )}
 
-                  {/* ── STEP 3: Owner Details ── */}
+                  {/* ── STEP 3 ── */}
                   {step === 3 && (
                     <>
                       <div className="bm-field">
@@ -611,7 +653,7 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
                     </>
                   )}
 
-                  {/* ── STEP 4: Location ── */}
+                  {/* ── STEP 4 ── */}
                   {step === 4 && (
                     <div className="bm-field" style={{ marginBottom: 0 }}>
                       {LOCATIONS.map((loc) => (
@@ -644,7 +686,7 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
                 </div>
               </div>
 
-              {/* Footer */}
+              {/* Footer — always visible */}
               <div className="bm-footer">
                 {step > 1 ? (
                   <button className="bm-btn-back" onClick={back}>

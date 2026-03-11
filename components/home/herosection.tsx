@@ -69,6 +69,7 @@ export default function Hero() {
           .hero-image-wrap {
             position: absolute;
             inset: 0;
+            z-index: 5;
           }
           .hero-image-wrap img {
             width: 100%; height: 100%;
@@ -90,6 +91,11 @@ export default function Hero() {
           .hero-float:nth-child(3) { animation-delay: 1.2s; animation-duration: 3.8s; }
           .hero-float:nth-child(4) { animation-delay: 0.3s; animation-duration: 4.2s; }
           .hero-float:nth-child(5) { animation-delay: 0.9s; animation-duration: 3.6s; }
+
+          /* Rating card sits BEHIND the pet image */
+          .hero-float-behind {
+            z-index: 2 !important;
+          }
 
           @keyframes heroFloat {
             0%, 100% { transform: translateY(0px); }
@@ -140,15 +146,12 @@ export default function Hero() {
               <span style={{ color:"#f57c20", fontStyle:"italic" }}>Beloved Pets</span>
             </h1>
             <p style={{ fontFamily:"'Poppins',sans-serif", fontSize:15, color:"#555570", lineHeight:1.75, margin:0, maxWidth:440, fontWeight:400 }}>
-            Compassionate, ethical, and stress-free veterinary care for your beloved companions. We believe pets are family, and they deserve the same level of respect, comfort, and medical excellence as any loved one. Our team is dedicated to providing thoughtful, patient-focused care that prioritizes your pet’s well-being while making every visit as calm and reassuring as possible.
+              Compassionate, ethical, and stress-free veterinary care for your beloved companions. We believe pets are family, and they deserve the same level of respect, comfort, and medical excellence as any loved one. Our team is dedicated to providing thoughtful, patient-focused care that prioritizes your pet's well-being while making every visit as calm and reassuring as possible.
             </p>
 
             {/* ── Buttons ── */}
             <div className="hero-buttons" style={{ display:"flex", gap:12, flexWrap:"wrap", marginTop:2 }}>
-              <button
-                onClick={() => setModalOpen(true)}
-                className="hero-cta"
-              >
+              <button onClick={() => setModalOpen(true)} className="hero-cta">
                 Book Appointment
               </button>
               <a href="/services" className="hero-btn-outline">View Services</a>
@@ -164,13 +167,8 @@ export default function Hero() {
             <div className="hero-ring" style={{ width:320, height:320, top:"50%", left:"50%", transform:"translate(-50%,-50%)" }} />
             <div className="hero-ring" style={{ width:420, height:420, top:"50%", left:"50%", transform:"translate(-50%,-50%)", borderColor:"rgba(124,111,205,0.12)" }} />
 
-            {/* Pet image */}
-            <div className="hero-image-wrap">
-              <img src="/hero.png" alt="Veterinarian caring for a pet" />
-            </div>
-
-            {/* Floating card 1: Rating */}
-            <div className="hero-float" style={{ top:24, left:-10 }}>
+            {/* ── Floating card 1: Rating — BEHIND pet image (z-index: 2) ── */}
+            <div className="hero-float hero-float-behind" style={{ top:24, left:-10 }}>
               <div style={{ display:"flex", alignItems:"center", gap:10 }}>
                 <div style={{ width:36, height:36, borderRadius:10, background:"#fff5ee", border:"1px solid #fdd5b0", display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}>
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="#f57c20"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
@@ -239,6 +237,11 @@ export default function Hero() {
                 </svg>
                 <p style={{ fontFamily:"'Poppins',sans-serif", fontSize:11.5, fontWeight:700, color:"#1a1a2e", margin:0, whiteSpace:"nowrap" }}>2 Locations in UAE</p>
               </div>
+            </div>
+
+            {/* Pet image — rendered last so it naturally sits above z-index: 2 cards */}
+            <div className="hero-image-wrap">
+              <img src="/hero.png" alt="Veterinarian caring for a pet" />
             </div>
 
           </div>
