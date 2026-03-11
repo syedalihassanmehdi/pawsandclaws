@@ -25,7 +25,7 @@ export interface ServiceFeature {
         tagline: "Comprehensive health examinations for your pet",
         description: "Complete health checkups to monitor your pet's overall wellness and catch potential issues early.",
         longDescription: "Our pet consultation service provides a thorough assessment of your pet's health from nose to tail. Our experienced veterinarians take time to understand your pet's lifestyle, diet, and any concerns you may have, creating a personalized health plan tailored to their unique needs.",
-        image: "/services/consultation.png",
+        image: "petconsultation.png",
         color: "#f57c20",
         features: [
           { title: "Complete Physical Examination", description: "A thorough nose-to-tail assessment covering eyes, ears, teeth, coat, skin, joints, and internal organs to establish a full health baseline." },
@@ -53,7 +53,7 @@ export interface ServiceFeature {
         tagline: "Fast, accurate results without the wait",
         description: "State-of-the-art on-site diagnostic testing for accurate and timely results when your pet needs it most.",
         longDescription: "Our fully equipped in-house laboratory allows us to run comprehensive diagnostic tests and receive results within minutes — not days. From blood panels to urinalysis, our advanced equipment ensures your pet gets an accurate diagnosis quickly so treatment can begin without delay.",
-        image: "/services/diagnostics.png",
+        image: "in-house-diagnostics.png",
         color: "#7c6fcd",
         features: [
           { title: "Complete Blood Count (CBC)", description: "Measures red and white blood cell counts and platelets to detect infections, anemia, clotting disorders, and immune system abnormalities." },
@@ -81,7 +81,7 @@ export interface ServiceFeature {
         tagline: "Precise molecular testing for accurate diagnosis",
         description: "Advanced PCR molecular testing to detect infectious diseases, viruses, and bacteria with the highest accuracy.",
         longDescription: "PCR (Polymerase Chain Reaction) testing is the gold standard for detecting infectious diseases in pets. Our advanced PCR lab can identify pathogens at the molecular level, providing highly accurate diagnoses for a wide range of conditions including respiratory infections, tick-borne diseases, and more.",
-        image: "/services/pcr.png",
+        image: "pcr-testing.png",
         color: "#2a9d8f",
         features: [
           { title: "Viral Disease Detection", description: "Identifies viral pathogens including parvovirus, distemper, feline herpesvirus, calicivirus, and FIV/FeLV with near 100% sensitivity." },
@@ -109,7 +109,7 @@ export interface ServiceFeature {
         tagline: "See what's happening inside with clarity",
         description: "Digital X-rays, ultrasound, and advanced imaging to give our vets a clear picture of your pet's internal health.",
         longDescription: "Our advanced imaging suite includes digital radiography and high-resolution ultrasound equipment. These non-invasive tools allow our veterinarians to examine bones, organs, and soft tissues in detail, enabling accurate diagnosis of fractures, tumors, organ disease, and more — without surgery.",
-        image: "/services/imaging.png",
+        image: "advanced-imaging.png",
         color: "#e05c7a",
         features: [
           { title: "Digital Radiography (X-Ray)", description: "Full-body digital X-rays with instant on-screen review. Far lower radiation than traditional film, with the ability to zoom, enhance, and share images with specialists." },
@@ -137,7 +137,7 @@ export interface ServiceFeature {
         tagline: "Round-the-clock critical care when it matters most",
         description: "24/7 intensive care unit for critically ill pets requiring continuous monitoring and advanced life support.",
         longDescription: "Our dedicated ICU provides round-the-clock care for pets in critical condition. Equipped with advanced monitoring systems, oxygen support, IV fluid therapy, and staffed by experienced critical care specialists, our ICU gives your pet the best possible chance of recovery.",
-        image: "/services/icu.png",
+        image: "intensive-care.png",
         color: "#e05c7a",
         features: [
           { title: "24/7 Continuous Monitoring", description: "Dedicated nursing staff monitor vital signs — heart rate, blood pressure, oxygen saturation, temperature, and respiratory rate — around the clock without interruption." },
@@ -165,7 +165,7 @@ export interface ServiceFeature {
         tagline: "Healthy teeth, happy pets",
         description: "Complete oral health services including professional cleanings, extractions, and preventive dental care.",
         longDescription: "Dental disease is one of the most common health issues in pets, yet it's largely preventable. Our comprehensive dental care services include professional cleanings under anesthesia, dental X-rays, tooth extractions when needed, and personalized home care plans to keep your pet's smile healthy.",
-        image: "/services/dental.png",
+        image: "dental-care.png",
         color: "#f5c842",
         features: [
           { title: "Professional Dental Cleaning (COHAT)", description: "A complete oral health assessment and treatment under general anesthesia, including supragingival and subgingival scaling, polishing, and irrigation of all tooth surfaces." },
@@ -193,7 +193,7 @@ export interface ServiceFeature {
         tagline: "Pain relief and healing through light",
         description: "Non-invasive therapeutic laser treatments to reduce pain, inflammation, and accelerate healing.",
         longDescription: "Cold laser therapy (photobiomodulation) uses specific wavelengths of light to stimulate cellular regeneration, reduce inflammation, and relieve pain. It's a safe, drug-free option for managing arthritis, post-surgical recovery, wounds, and chronic pain conditions in pets of all ages.",
-        image: "/services/laser.png",
+        image: "laser-therapy.png",
         color: "#4caf82",
         features: [
           { title: "Osteoarthritis & Joint Pain Management", description: "Targeted laser application to affected joints reduces synovial inflammation, stimulates cartilage repair, and significantly improves mobility in arthritic pets." },
@@ -221,7 +221,7 @@ export interface ServiceFeature {
         tagline: "Protection for every stage of life",
         description: "Comprehensive immunization programs tailored to your pet's lifestyle, age, and specific health needs.",
         longDescription: "Our vaccination programs are carefully designed around your pet's individual needs. We consider your pet's age, lifestyle, risk factors, and previous vaccination history to create an optimal schedule that provides maximum protection while avoiding unnecessary vaccines.",
-        image: "/services/vaccination.png",
+        image: "/vaccination-programs.png",
         color: "#f57c20",
         features: [
           { title: "Core Vaccine Administration", description: "Essential vaccines for all dogs (DA2PP, Rabies) and cats (FVRCP, Rabies) administered on evidence-based schedules proven to provide long-lasting, reliable immunity." },
@@ -249,7 +249,7 @@ export interface ServiceFeature {
         tagline: "Expert surgery with compassionate care",
         description: "Safe, professional surgical procedures performed by board-certified veterinary surgeons in a fully equipped OR.",
         longDescription: "Our surgical suite is equipped with the latest technology to ensure the safest possible outcomes for your pet. From routine spay/neuter procedures to complex soft tissue and orthopedic surgeries, our board-certified surgeons bring expertise and precision to every procedure.",
-        image: "/services/surgery.png",
+        image: "/surgical-services.png",
         color: "#7c6fcd",
         features: [
           { title: "Spay & Neuter Surgery", description: "Routine reproductive surgeries performed with full anesthetic monitoring, pre-op bloodwork, and multi-modal pain management for a smooth, safe recovery." },
@@ -277,7 +277,7 @@ export interface ServiceFeature {
         tagline: "Medications and supplements, right here",
         description: "Convenient on-site pharmacy stocked with a comprehensive range of veterinary medications and supplements.",
         longDescription: "Our fully stocked in-house pharmacy means you can pick up your pet's prescriptions the same day they're prescribed — no separate trips to an outside pharmacy. We carry a wide range of veterinary medications, preventive treatments, prescription diets, and supplements, all at competitive prices.",
-        image: "/services/pharmacy.png",
+        image: "in-house-pharmacy.png",
         color: "#4caf82",
         features: [
           { title: "Same-Day Prescription Dispensing", description: "Medications prescribed during your visit are dispensed before you leave — no waiting for external pharmacy processing or delivery delays." },
@@ -299,6 +299,64 @@ export interface ServiceFeature {
         relatedSlugs: ["vaccination-programs", "pet-consultation", "laser-therapy"],
         icon: "M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007z",
       },
+     
+
+  {
+    slug: "pet-grooming",
+    title: "Pet Grooming",
+    tagline: "Look good, feel great — every visit",
+    description: "Professional grooming services tailored to every breed, coat type, and temperament for a stress-free experience.",
+    longDescription: "Our expert groomers provide full grooming services in a calm, clean environment designed to keep your pet comfortable and looking their best. Whether it's a simple bath and brush or a full breed-specific styling, every session is handled with patience and care. We use premium, pet-safe products suitable for sensitive skin and all coat types.",
+    image: "pet-grooming.png",
+    color: "#e05c7a",
+    features: [
+      { title: "Bath & Blow Dry", description: "Full shampoo and conditioning treatment using breed-appropriate, hypoallergenic products, followed by professional blow drying and brushing to a smooth, tangle-free finish." },
+      { title: "Breed-Specific Styling & Haircut", description: "Precision trimming and styling following breed-standard cuts or owner-requested styles, performed by groomers trained in both dog and cat coat types." },
+      { title: "Nail Trimming & Filing", description: "Safe trimming of overgrown nails using sharp, proper-sized clippers, followed by filing to smooth sharp edges — preventing splitting, snagging, and joint stress." },
+      { title: "Ear Cleaning", description: "Gentle removal of wax and debris from the outer ear canal using veterinarian-approved ear cleaner, reducing the risk of infection and detecting early signs of otitis." },
+      { title: "Teeth Brushing", description: "Manual brushing with pet-safe enzymatic toothpaste to reduce plaque, freshen breath, and support ongoing oral health between professional dental cleanings." },
+      { title: "De-shedding Treatment", description: "Specialized shampoo, conditioning, and high-velocity drying combined with thorough brushing to significantly reduce shedding and remove loose undercoat in heavy-shedding breeds." },
+    ],
+    benefits: [
+      { title: "Stress-Free Environment", description: "Calm, one-on-one grooming sessions designed to keep anxious pets at ease." },
+      { title: "Trained Professionals", description: "Experienced groomers familiar with all breeds, coat types, and temperaments." },
+      { title: "Health Benefits", description: "Regular grooming helps detect skin issues, lumps, and parasites early." },
+    ],
+    faqs: [
+      { question: "How often should my pet be groomed?", answer: "Most dogs benefit from grooming every 4–8 weeks. Long-coated breeds may need more frequent visits, while short-coated dogs can go longer between sessions." },
+      { question: "Do you groom cats too?", answer: "Yes — we groom cats and are experienced in handling feline clients who may need extra patience and a gentle approach." },
+    ],
+    relatedSlugs: ["pet-consultation", "dental-care", "vaccination-programs"],
+    icon: "M7 3a1 1 0 000 2h10a1 1 0 100-2H7zM4 7a1 1 0 011-1h14a1 1 0 110 2H5a1 1 0 01-1-1zM2 11a2 2 0 012-2h16a2 2 0 012 2v6a2 2 0 01-2 2H4a2 2 0 01-2-2v-6z",
+  },
+  {
+    slug: "pet-boarding",
+    title: "Pet Boarding",
+    tagline: "A safe, loving home away from home",
+    description: "Safe, comfortable, and supervised boarding care for your pet while you're away — with veterinary oversight on site.",
+    longDescription: "Our boarding facility is designed with your pet's comfort and safety as the top priority. Unlike standard kennels, our boarding is housed within our veterinary clinic — meaning a qualified vet is always on site. Each guest enjoys a clean, climate-controlled space, regular exercise, social interaction, and the same love and attention they'd receive at home.",
+    image: "/pet-boarding.png",
+    color: "#7c6fcd",
+    features: [
+      { title: "Climate-Controlled Comfortable Suites", description: "Spacious, climate-controlled individual suites with cozy bedding, ensuring your pet sleeps comfortably and stays calm in a clean, odor-managed environment." },
+      { title: "24/7 Veterinary Oversight", description: "Unlike standard boarding facilities, a licensed veterinarian is always on site — meaning any health concern is addressed immediately without delays or emergency transfers." },
+      { title: "Daily Exercise & Playtime", description: "Scheduled play sessions and walks tailored to your pet's energy level and temperament, keeping them active, mentally stimulated, and happy throughout their stay." },
+      { title: "Feeding to Your Schedule", description: "We follow your pet's exact feeding routine, diet, and portion sizes — bringing their own food or providing vet-recommended options, with feeding logs maintained daily." },
+      { title: "Medication Administration", description: "Our trained nursing staff administer all prescribed medications on schedule — oral, injectable, topical, or eye drops — with detailed records updated at each administration." },
+      { title: "Daily Updates & Photos", description: "We send daily check-in messages with photos so you can see your pet is happy and well — giving you peace of mind no matter how far away you are." },
+    ],
+    benefits: [
+      { title: "Vet On-Site Always", description: "Immediate medical attention available 24/7 — no other boarding facility offers this." },
+      { title: "Personalised Care", description: "Your pet's routine, diet, and medications are followed exactly as at home." },
+      { title: "Peace of Mind", description: "Daily photo updates so you always know your pet is safe and happy." },
+    ],
+    faqs: [
+      { question: "What do I need to bring for boarding?", answer: "Bring your pet's food, any medications, a familiar blanket or toy, and vaccination records. We'll take care of everything else." },
+      { question: "Is my pet required to be vaccinated to board?", answer: "Yes — for the safety of all boarding guests, pets must be up to date on core vaccines. We can administer any missing vaccines at check-in." },
+    ],
+    relatedSlugs: ["pet-grooming", "pet-consultation", "vaccination-programs"],
+    icon: "M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6",
+  },
     ];
     
     export function getServiceBySlug(slug: string): Service | undefined {

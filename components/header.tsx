@@ -25,6 +25,8 @@ const serviceLinks = [
   { slug: "vaccination-programs", title: "Vaccination Programs", desc: "Tailored immunization for every life stage",     color: "#f57c20", icon: "M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" },
   { slug: "surgical-services",    title: "Surgical Services",    desc: "Board-certified surgeons & full OR support",     color: "#7c6fcd", icon: "M9.75 3.104v5.714a2.25 2.25 0 01-.659 1.591L5 14.5 M14.25 3.104c.251.023.501.05.75.082M19 14.5l-2.047 2.047" },
   { slug: "in-house-pharmacy",    title: "In-House Pharmacy",    desc: "Same-day prescriptions & compounded meds",      color: "#4caf82", icon: "M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007z" },
+  { slug: "pet-grooming",         title: "Pet Grooming",         desc: "Breed-specific styling & professional coat care", color: "#e05c7a", icon: "M7 3a1 1 0 000 2h10a1 1 0 100-2H7zM4 7a1 1 0 011-1h14a1 1 0 110 2H5a1 1 0 01-1-1zM2 11a2 2 0 012-2h16a2 2 0 012 2v6a2 2 0 01-2 2H4a2 2 0 01-2-2v-6z" },
+  { slug: "pet-boarding",         title: "Pet Boarding",         desc: "Safe, vet-supervised overnight stays",           color: "#7c6fcd", icon: "M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" },
 ]
 
 const locationLinks = [
@@ -118,13 +120,13 @@ export function Header() {
           transform: translateX(-50%) translateY(0);
         }
 
-        /* ── Services dropdown ── */
-        .hdr-dropdown-services { width: 720px; padding: 20px; }
+        /* ── Services dropdown (wide, 3-col for 12 items) ── */
+        .hdr-dropdown-services { width: 780px; padding: 20px; }
         .hdr-dropdown-header {
           display: flex; align-items: center; justify-content: space-between;
           padding: 4px 8px 14px; border-bottom: 1px solid rgba(180,174,230,0.2); margin-bottom: 12px;
         }
-        .hdr-dropdown-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 6px; }
+        .hdr-dropdown-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 6px; }
         .hdr-svc-item {
           display: flex; align-items: flex-start; gap: 12px; padding: 11px 12px;
           border-radius: 12px; text-decoration: none;
@@ -235,7 +237,7 @@ export function Header() {
                         <p style={{ fontFamily:"'Poppins',sans-serif", fontWeight:700, fontSize:14, color:"#1a1a2e", margin:"0 0 2px" }}>Our Services</p>
                         <p style={{ fontFamily:"'Poppins',sans-serif", fontSize:12, color:"#888", margin:0, fontWeight:400 }}>Comprehensive care for your beloved pets</p>
                       </div>
-                      <span style={{ fontFamily:"'Poppins',sans-serif", fontSize:11, fontWeight:600, color:"#f57c20", background:"#fff5ee", border:"1px solid #fdd5b0", borderRadius:6, padding:"3px 10px", letterSpacing:"0.04em" }}>10 Services</span>
+                      <span style={{ fontFamily:"'Poppins',sans-serif", fontSize:11, fontWeight:600, color:"#f57c20", background:"#fff5ee", border:"1px solid #fdd5b0", borderRadius:6, padding:"3px 10px", letterSpacing:"0.04em" }}>12 Services</span>
                     </div>
                     <div className="hdr-dropdown-grid">
                       {serviceLinks.map((s) => (
@@ -292,7 +294,7 @@ export function Header() {
             })}
           </nav>
 
-          {/* Desktop CTA — now opens modal */}
+          {/* Desktop CTA */}
           <div className="hdr-cta-wrap" style={{ display:"flex" }}>
             <button onClick={openModal} className="hdr-cta">
               Book Appointment
@@ -364,7 +366,7 @@ export function Header() {
               return <Link key={item.name} href={item.href} className="hdr-mob-link" onClick={() => setMobileMenuOpen(false)}>{item.name}</Link>
             })}
 
-            {/* Mobile CTA — opens modal */}
+            {/* Mobile CTA */}
             <div style={{ paddingTop:12 }}>
               <button onClick={openModal} className="hdr-cta" style={{ width:"100%", justifyContent:"center" }}>
                 Book Appointment
