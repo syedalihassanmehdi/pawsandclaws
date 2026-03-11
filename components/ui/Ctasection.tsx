@@ -188,7 +188,7 @@ export default function CTASection() {
             lineHeight: 1.1,
             letterSpacing: "-0.02em",
           }}>
-            Get 50%<br />discount
+            Schedule Your<br />Pet's Health Check
           </h2>
 
           <p style={{
@@ -200,11 +200,11 @@ export default function CTASection() {
             maxWidth: 400,
             fontWeight: 400,
           }}>
-            Register now and get a discount on your first visit with our expert veterinary team.
+            Keep your companion happy and healthy. Book a professional veterinary checkup and get personalized care for your pet.
           </p>
 
-          <Link href="/register" className="cta-btn-dark">
-            Get a Discount
+          <Link href="/contact" className="cta-btn-dark">
+            Book Now
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
               <path d="M5 12h14M12 5l7 7-7 7"/>
             </svg>

@@ -140,8 +140,7 @@ export default function Hero() {
               <span style={{ color:"#f57c20", fontStyle:"italic" }}>Beloved Pets</span>
             </h1>
             <p style={{ fontFamily:"'Poppins',sans-serif", fontSize:15, color:"#555570", lineHeight:1.75, margin:0, maxWidth:440, fontWeight:400 }}>
-              Your trusted partner in pet health. Our experienced veterinarians provide comprehensive care with compassion and expertise, ensuring your furry friends receive the best treatment possible.{" "}
-              <span style={{ color:"#f57c20", fontWeight:700 }}>50% off</span> your first consultation!
+            Compassionate, ethical, and stress-free veterinary care for your beloved companions. We believe pets are family, and they deserve the same level of respect, comfort, and medical excellence as any loved one. Our team is dedicated to providing thoughtful, patient-focused care that prioritizes your pet’s well-being while making every visit as calm and reassuring as possible.
             </p>
 
             {/* ── Buttons ── */}
