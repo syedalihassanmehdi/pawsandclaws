@@ -14,23 +14,23 @@ const poppins = Poppins({
 export const metadata: Metadata = {
   title: 'PawCare Veterinary Clinic - Professional Pet Care',
   description: 'Professional veterinary care for your pets. Book appointments, explore our services, and meet our experienced team of veterinarians.',
-  generator: 'v0.app',
+  generator: 'Mindoxa',
   icons: {
     icon: [
       {
-        url: '/icon-light-32x32.png',
+        url: '/iconn.png',
         media: '(prefers-color-scheme: light)',
       },
       {
-        url: '/icon-dark-32x32.png',
+        url: '/iconn.png',
         media: '(prefers-color-scheme: dark)',
       },
       {
-        url: '/icon.svg',
+        url: '/iconn.png',
         type: 'image/svg+xml',
       },
     ],
-    apple: '/apple-icon.png',
+    apple: '/iconn.png',
   },
 }
 

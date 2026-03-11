@@ -16,7 +16,7 @@ const team = [
     experience: "19+ Years",
     specialties: ["Surgery", "Endoscopy", "Falcon Medicine"],
     bio: "Dr. Zaib Mahel leads our surgical team with over 19 years of veterinary experience. She is renowned for her expertise in complex surgeries.",
-    image: "/team/zaib.jpg",
+    image: "/dr-mahel.png",
     initials: "ZM",
     color: "#f5c842",
   },
@@ -26,7 +26,7 @@ const team = [
     experience: "16+ Years",
     specialties: ["Small Animals", "Wild Primates"],
     bio: "With 16+ years dedicated to small animal and wild primate medicine, Dr. Salman provides unparalleled care for exotic and domestic pets.",
-    image: "/team/salman.jpg",
+    image: "/dr-salman.png",
     initials: "MS",
     color: "#7c6fa0",
   },
@@ -36,30 +36,21 @@ const team = [
     experience: "14 Years",
     specialties: ["Falcon Medicine", "Endoscopy"],
     bio: "Dr. Asif brings 14 years of specialized experience in falcon medicine and endoscopy. His expertise is trusted by pet owners across the region.",
-    image: "/team/asif.jpg",
+    image: "/dr-asif.png",
     initials: "AI",
     color: "#4caf82",
   },
   {
-    name: "Dr. Hana Malik",
-    role: "Pet Dentist",
-    experience: "10+ Years",
-    specialties: ["Dental Care", "Oral Surgery"],
-    bio: "Dr. Hana specializes in veterinary dentistry, helping pets maintain healthy teeth and gums through gentle and effective treatments.",
-    image: "/team/hana.jpg",
+    name: "Dr. Kiran",
+    role: "Veterinarians",
+    experience: "8+ Years",
+    specialties: ["Small Animals", "Diagnostics"],
+    bio: "Dr. Kiran provides compassionate care for cats, dogs, and other small animals. Her gentle approach and thorough diagnostic skills ensure the best outcomes for every patient.",
+    image: "/dr-kiran.png",
     initials: "HM",
     color: "#f57c20",
   },
-  {
-    name: "Dr. Omar Farooq",
-    role: "Dermatology Specialist",
-    experience: "12 Years",
-    specialties: ["Skin Issues", "Allergies"],
-    bio: "Dr. Omar is our go-to expert for pet skin conditions and allergies, with a decade of experience treating complex dermatological cases.",
-    image: "/team/omar.jpg",
-    initials: "OF",
-    color: "#e05c7a",
-  },
+  
 ];
 
 export default function TeamSection() {
@@ -104,15 +95,18 @@ export default function TeamSection() {
 
         .team-card-image {
           position: relative;
-          height: 240px;
+          height: 300px;
           overflow: hidden;
         }
         .team-card-image img {
           width: 100%;
           height: 100%;
           object-fit: cover;
+          object-position: top center;
           display: block;
           transition: transform 0.4s ease;
+          position: relative;
+          z-index: 1;
         }
         .team-card:hover .team-card-image img {
           transform: scale(1.04);
@@ -130,7 +124,7 @@ export default function TeamSection() {
           letter-spacing: 0.06em;
           padding: 5px 12px;
           border-radius: 999px;
-          z-index: 2;
+          z-index: 3;
         }
 
         .team-initials {
@@ -152,7 +146,7 @@ export default function TeamSection() {
           -webkit-backdrop-filter: blur(10px);
           border-radius: 14px;
           padding: 12px 14px;
-          z-index: 2;
+          z-index: 3;
         }
 
         .specialty-tag {
@@ -195,7 +189,6 @@ export default function TeamSection() {
           transform: translateY(-2px);
         }
 
-        /* Carousel nav overrides */
         [data-slot="carousel-previous"],
         [data-slot="carousel-next"] {
           position: static !important;
@@ -227,7 +220,7 @@ export default function TeamSection() {
 
         @media (max-width: 480px) {
           .team-inner { padding: 0 16px; }
-          .team-card-image { height: 200px; }
+          .team-card-image { height: 260px; }
         }
       `}</style>
 
@@ -293,15 +286,8 @@ export default function TeamSection() {
 
                   {/* Image area */}
                   <div className="team-card-image" style={{ background: member.color }}>
-                    <img
-                      src={member.image}
-                      alt={member.name}
-                      onError={(e) => {
-                        (e.target as HTMLImageElement).style.display = "none";
-                      }}
-                    />
 
-                    {/* Initials fallback */}
+                    {/* Initials fallback — sits behind the image */}
                     <div className="team-initials">
                       <span style={{
                         fontSize: 72,
@@ -313,6 +299,15 @@ export default function TeamSection() {
                         {member.initials}
                       </span>
                     </div>
+
+                    {/* Photo — hides on error, reveals initials behind */}
+                    <img
+                      src={member.image}
+                      alt={member.name}
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).style.display = "none";
+                      }}
+                    />
 
                     {/* Experience badge */}
                     <div className="team-exp-badge">{member.experience}</div>

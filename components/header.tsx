@@ -214,9 +214,13 @@ export function Header() {
         <div className="hdr-inner">
           {/* Logo */}
           <Link href="/" className="hdr-logo">
-            <PawIcon style={{ width: 34, height: 34, color: "#f57c20" }} />
-            <span className="hdr-logo-text">Paws<span>&</span>Claws</span>
-          </Link>
+  <img 
+    src="/logo.png" 
+    alt="Paws & Claws" 
+    style={{ width: 180, objectFit: "contain" }} 
+  />
+  
+</Link>
 
           {/* Desktop nav */}
           <nav className="hdr-nav">

@@ -102,7 +102,8 @@ export default function Hero() {
         }
         @media (max-width: 768px) {
           .hero-grid { grid-template-columns: 1fr; padding: 40px 24px 32px; gap: 24px; min-height: unset; text-align: center; }
-          .hero-right { height: 340px; }
+          
+          .hero-right { height: 340px; order: -1; }
           .hero-buttons { justify-content: center !important; }
           .hero-stats { justify-content: center !important; }
           .hero-float-hide { display: none; }

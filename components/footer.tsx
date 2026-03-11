@@ -190,12 +190,14 @@ export function Footer() {
 
           {/* ── Brand ── */}
           <div className="ftr-col">
-            <Link href="/" style={{ display: "inline-flex", alignItems: "center", gap: 9, textDecoration: "none", marginBottom: 14 }}>
-              <PawIcon style={{ width: 32, height: 32, color: "#f57c20" }} />
-              <span style={{ fontFamily: "'Poppins', sans-serif", fontWeight: 800, fontSize: 19, color: "#fff", letterSpacing: "-0.02em" }}>
-                Paws<span style={{ color: "#f57c20" }}>&</span>Claws
-              </span>
-            </Link>
+          <Link href="/" className="hdr-logo">
+  <img 
+    src="/logo.png" 
+    alt="Paws & Claws" 
+    style={{ width: 180, objectFit: "contain", marginBottom: 18 }} 
+  />
+  
+</Link>
             <p className="ftr-brand-desc" style={{ fontFamily: "'Poppins', sans-serif", fontSize: 13, color: "rgba(255,255,255,0.42)", lineHeight: 1.75, margin: "0 0 20px", fontWeight: 400, maxWidth: 270 }}>
               Professional veterinary care for your beloved pets across the UAE. Trusted by thousands of pet families.
             </p>
