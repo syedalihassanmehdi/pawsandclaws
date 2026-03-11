@@ -11,6 +11,7 @@ const branches = [
     address: "Central Market, Shop F45, Behind Bawadi Mall, Al Ain, Abu Dhabi - UAE",
     phone: "+971 52 151 1465",
     phoneHref: "tel:+971521511465",
+    waNumber: "971521511465",
     email: "pawsandclawsalain@gmail.com",
     hours: [
       { days: "Sat – Thu", time: "9:00 AM – 9:00 PM" },
@@ -26,6 +27,7 @@ const branches = [
     address: "Dar Al Jawhara Building, Jumeirah Village Circle (JVC), Dubai, UAE",
     phone: "+971 50 340 8149",
     phoneHref: "tel:+971503408149",
+    waNumber: "971503408149",
     email: "Pawsandclawsdxb1@gmail.com",
     hours: [
       { days: "Mon, Tue, Thu, Sat, Sun", time: "9:00 AM – 9:00 PM" },
@@ -37,7 +39,6 @@ const branches = [
   },
 ];
 
-// Inner component that uses useSearchParams
 function ContactContent() {
   const searchParams = useSearchParams();
   const locationParam = searchParams.get("location");
@@ -67,8 +68,29 @@ function ContactContent() {
     if (!form.phone.trim())   newErrors.phone   = "Phone is required";
     if (!form.message.trim()) newErrors.message = "Please tell us how we can help";
     if (Object.keys(newErrors).length) { setErrors(newErrors); return; }
+
+    // Build WhatsApp message from all form inputs
+    const message =
+`Hello! I'd like to book an appointment at ${selected.name}.
+
+👤 Name: ${form.name}
+📧 Email: ${form.email}
+📞 Phone: ${form.phone}
+🐾 Pet Type: ${form.petType || "Not specified"}
+📍 Location: ${selected.name}
+
+💬 Message: ${form.message}`;
+
+    window.open(
+      `https://wa.me/${selected.waNumber}?text=${encodeURIComponent(message)}`,
+      "_blank"
+    );
+
     setSubmitted(true);
-    setTimeout(() => { setSubmitted(false); setForm({ name:"", email:"", phone:"", petType:"", message:"" }); }, 4000);
+    setTimeout(() => {
+      setSubmitted(false);
+      setForm({ name: "", email: "", phone: "", petType: "", message: "" });
+    }, 4000);
   };
 
   return (
@@ -76,21 +98,17 @@ function ContactContent() {
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');
 
-        /* Blobs */
         .cp-blob1 { position:fixed; width:500px; height:500px; border-radius:50%; background:#b8b0e8; filter:blur(100px); opacity:0.18; top:-100px; right:-100px; pointer-events:none; z-index:0; }
         .cp-blob2 { position:fixed; width:400px; height:400px; border-radius:50%; background:#c9b8f0; filter:blur(90px); opacity:0.14; bottom:-80px; left:-80px; pointer-events:none; z-index:0; }
 
         .cp-wrap { position:relative; z-index:1; max-width:1080px; margin:0 auto; }
 
-        /* Heading */
         .cp-heading { text-align:center; margin-bottom:44px; }
         .cp-heading h1 { font-size:clamp(26px,4.5vw,42px); font-weight:800; color:#1a1a2e; margin:0 0 10px; letter-spacing:-0.02em; }
         .cp-heading p  { font-size:14.5px; color:#555570; margin:0; font-weight:400; }
 
-        /* Layout */
         .cp-layout { display:grid; grid-template-columns:360px 1fr; gap:24px; align-items:start; }
 
-        /* Branch card */
         .cp-branch {
           background:rgba(255,255,255,0.82); border-radius:20px; padding:22px;
           border:2px solid rgba(255,255,255,0.9);
@@ -139,19 +157,6 @@ function ContactContent() {
         }
         .cp-btn-wa:hover { background:rgba(37,211,102,0.16); }
 
-        /* Review pill */
-        .cp-review {
-          background:rgba(255,255,255,0.82); border-radius:16px; padding:16px 20px;
-          display:flex; align-items:center; gap:14px; margin-top:16px;
-          border:1.5px solid rgba(255,255,255,0.9); backdrop-filter:blur(12px);
-          box-shadow:0 2px 14px rgba(90,80,160,0.07);
-        }
-        .cp-review-score { background:#fffbe6; border-radius:10px; padding:8px 12px; text-align:center; font-size:20px; font-weight:800; color:#1a1a2e; min-width:50px; }
-        .cp-stars { display:flex; gap:2px; margin-bottom:2px; }
-        .cp-review-name { font-size:13px; font-weight:700; color:#1a1a2e; margin:0 0 2px; }
-        .cp-review-sub  { font-size:11.5px; color:#9090b0; margin:0; }
-
-        /* Form panel */
         .cp-form-panel {
           background:rgba(255,255,255,0.88); border-radius:24px; padding:36px;
           border:1.5px solid rgba(255,255,255,0.95); backdrop-filter:blur(12px);
@@ -192,7 +197,6 @@ function ContactContent() {
         .cp-submit-btn:active { transform:translateY(0); }
         .cp-submit-btn.success { background:linear-gradient(135deg,#22c55e,#16a34a); box-shadow:0 4px 18px rgba(34,197,94,0.32); }
 
-        /* ── Responsive ── */
         @media (max-width:900px) {
           .cp-layout { grid-template-columns:1fr; }
           .cp-form-panel { padding:26px 22px; }
@@ -205,12 +209,10 @@ function ContactContent() {
         }
       `}</style>
 
-      {/* Blobs */}
       <div className="cp-blob1" />
       <div className="cp-blob2" />
 
       <div className="cp-wrap">
-        {/* Heading */}
         <div className="cp-heading">
           <h1>Visit Us</h1>
           <p>Two convenient clinics across the UAE — choose your nearest branch and book below</p>
@@ -266,15 +268,13 @@ function ContactContent() {
                     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 3 21 3 21 9"/><path d="M21 3L9 15"/><path d="M11 3H3v18h18v-8"/></svg>
                     Get Directions
                   </a>
-                  <a href={`https://wa.me/971581289605?text=${encodeURIComponent(b.waText)}`} target="_blank" rel="noopener noreferrer" className="cp-btn-wa">
+                  <a href={`https://wa.me/${b.waNumber}?text=${encodeURIComponent(b.waText)}`} target="_blank" rel="noopener noreferrer" className="cp-btn-wa">
                     <svg width="13" height="13" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
                     WhatsApp
                   </a>
                 </div>
               </div>
             ))}
-
-            
           </div>
 
           {/* ── Right: Form ── */}
@@ -313,7 +313,7 @@ function ContactContent() {
               {errors.message && <span className="cp-error-msg">{errors.message}</span>}
             </div>
 
-            {/* Location selector (visual only — driven by left cards) */}
+            {/* Location selector */}
             <div className="cp-form-full" style={{ marginBottom:20 }}>
               <label className="cp-label">Preferred Location</label>
               <div style={{ display:"flex", gap:8 }}>
@@ -339,22 +339,17 @@ function ContactContent() {
               {submitted ? (
                 <>
                   <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-                  Appointment Booked!
+                  Opening WhatsApp…
                 </>
               ) : (
                 <>
-                  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 2L11 13"/><path d="M22 2L15 22 11 13 2 9l20-7z"/></svg>
-                  Book Appointment
+                  <svg width="17" height="17" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                  Book via WhatsApp
                 </>
               )}
             </button>
 
-            <p style={{ fontFamily:"'Poppins',sans-serif", fontSize:11.5, color:"#9090b0", textAlign:"center", margin:"14px 0 0", fontWeight:400 }}>
-              Or contact us directly via{" "}
-              <a href={`https://wa.me/971581289605?text=${encodeURIComponent(selected.waText)}`} target="_blank" rel="noopener noreferrer" style={{ color:"#16a34a", fontWeight:600, textDecoration:"none" }}>WhatsApp</a>
-              {" "}or{" "}
-              <a href={selected.phoneHref} style={{ color:"#f57c20", fontWeight:600, textDecoration:"none" }}>call us</a>
-            </p>
+            
           </div>
 
         </div>
@@ -363,7 +358,6 @@ function ContactContent() {
   );
 }
 
-// Main page wraps in Suspense for useSearchParams
 export default function ContactPage() {
   return (
     <Suspense fallback={<div style={{ minHeight:"100vh", background:"linear-gradient(135deg,#eeedf8,#ece9f7)", display:"flex", alignItems:"center", justifyContent:"center" }}><span style={{ fontFamily:"'Poppins',sans-serif", color:"#555570" }}>Loading...</span></div>}>

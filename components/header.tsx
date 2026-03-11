@@ -3,14 +3,15 @@
 import Link from "next/link"
 import { useState, useRef } from "react"
 import { useRouter } from "next/navigation"
+import BookingModal from "@/components/ui/Bookingmodal"
 
 const navigation = [
-  { name: "Home",    href: "/" },
-  { name: "About",   href: "/about" },
-  { name: "Services", href: "/services", hasDropdown: "services" },
-  { name: "Locations", href: "#", hasDropdown: "locations" },
-  { name: "Team",    href: "/team" },
-  { name: "Contact", href: "/contact" },
+  { name: "Home",      href: "/" },
+  { name: "About",     href: "/about" },
+  { name: "Services",  href: "/services", hasDropdown: "services" },
+  { name: "Locations", href: "#",         hasDropdown: "locations" },
+  { name: "Team",      href: "/team" },
+  { name: "Contact",   href: "/contact" },
 ]
 
 const serviceLinks = [
@@ -27,36 +28,36 @@ const serviceLinks = [
 ]
 
 const locationLinks = [
-  {
-    id: "al-ain",
-    name: "PNCV Al Ain",
-    sub: "Al Ain, Abu Dhabi - UAE",
-  },
-  {
-    id: "dubai",
-    name: "PNCV Dubai (JVC)",
-    sub: "Dubai, UAE",
-  },
+  { id: "al-ain", name: "PNCV Al Ain",      sub: "Al Ain, Abu Dhabi - UAE" },
+  { id: "dubai",  name: "PNCV Dubai (JVC)", sub: "Dubai, UAE" },
 ]
 
 export function Header() {
   const router = useRouter()
-  const [mobileMenuOpen, setMobileMenuOpen]     = useState(false)
-  const [servicesOpen, setServicesOpen]         = useState(false)
-  const [locationsOpen, setLocationsOpen]       = useState(false)
-  const [mobileServicesOpen, setMobileServicesOpen] = useState(false)
+  const [modalOpen,           setModalOpen]           = useState(false)
+  const [mobileMenuOpen,      setMobileMenuOpen]      = useState(false)
+  const [servicesOpen,        setServicesOpen]        = useState(false)
+  const [locationsOpen,       setLocationsOpen]       = useState(false)
+  const [mobileServicesOpen,  setMobileServicesOpen]  = useState(false)
   const [mobileLocationsOpen, setMobileLocationsOpen] = useState(false)
 
   const svcTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
   const locTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
 
-  const openSvc  = () => { if (svcTimer.current) clearTimeout(svcTimer.current); setServicesOpen(true); setLocationsOpen(false) }
+  const openSvc  = () => { if (svcTimer.current) clearTimeout(svcTimer.current); setServicesOpen(true);  setLocationsOpen(false) }
   const closeSvc = () => { svcTimer.current = setTimeout(() => setServicesOpen(false), 120) }
   const openLoc  = () => { if (locTimer.current) clearTimeout(locTimer.current); setLocationsOpen(true); setServicesOpen(false) }
   const closeLoc = () => { locTimer.current = setTimeout(() => setLocationsOpen(false), 120) }
 
+  const openModal = () => {
+    setMobileMenuOpen(false)
+    setModalOpen(true)
+  }
+
   return (
     <>
+      <BookingModal isOpen={modalOpen} onClose={() => setModalOpen(false)} />
+
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');
 
@@ -94,9 +95,10 @@ export function Header() {
           background: #f57c20; color: #fff;
           font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 12.5px;
           letter-spacing: 0.05em; text-transform: uppercase;
-          padding: 11px 22px; border-radius: 10px; text-decoration: none;
+          padding: 11px 22px; border-radius: 10px; border: none; cursor: pointer;
           box-shadow: 0 4px 16px rgba(245,124,32,0.28);
           transition: background 0.18s, transform 0.15s; white-space: nowrap;
+          text-decoration: none;
         }
         .hdr-cta:hover { background: #e06b10; transform: translateY(-1px); }
 
@@ -116,7 +118,7 @@ export function Header() {
           transform: translateX(-50%) translateY(0);
         }
 
-        /* ── Services dropdown (wide) ── */
+        /* ── Services dropdown ── */
         .hdr-dropdown-services { width: 720px; padding: 20px; }
         .hdr-dropdown-header {
           display: flex; align-items: center; justify-content: space-between;
@@ -149,7 +151,7 @@ export function Header() {
         }
         .hdr-view-all:hover { background: #e06b10; }
 
-        /* ── Locations dropdown (narrow) ── */
+        /* ── Locations dropdown ── */
         .hdr-dropdown-locations { width: 280px; padding: 10px; }
         .hdr-loc-item {
           display: flex; align-items: center; gap: 12px; padding: 12px 14px;
@@ -212,15 +214,11 @@ export function Header() {
 
       <header className="hdr-root">
         <div className="hdr-inner">
+
           {/* Logo */}
           <Link href="/" className="hdr-logo">
-  <img 
-    src="/logo.png" 
-    alt="Paws & Claws" 
-    style={{ width: 180, objectFit: "contain" }} 
-  />
-  
-</Link>
+            <img src="/logo.png" alt="Paws & Claws" style={{ width: 180, objectFit: "contain" }} />
+          </Link>
 
           {/* Desktop nav */}
           <nav className="hdr-nav">
@@ -294,12 +292,12 @@ export function Header() {
             })}
           </nav>
 
-          {/* CTA */}
+          {/* Desktop CTA — now opens modal */}
           <div className="hdr-cta-wrap" style={{ display:"flex" }}>
-            <Link href="/contact" className="hdr-cta">
+            <button onClick={openModal} className="hdr-cta">
               Book Appointment
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-            </Link>
+            </button>
           </div>
 
           {/* Mobile hamburger */}
@@ -365,27 +363,17 @@ export function Header() {
 
               return <Link key={item.name} href={item.href} className="hdr-mob-link" onClick={() => setMobileMenuOpen(false)}>{item.name}</Link>
             })}
+
+            {/* Mobile CTA — opens modal */}
             <div style={{ paddingTop:12 }}>
-              <Link href="/contact" className="hdr-cta" style={{ width:"100%", justifyContent:"center" }} onClick={() => setMobileMenuOpen(false)}>
+              <button onClick={openModal} className="hdr-cta" style={{ width:"100%", justifyContent:"center" }}>
                 Book Appointment
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-              </Link>
+              </button>
             </div>
           </div>
         )}
       </header>
     </>
-  )
-}
-
-function PawIcon({ style }: { style?: React.CSSProperties }) {
-  return (
-    <svg style={style} viewBox="0 0 24 24" fill="currentColor">
-      <ellipse cx="12" cy="17" rx="5" ry="4" />
-      <circle cx="6"  cy="10" r="2.5" />
-      <circle cx="18" cy="10" r="2.5" />
-      <circle cx="9"  cy="6"  r="2" />
-      <circle cx="15" cy="6"  r="2" />
-    </svg>
   )
 }
