@@ -1,7 +1,11 @@
 "use client"
+import { useState } from "react";
 import Link from "next/link";
+import BookingModal from "@/components/ui/Bookingmodal"; // adjust path as needed
 
 export default function AboutCTA() {
+  const [modalOpen, setModalOpen] = useState(false);
+
   return (
     <section
       style={{
@@ -46,7 +50,7 @@ export default function AboutCTA() {
           font-weight: 700; font-size: 13px;
           letter-spacing: 0.06em; text-transform: uppercase;
           padding: 15px 32px; border-radius: 10px;
-          text-decoration: none;
+          text-decoration: none; border: none; cursor: pointer;
           transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
           box-shadow: 0 6px 20px rgba(0,0,0,0.12);
         }
@@ -130,12 +134,15 @@ export default function AboutCTA() {
             className="acta-buttons"
             style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}
           >
-            <Link href="/locations" className="acta-btn-white">
+            {/* Book Appointment → opens modal */}
+            <button className="acta-btn-white" onClick={() => setModalOpen(true)}>
               Book Appointment
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#f57c20" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M5 12h14M12 5l7 7-7 7"/>
               </svg>
-            </Link>
+            </button>
+
+            {/* Contact Us → stays as link */}
             <Link href="/contact" className="acta-btn-outline">
               Contact Us
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -145,6 +152,9 @@ export default function AboutCTA() {
           </div>
         </div>
       </div>
+
+      {/* Booking Modal */}
+      <BookingModal isOpen={modalOpen} onClose={() => setModalOpen(false)} />
     </section>
   );
 }

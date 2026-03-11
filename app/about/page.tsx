@@ -2,7 +2,7 @@ import AboutHero from "@/components/about/Abouthero";
 import AboutStory from "@/components/about/Aboutstory";
 import AboutStats from "@/components/about/Aboutstats";
 import AboutFeatures from "@/components/about/Aboutfeatures";
-import AboutTeamPreview from "@/components/about/Aboutteampreview";
+import TeamSection from "@/components/TeamSection";
 import AboutCTA from "@/components/about/Aboutcta";
 
 export default function AboutPage() {
@@ -16,7 +16,7 @@ export default function AboutPage() {
       <AboutStory />
       <AboutStats />
       <AboutFeatures />
-      <AboutTeamPreview />
+      <TeamSection />
       <AboutCTA />
     </div>
   );
