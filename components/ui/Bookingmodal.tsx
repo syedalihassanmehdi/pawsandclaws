@@ -3,15 +3,91 @@
 import { useState, useEffect, useRef } from "react";
 
 const SERVICES = [
-  { id: "consultation",   label: "Pet Consultation",      icon: "M12 18v3m0 0a3 3 0 003-3V9a3 3 0 00-3-3m0 15a3 3 0 01-3-3V9a3 3 0 013-3m0 0V3",                          color: "#f57c20" },
-  { id: "diagnostics",    label: "In-House Diagnostics",  icon: "M9.75 3.104v5.714a2.25 2.25 0 01-.659 1.591L5 14.5M14.25 3.104c.251.023.501.05.75.082M19 14.5l-1.5 8.25h-11L5 14.5m14 0H5", color: "#7c6fcd" },
-  { id: "dental",         label: "Dental Care",           icon: "M12 2c-2.5 0-5 1.5-5 4 0 1.5.5 3 1 4.5.5 2 1 4 1 6 0 1.1.9 2 2 2s2-.9 2-2c0 1.1.9 2 2 2s2-.9 2-2c0-2 .5-4 1-6 .5-1.5 1-3 1-4.5 0-2.5-2.5-4-5-4z", color: "#f5c842" },
-  { id: "imaging",        label: "Advanced Imaging",      icon: "M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75", color: "#e05c7a" },
-  { id: "surgery",        label: "Surgical Services",     icon: "M9.75 3.104v5.714a2.25 2.25 0 01-.659 1.591L5 14.5",                                                    color: "#7c6fcd" },
-  { id: "vaccination",    label: "Vaccination",           icon: "M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z", color: "#4caf82" },
-  { id: "laser",          label: "Laser Therapy",         icon: "M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z",                                           color: "#4caf82" },
-  { id: "pharmacy",       label: "In-House Pharmacy",     icon: "M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007z", color: "#f57c20" },
-];
+      {
+        id: "consultation",
+        label: "Pet Consultation",
+        desc: "Complete wellness checkups & health plans",
+        icon: "M12 18v3m0 0a3 3 0 003-3V9a3 3 0 00-3-3m0 15a3 3 0 01-3-3V9a3 3 0 013-3m0 0V3",
+        color: "#f57c20"
+      },
+      {
+        id: "diagnostics",
+        label: "In-House Diagnostics",
+        desc: "Blood panels, urinalysis & same-day results",
+        icon: "M9.75 3.104v5.714a2.25 2.25 0 01-.659 1.591L5 14.5M14.25 3.104c.251.023.501.05.75.082M19 14.5l-1.5 8.25h-11L5 14.5m14 0H5",
+        color: "#7c6fcd"
+      },
+      {
+        id: "pcr",
+        label: "PCR Testing",
+        desc: "Molecular diagnostics for infectious disease",
+        icon: "M12 6v6l4 2",
+        color: "#4db6ac"
+      },
+      {
+        id: "imaging",
+        label: "Advanced Imaging",
+        desc: "Digital X-rays, ultrasound & echocardiography",
+        icon: "M3 7h18M3 17h18M6 7v10M18 7v10",
+        color: "#e05c7a"
+      },
+      {
+        id: "icu",
+        label: "Intensive Care (ICU)",
+        desc: "24/7 critical care & continuous monitoring",
+        icon: "M12 8v4l3 3",
+        color: "#f26b6b"
+      },
+      {
+        id: "dental",
+        label: "Dental Care",
+        desc: "Professional cleanings & oral health therapy",
+        icon: "M12 2c-2.5 0-5 1.5-5 4 0 1.5.5 3 1 4.5.5 2 1 4 1 6 0 1.1.9 2 2 2s2-.9 2-2c0 1.1.9 2 2 2s2-.9 2-2c0-2 .5-4 1-6 .5-1.5 1-3 1-4.5 0-2.5-2.5-4-5-4z",
+        color: "#f5c842"
+      },
+      {
+        id: "laser",
+        label: "Laser Therapy",
+        desc: "Drug-free pain relief & accelerated healing",
+        icon: "M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z",
+        color: "#4caf82"
+      },
+      {
+        id: "vaccination",
+        label: "Vaccination Programs",
+        desc: "Tailored immunization for every life stage",
+        icon: "M9 12.75L11.25 15 15 9.75",
+        color: "#ff8a50"
+      },
+      {
+        id: "surgery",
+        label: "Surgical Services",
+        desc: "Board-certified surgeons & full OR support",
+        icon: "M4 4l16 16M9 9l-5 5M15 15l5-5",
+        color: "#7c6fcd"
+      },
+      {
+        id: "pharmacy",
+        label: "In-House Pharmacy",
+        desc: "Same-day prescriptions & compounded meds",
+        icon: "M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5",
+        color: "#4caf82"
+      },
+      {
+        id: "grooming",
+        label: "Pet Grooming",
+        desc: "Breed-specific styling & professional coat care",
+        icon: "M6 14l3-3 3 3 6-6",
+        color: "#e05c7a"
+      },
+      {
+        id: "boarding",
+        label: "Pet Boarding",
+        desc: "Safe, vet-supervised overnight stays",
+        icon: "M3 12l9-9 9 9M4.5 10.5V21h15V10.5",
+        color: "#7c6fcd"
+      }
+    ];
 
 const PET_TYPES = ["Dog", "Cat", "Bird", "Rabbit", "Reptile", "Fish", "Other"];
 
