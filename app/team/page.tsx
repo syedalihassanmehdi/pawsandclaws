@@ -1,368 +1,381 @@
-import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
+"use client";
+
+import { useState } from "react";
+import Link from "next/link";
+
+/* ── Data ─────────────────────────────────────────────────────── */
+const departments = ["All", "Veterinarians", "Medical Dept", "Reception", "Grooming", "Accounts"];
+
+const cardColors = ["#f57c20", "#7c6fcd", "#2a9d8f", "#e05c7a", "#f5c842", "#4caf82"];
+
+const teamData = {
+  "al-ain": [
+    // Veterinarians
+    {
+      name: "Dr. Zaib Mahel", title: "Chief Head Surgeon", dept: "Veterinarians",
+      years: "19+", color: "#f57c20", initials: "ZM",
+      specs: ["Surgery", "Endoscopy", "Falcon Medicine"],
+      bio: "Dr. Zaib Mahel leads our surgical team with over 19 years of veterinary experience. She specializes in soft tissue surgery, advanced endoscopy procedures, and falcon medicine, bringing world-class expertise to the UAE.",
+    },
+    {
+      name: "Dr. Mirza Salman", title: "Senior Veterinarian", dept: "Veterinarians",
+      years: "16+", color: "#7c6fcd", initials: "MS",
+      specs: ["Small Animals", "Wild Primates"],
+      bio: "With 16+ years dedicated to small animal and wild primate medicine, Dr. Salman provides comprehensive veterinary services with a focus on preventive medicine and complex internal cases.",
+    },
+    {
+      name: "Dr. Asif Iqbal", title: "Veterinarian", dept: "Veterinarians",
+      years: "14", color: "#2a9d8f", initials: "AI",
+      specs: ["Falcon Medicine", "Endoscopy"],
+      bio: "Dr. Asif brings 14 years of specialized experience in falcon medicine and endoscopy. His expertise in avian care makes him a sought-after specialist for exotic bird health in the region.",
+    },
+    {
+      name: "Dr. Kiran", title: "Veterinarian", dept: "Veterinarians",
+      years: "8+", color: "#e05c7a", initials: "KR",
+      specs: ["Small Animals", "Diagnostics"],
+      bio: "Dr. Kiran provides compassionate care for cats, dogs, and other small animals. Her gentle approach and thorough diagnostic skills ensure the best outcomes for every patient.",
+    },
+    {
+      name: "Dr. Amira", title: "Veterinarian", dept: "Veterinarians",
+      years: "6+", color: "#4caf82", initials: "AM",
+      specs: ["General Practice", "Preventive Care"],
+      bio: "Dr. Amira is passionate about preventive care and building lasting relationships with pet families, ensuring long-term health and wellbeing for every animal in her care.",
+    },
+    // Medical Dept
+    {
+      name: "Christian", title: "Veterinary Assistant", dept: "Medical Dept",
+      years: "", color: "#7c6fcd", initials: "CH",
+      specs: [],
+      bio: "Christian provides essential support during surgical procedures and ensures all medical equipment is properly maintained and sterilized.",
+    },
+    {
+      name: "Roger", title: "Veterinary Assistant", dept: "Medical Dept",
+      years: "", color: "#2a9d8f", initials: "RO",
+      specs: [],
+      bio: "Roger assists with patient care, laboratory work, and ensuring smooth daily operations in our medical department.",
+    },
+    {
+      name: "Taeib", title: "Veterinary Assistant", dept: "Medical Dept",
+      years: "", color: "#f57c20", initials: "TA",
+      specs: [],
+      bio: "Taeib provides dedicated support in patient handling, medication administration, and post-operative care.",
+    },
+    // Reception
+    {
+      name: "Rizza", title: "Receptionist", dept: "Reception",
+      years: "", color: "#e05c7a", initials: "RI",
+      specs: [],
+      bio: "Rizza is the welcoming face of our clinic, managing appointments and ensuring every pet parent feels at home.",
+    },
+    {
+      name: "Veron", title: "Receptionist", dept: "Reception",
+      years: "", color: "#4caf82", initials: "VE",
+      specs: [],
+      bio: "Veron handles client communications with care, ensuring seamless scheduling and follow-up coordination.",
+    },
+    // Grooming
+    {
+      name: "Bayzid", title: "Professional Groomer", dept: "Grooming",
+      years: "", color: "#f5c842", initials: "BA",
+      specs: [],
+      bio: "Bayzid is an expert groomer with years of experience handling all breeds, ensuring every pet leaves looking and feeling their best.",
+    },
+    {
+      name: "Mark", title: "Professional Groomer", dept: "Grooming",
+      years: "", color: "#7c6fcd", initials: "MK",
+      specs: [],
+      bio: "Mark specializes in breed-specific styling and therapeutic grooming treatments for sensitive pets.",
+    },
+    // Accounts
+    {
+      name: "Insha", title: "Accounts Manager", dept: "Accounts",
+      years: "", color: "#2a9d8f", initials: "IN",
+      specs: [],
+      bio: "Insha manages our financial operations with precision, ensuring transparent billing and smooth payment processes for all clients.",
+    },
+  ],
+  "dubai": [
+    // Veterinarians
+    {
+      name: "Dr. Zaib Mahel", title: "Chief Head Surgeon", dept: "Veterinarians",
+      years: "19+", color: "#f57c20", initials: "ZM",
+      specs: ["Surgery", "Endoscopy", "Falcon Medicine"],
+      bio: "Dr. Zaib Mahel leads our surgical team with over 19 years of veterinary experience. She specializes in soft tissue surgery, advanced endoscopy procedures, and falcon medicine, bringing world-class expertise to the UAE.",
+    },
+    {
+      name: "Dr. Saada", title: "Senior Veterinarian", dept: "Veterinarians",
+      years: "10+", color: "#7c6fcd", initials: "SA",
+      specs: ["Small Animals", "Internal Medicine"],
+      bio: "Dr. Saada brings extensive experience in small animal medicine to our Dubai branch, providing exceptional care for the JVC community.",
+    },
+    {
+      name: "Dr. Mehmood", title: "Veterinarian", dept: "Veterinarians",
+      years: "8+", color: "#2a9d8f", initials: "ME",
+      specs: ["General Practice", "Dermatology"],
+      bio: "Dr. Mehmood offers comprehensive veterinary services with a focus on preventive care, wellness programs, and dermatological conditions.",
+    },
+    {
+      name: "Dr. Sarwat", title: "Veterinarian", dept: "Veterinarians",
+      years: "7+", color: "#e05c7a", initials: "SW",
+      specs: ["Emergency Care", "Critical Care"],
+      bio: "Dr. Sarwat specializes in emergency medicine, providing rapid and effective care when your pets need it most.",
+    },
+    // Medical Dept
+    {
+      name: "Ahmad", title: "Veterinary Assistant", dept: "Medical Dept",
+      years: "", color: "#4caf82", initials: "AH",
+      specs: [],
+      bio: "Ahmad provides essential clinical support at our Dubai branch, assisting with procedures and patient care.",
+    },
+    // Reception
+    {
+      name: "Sara", title: "Receptionist", dept: "Reception",
+      years: "", color: "#f57c20", initials: "SR",
+      specs: [],
+      bio: "Sara warmly welcomes all visitors to our Dubai clinic and manages daily scheduling with efficiency.",
+    },
+    // Grooming
+    {
+      name: "Ali", title: "Professional Groomer", dept: "Grooming",
+      years: "", color: "#7c6fcd", initials: "AL",
+      specs: [],
+      bio: "Ali delivers premium grooming services with attention to detail and genuine care for every pet.",
+    },
+  ],
+};
+
+type Branch = "al-ain" | "dubai";
 
 export default function TeamPage() {
+  const [branch, setBranch]   = useState<Branch>("al-ain");
+  const [dept, setDept]       = useState("All");
+
+  const members = teamData[branch].filter((m) => dept === "All" || m.dept === dept);
+  const branchLabel = branch === "al-ain" ? "Al Ain" : "Dubai (JVC)";
+  const deptLabel   = dept === "All" ? "Team" : dept;
+
   return (
-    <div className="flex flex-col">
-      {/* Hero Section */}
-      <section className="relative py-20 lg:py-28 bg-gradient-to-b from-background to-muted">
-        <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <div className="text-center max-w-3xl mx-auto">
-            <p className="text-primary font-medium mb-4">Our Team</p>
-            <h1 className="font-serif text-4xl font-bold tracking-tight text-foreground sm:text-5xl lg:text-6xl text-balance">
-              Meet Our Veterinary Team
-            </h1>
-            <p className="mt-6 text-lg text-muted-foreground leading-relaxed">
-              Our dedicated team of veterinary professionals combines expertise, compassion, and a genuine love for animals to provide the best possible care for your pets.
-            </p>
-          </div>
+    <div style={{ minHeight: "100vh", background: "linear-gradient(135deg,#eeedf8 0%,#e8e7f5 50%,#ece9f7 100%)", fontFamily: "'Poppins',sans-serif" }}>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');
+
+        /* blobs */
+        .tp-blob1 { position:fixed; width:500px; height:500px; border-radius:50%; background:#b8b0e8; filter:blur(100px); opacity:0.18; top:-100px; right:-100px; pointer-events:none; z-index:0; }
+        .tp-blob2 { position:fixed; width:400px; height:400px; border-radius:50%; background:#c9b8f0; filter:blur(90px); opacity:0.13; bottom:-80px; left:-60px; pointer-events:none; z-index:0; }
+
+        .tp-wrap { position:relative; z-index:1; max-width:1100px; margin:0 auto; padding:72px 24px 100px; }
+
+        /* ── Hero heading ── */
+        .tp-hero { text-align:center; margin-bottom:48px; }
+        .tp-hero-eyebrow {
+          display:inline-block; font-size:13px; font-weight:600; letter-spacing:0.12em;
+          text-transform:uppercase; color:#f57c20;;
+          
+        }
+        .tp-hero h1 { font-size:clamp(32px,5vw,54px); font-weight:800; color:#1a1a2e; margin:0 0 14px; letter-spacing:-0.025em; line-height:1.12; }
+        .tp-hero h1 em { color:#f57c20; font-style:italic; }
+        .tp-hero p  { font-size:15px; color:#555570; margin:0 auto; max-width:520px; line-height:1.75; }
+
+        /* ── Branch tabs ── */
+        .tp-branches { display:flex; justify-content:center; gap:8px; margin-bottom:24px; flex-wrap:wrap; }
+        .tp-branch-btn {
+          display:flex; align-items:center; gap:7px; padding:10px 22px; border-radius:30px;
+          font-family:'Poppins',sans-serif; font-size:13px; font-weight:600; cursor:pointer;
+          border:2px solid transparent; transition:all 0.2s;
+        }
+        .tp-branch-btn.inactive { background:rgba(255,255,255,0.7); color:#555570; border-color:rgba(180,174,230,0.3); }
+        .tp-branch-btn.inactive:hover { border-color:rgba(245,124,32,0.3); color:#1a1a2e; }
+        .tp-branch-btn.active { background:#f57c20; color:#fff; border-color:#f57c20; box-shadow:0 4px 16px rgba(245,124,32,0.3); }
+
+        /* ── Dept filter pills ── */
+        .tp-filters { display:flex; justify-content:center; gap:8px; flex-wrap:wrap; margin-bottom:48px; }
+        .tp-filter-pill {
+          padding:7px 18px; border-radius:20px; cursor:pointer;
+          font-family:'Poppins',sans-serif; font-size:12.5px; font-weight:600;
+          border:1.5px solid transparent; transition:all 0.18s;
+        }
+        .tp-filter-pill.inactive { background:rgba(255,255,255,0.65); color:#555570; border-color:rgba(180,174,230,0.25); }
+        .tp-filter-pill.inactive:hover { background:rgba(255,255,255,0.9); border-color:rgba(124,111,205,0.3); color:#1a1a2e; }
+        .tp-filter-pill.active { background:#1a1a2e; color:#fff; border-color:#1a1a2e; }
+
+        /* ── Section heading ── */
+        .tp-section-title {
+          font-size:20px; font-weight:700; color:#1a1a2e; margin:0 0 28px;
+          display:flex; align-items:center; gap:10px;
+        }
+        .tp-section-title::after {
+          content:''; flex:1; height:1px; background:rgba(180,174,230,0.3);
+        }
+
+        /* ── Grid ── */
+        .tp-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:24px; }
+
+        /* ── Card ── */
+        .tp-card { display:flex; flex-direction:column; gap:0; }
+        .tp-card-top {
+          border-radius:20px 20px 0 0; padding:32px 22px 26px; position:relative;
+          min-height:260px; display:flex; flex-direction:column; justify-content:flex-end;
+          overflow:hidden;
+        }
+        .tp-card-watermark {
+          position:absolute; top:50%; left:50%; transform:translate(-50%,-60%);
+          font-size:110px; font-weight:900; color:rgba(255,255,255,0.18);
+          letter-spacing:-4px; pointer-events:none; user-select:none; line-height:1;
+          font-family:'Poppins',sans-serif;
+        }
+        .tp-years-badge {
+          position:absolute; top:14px; right:14px;
+          background:#f57c20; color:#fff; font-family:'Poppins',sans-serif;
+          font-size:11px; font-weight:700; padding:4px 10px; border-radius:20px;
+          letter-spacing:0.04em;
+        }
+        .tp-card-info {
+          background:rgba(255,255,255,0.92); backdrop-filter:blur(8px);
+          border-radius:12px; padding:12px 14px; position:relative; z-index:1;
+        }
+        .tp-card-name  { font-size:14px; font-weight:700; color:#1a1a2e; margin:0 0 2px; }
+        .tp-card-title { font-size:12px; font-weight:600; margin:0 0 8px; }
+        .tp-card-specs { display:flex; flex-wrap:wrap; gap:5px; }
+        .tp-spec-pill {
+          font-family:'Poppins',sans-serif; font-size:10.5px; font-weight:500; color:#555570;
+          background:rgba(85,85,112,0.07); border:1px solid rgba(85,85,112,0.12);
+          padding:3px 9px; border-radius:20px; display:flex; align-items:center; gap:4px;
+        }
+        .tp-card-bottom {
+          background:rgba(255,255,255,0.78); backdrop-filter:blur(10px);
+          border:1px solid rgba(255,255,255,0.9); border-top:none;
+          border-radius:0 0 18px 18px; padding:14px 18px;
+        }
+        .tp-card-bio { font-size:11.5px; color:#555570; line-height:1.65; margin:0; font-weight:400; }
+
+        /* ── Empty state ── */
+        .tp-empty {
+          grid-column:1 / -1; text-align:center; padding:60px 20px;
+          color:#9090b0; font-size:14px;
+        }
+
+        /* ── CTA section ── */
+        .tp-cta {
+          text-align:center; margin-top:80px; padding:56px 32px;
+          background:rgba(255,255,255,0.6); backdrop-filter:blur(12px);
+          border:1.5px solid rgba(255,255,255,0.9); border-radius:28px;
+          box-shadow:0 4px 28px rgba(90,80,160,0.08);
+        }
+        .tp-cta-dot { width:40px; height:4px; border-radius:2px; background:#f57c20; margin:0 auto 24px; }
+        .tp-cta h2 { font-size:clamp(22px,3.5vw,32px); font-weight:800; color:#1a1a2e; margin:0 0 12px; letter-spacing:-0.02em; }
+        .tp-cta p  { font-size:14px; color:#555570; margin:0 auto 28px; max-width:480px; line-height:1.75; }
+        .tp-cta-btn {
+          display:inline-flex; align-items:center; gap:9px;
+          background:#1a1a2e; color:#fff; text-decoration:none;
+          font-family:'Poppins',sans-serif; font-weight:700; font-size:13.5px;
+          padding:14px 28px; border-radius:12px;
+          transition:background 0.18s, transform 0.15s;
+          box-shadow:0 4px 18px rgba(26,26,46,0.2);
+        }
+        .tp-cta-btn:hover { background:#f57c20; transform:translateY(-2px); box-shadow:0 6px 22px rgba(245,124,32,0.3); }
+
+        /* ── Responsive ── */
+        @media (max-width:900px)  { .tp-grid { grid-template-columns:repeat(2,1fr); } }
+        @media (max-width:540px)  { .tp-grid { grid-template-columns:1fr; } .tp-wrap { padding:48px 16px 72px; } }
+      `}</style>
+
+      <div className="tp-blob1" /><div className="tp-blob2" />
+
+      <div className="tp-wrap">
+
+        {/* ── Hero ── */}
+        <div className="tp-hero">
+          <span className="tp-hero-eyebrow">Our Experts</span>
+          <h1>Meet Our {dept === "All" ? "Lead" : "Lead"}<br />
+            <em>{deptLabel}</em>
+          </h1>
+          <p>A dedicated team of specialists committed to providing the highest quality care for your beloved pets across our UAE clinics.</p>
         </div>
-      </section>
 
-      {/* Leadership Team */}
-      <section className="py-20 lg:py-28 bg-background">
-        <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <div className="text-center max-w-2xl mx-auto mb-16">
-            <p className="text-primary font-medium mb-2">Leadership</p>
-            <h2 className="font-serif text-3xl font-bold text-foreground sm:text-4xl text-balance">
-              Our Leadership Team
-            </h2>
-            <p className="mt-4 text-muted-foreground">
-              Experienced leaders guiding our clinic with vision and dedication.
-            </p>
-          </div>
+        {/* ── Branch tabs ── */}
+        <div className="tp-branches">
+          {[
+            { id: "al-ain" as Branch, label: "Al Ain Branch" },
+            { id: "dubai"  as Branch, label: "Dubai (JVC)" },
+          ].map((b) => (
+            <button
+              key={b.id}
+              className={`tp-branch-btn ${branch === b.id ? "active" : "inactive"}`}
+              onClick={() => { setBranch(b.id); setDept("All"); }}
+            >
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/>
+              </svg>
+              {b.label}
+            </button>
+          ))}
+        </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {leadershipTeam.map((member) => (
-              <Card key={member.name} className="bg-card overflow-hidden group">
-                <div className="aspect-[3/4] bg-muted overflow-hidden">
-                  <img
-                    src={`/placeholder.svg?height=400&width=300`}
-                    alt={member.name}
-                    className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300"
-                  />
-                </div>
-                <CardContent className="p-6">
-                  <h3 className="font-semibold text-lg text-foreground">{member.name}</h3>
-                  <p className="text-sm text-primary mb-2">{member.role}</p>
-                  <p className="text-sm text-muted-foreground mb-3">{member.specialization}</p>
-                  <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4">
-                    <ExperienceIcon className="h-4 w-4 text-primary" />
-                    <span>{member.experience} years experience</span>
+        {/* ── Dept filters ── */}
+        <div className="tp-filters">
+          {departments.map((d) => (
+            <button key={d} className={`tp-filter-pill ${dept === d ? "active" : "inactive"}`} onClick={() => setDept(d)}>
+              {d}
+            </button>
+          ))}
+        </div>
+
+        {/* ── Section heading ── */}
+        <p className="tp-section-title">
+          {branchLabel} — {deptLabel}
+          <span style={{ fontFamily:"'Poppins',sans-serif", fontSize:12, fontWeight:600, color:"#9090b0", background:"rgba(255,255,255,0.7)", border:"1.5px solid rgba(180,174,230,0.25)", borderRadius:20, padding:"3px 12px", marginLeft:4 }}>
+            {members.length} member{members.length !== 1 ? "s" : ""}
+          </span>
+        </p>
+
+        {/* ── Grid ── */}
+        <div className="tp-grid">
+          {members.length === 0 ? (
+            <div className="tp-empty">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#c9c2e8" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ marginBottom:12 }}><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+              <p style={{ margin:0, fontFamily:"'Poppins',sans-serif", fontSize:14, color:"#9090b0", fontWeight:500 }}>No team members in this department yet.</p>
+            </div>
+          ) : members.map((m, i) => (
+            <div key={`${m.name}-${i}`} className="tp-card">
+              <div className="tp-card-top" style={{ background: m.color }}>
+                <span className="tp-card-watermark">{m.initials}</span>
+                {m.years && <span className="tp-years-badge">{m.years} Years</span>}
+                <div className="tp-card-info">
+                  <p className="tp-card-name">{m.name}</p>
+                  <p className="tp-card-title" style={{ color: m.color }}>{m.title}</p>
+                  {m.specs.length > 0 && (
+                  <div className="tp-card-specs">
+                    {m.specs.map((s) => (
+                      <span key={s} className="tp-spec-pill">
+                        <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke={m.color} strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                        {s}
+                      </span>
+                    ))}
                   </div>
-                  <p className="text-sm text-muted-foreground leading-relaxed mb-4">{member.bio}</p>
-                  <div className="flex gap-3">
-                    <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
-                      <LinkedInIcon className="h-5 w-5" />
-                    </a>
-                    <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
-                      <TwitterIcon className="h-5 w-5" />
-                    </a>
-                    <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
-                      <EmailIcon className="h-5 w-5" />
-                    </a>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Veterinary Staff */}
-      <section className="py-20 lg:py-28 bg-muted">
-        <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <div className="text-center max-w-2xl mx-auto mb-16">
-            <p className="text-primary font-medium mb-2">Veterinary Staff</p>
-            <h2 className="font-serif text-3xl font-bold text-foreground sm:text-4xl text-balance">
-              Our Veterinarians
-            </h2>
-            <p className="mt-4 text-muted-foreground">
-              Skilled veterinarians committed to your pet's health and happiness.
-            </p>
-          </div>
-
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {veterinaryStaff.map((member) => (
-              <Card key={member.name} className="bg-card overflow-hidden group">
-                <div className="aspect-square bg-muted overflow-hidden">
-                  <img
-                    src={`/placeholder.svg?height=300&width=300`}
-                    alt={member.name}
-                    className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300"
-                  />
+                  )}
                 </div>
-                <CardContent className="p-5">
-                  <h3 className="font-semibold text-foreground">{member.name}</h3>
-                  <p className="text-sm text-primary mb-1">{member.role}</p>
-                  <p className="text-xs text-muted-foreground">{member.specialization}</p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Support Staff */}
-      <section className="py-20 lg:py-28 bg-background">
-        <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <div className="text-center max-w-2xl mx-auto mb-16">
-            <p className="text-primary font-medium mb-2">Support Staff</p>
-            <h2 className="font-serif text-3xl font-bold text-foreground sm:text-4xl text-balance">
-              Our Care Team
-            </h2>
-            <p className="mt-4 text-muted-foreground">
-              Dedicated professionals ensuring smooth operations and exceptional client service.
-            </p>
-          </div>
-
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {supportStaff.map((member) => (
-              <Card key={member.name} className="bg-card overflow-hidden group">
-                <div className="aspect-square bg-muted overflow-hidden">
-                  <img
-                    src={`/placeholder.svg?height=300&width=300`}
-                    alt={member.name}
-                    className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300"
-                  />
-                </div>
-                <CardContent className="p-5">
-                  <h3 className="font-semibold text-foreground">{member.name}</h3>
-                  <p className="text-sm text-primary">{member.role}</p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Why Choose Our Team */}
-      <section className="py-20 lg:py-28 bg-muted">
-        <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
-            <div className="relative">
-              <div className="aspect-[4/3] rounded-3xl overflow-hidden bg-card">
-                <img
-                  src="/placeholder.svg?height=450&width=600"
-                  alt="Veterinary team working together"
-                  className="object-cover w-full h-full"
-                />
+              </div>
+              <div className="tp-card-bottom">
+                <p className="tp-card-bio">{m.bio}</p>
               </div>
             </div>
-            <div>
-              <p className="text-primary font-medium mb-2">Why Our Team</p>
-              <h2 className="font-serif text-3xl font-bold text-foreground sm:text-4xl text-balance mb-6">
-                Why Trust Our Veterinarians
-              </h2>
-              <p className="text-muted-foreground leading-relaxed mb-8">
-                Our team is united by a shared passion for animal welfare and a commitment to excellence. Every member brings unique skills and perspectives that enhance our ability to care for your pets.
-              </p>
-              <div className="space-y-6">
-                {teamFeatures.map((feature) => (
-                  <div key={feature.title} className="flex gap-4">
-                    <div className="h-12 w-12 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
-                      <feature.icon className="h-6 w-6 text-primary" />
-                    </div>
-                    <div>
-                      <h3 className="font-semibold text-foreground mb-1">{feature.title}</h3>
-                      <p className="text-sm text-muted-foreground leading-relaxed">{feature.description}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
+          ))}
         </div>
-      </section>
 
-      {/* Join Our Team */}
-      <section className="py-20 lg:py-28 bg-background">
-        <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <Card className="bg-card overflow-hidden">
-            <div className="grid lg:grid-cols-2">
-              <div className="p-8 lg:p-12">
-                <p className="text-primary font-medium mb-2">Careers</p>
-                <h2 className="font-serif text-3xl font-bold text-foreground sm:text-4xl text-balance mb-4">
-                  Join Our Team
-                </h2>
-                <p className="text-muted-foreground leading-relaxed mb-6">
-                  Are you passionate about animal care? We are always looking for talented individuals to join our growing team. Explore our current openings and become part of the PawCare family.
-                </p>
-                <ul className="space-y-3 mb-8">
-                  {["Competitive compensation packages", "Continuing education support", "Collaborative work environment", "Employee pet care benefits"].map((benefit) => (
-                    <li key={benefit} className="flex items-center gap-2 text-sm text-muted-foreground">
-                      <CheckIcon className="h-4 w-4 text-primary shrink-0" />
-                      {benefit}
-                    </li>
-                  ))}
-                </ul>
-                <Button asChild>
-                  <Link href="/contact">View Open Positions</Link>
-                </Button>
-              </div>
-              <div className="aspect-[4/3] lg:aspect-auto bg-muted">
-                <img
-                  src="/placeholder.svg?height=400&width=600"
-                  alt="Join our veterinary team"
-                  className="object-cover w-full h-full"
-                />
-              </div>
-            </div>
-          </Card>
+        {/* ── Join CTA ── */}
+        <div className="tp-cta">
+          <div className="tp-cta-dot" />
+          <h2>Join Our Team</h2>
+          <p>We're always looking for passionate veterinary professionals to join our growing family. If you share our commitment to ethical, compassionate care, we'd love to hear from you.</p>
+          <a href="mailto:careers@pawsandclaws.ae" className="tp-cta-btn">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>
+            </svg>
+            careers@pawsandclaws.ae
+          </a>
         </div>
-      </section>
 
-      {/* CTA Section */}
-      <section className="py-20 lg:py-28 bg-primary">
-        <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <div className="text-center max-w-2xl mx-auto">
-            <h2 className="font-serif text-3xl font-bold text-primary-foreground sm:text-4xl text-balance mb-4">
-              Ready to Meet Our Team?
-            </h2>
-            <p className="text-primary-foreground/80 mb-8">
-              Schedule an appointment and experience the compassionate care our team provides firsthand.
-            </p>
-            <div className="flex flex-wrap justify-center gap-4">
-              <Button size="lg" variant="secondary" asChild>
-                <Link href="/locations">Book Appointment</Link>
-              </Button>
-              <Button size="lg" variant="outline" className="bg-transparent text-primary-foreground border-primary-foreground hover:bg-primary-foreground hover:text-primary" asChild>
-                <Link href="/contact">Contact Us</Link>
-              </Button>
-            </div>
-          </div>
-        </div>
-      </section>
+      </div>
     </div>
-  )
-}
-
-const leadershipTeam = [
-  {
-    name: "Dr. Sarah Mitchell",
-    role: "Founder & Chief Veterinarian",
-    specialization: "Small Animal Medicine",
-    experience: 18,
-    bio: "Dr. Mitchell founded PawCare with a vision to provide exceptional veterinary care. Her passion for animal welfare drives our clinic's mission.",
-  },
-  {
-    name: "Dr. James Wilson",
-    role: "Head of Surgery",
-    specialization: "Veterinary Surgery",
-    experience: 15,
-    bio: "Dr. Wilson leads our surgical department with expertise in orthopedic and soft tissue procedures, ensuring the best outcomes for our patients.",
-  },
-  {
-    name: "Dr. Emily Chen",
-    role: "Head of Internal Medicine",
-    specialization: "Internal Medicine",
-    experience: 12,
-    bio: "Dr. Chen specializes in diagnosing and treating complex internal conditions, bringing a meticulous approach to every case.",
-  },
-]
-
-const veterinaryStaff = [
-  { name: "Dr. Michael Park", role: "Associate Veterinarian", specialization: "General Practice" },
-  { name: "Dr. Lisa Thompson", role: "Associate Veterinarian", specialization: "Dermatology" },
-  { name: "Dr. David Martinez", role: "Associate Veterinarian", specialization: "Dentistry" },
-  { name: "Dr. Amanda White", role: "Emergency Veterinarian", specialization: "Emergency & Critical Care" },
-  { name: "Dr. Robert Kim", role: "Associate Veterinarian", specialization: "Oncology" },
-  { name: "Dr. Jennifer Lee", role: "Associate Veterinarian", specialization: "Cardiology" },
-  { name: "Dr. Christopher Brown", role: "Associate Veterinarian", specialization: "Neurology" },
-  { name: "Dr. Rachel Green", role: "Associate Veterinarian", specialization: "Exotic Animals" },
-]
-
-const supportStaff = [
-  { name: "Maria Garcia", role: "Clinic Manager" },
-  { name: "John Smith", role: "Head Veterinary Technician" },
-  { name: "Ashley Johnson", role: "Client Relations Coordinator" },
-  { name: "Kevin Williams", role: "Veterinary Technician" },
-  { name: "Samantha Davis", role: "Veterinary Technician" },
-  { name: "Tyler Brown", role: "Veterinary Assistant" },
-  { name: "Nicole Taylor", role: "Receptionist" },
-  { name: "Brandon Wilson", role: "Kennel Technician" },
-]
-
-const teamFeatures = [
-  {
-    title: "Board-Certified Specialists",
-    description: "Many of our veterinarians hold board certifications in their specialties, ensuring expert-level care.",
-    icon: CertificateIcon,
-  },
-  {
-    title: "Continuous Education",
-    description: "Our team regularly attends conferences and training to stay current with the latest veterinary advances.",
-    icon: EducationIcon,
-  },
-  {
-    title: "Collaborative Approach",
-    description: "We work together as a team to develop comprehensive treatment plans for complex cases.",
-    icon: TeamIcon,
-  },
-]
-
-// Icon Components
-function ExperienceIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-      <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-    </svg>
-  )
-}
-
-function LinkedInIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} fill="currentColor" viewBox="0 0 24 24">
-      <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
-    </svg>
-  )
-}
-
-function TwitterIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} fill="currentColor" viewBox="0 0 24 24">
-      <path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84" />
-    </svg>
-  )
-}
-
-function EmailIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-      <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
-    </svg>
-  )
-}
-
-function CheckIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
-      <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-    </svg>
-  )
-}
-
-function CertificateIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-      <path strokeLinecap="round" strokeLinejoin="round" d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0112 13.489a50.702 50.702 0 017.74-3.342M6.75 15a.75.75 0 100-1.5.75.75 0 000 1.5zm0 0v-3.675A55.378 55.378 0 0112 8.443m-7.007 11.55A5.981 5.981 0 006.75 15.75v-1.5" />
-    </svg>
-  )
-}
-
-function EducationIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-      <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
-    </svg>
-  )
-}
-
-function TeamIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-      <path strokeLinecap="round" strokeLinejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z" />
-    </svg>
-  )
+  );
 }

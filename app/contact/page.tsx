@@ -1,397 +1,373 @@
-import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
+"use client";
 
-export default function ContactPage() {
+import { useSearchParams } from "next/navigation";
+import { useState, useEffect, Suspense } from "react";
+
+const branches = [
+  {
+    id: "al-ain",
+    name: "PNCV Al Ain",
+    label: "Main Branch",
+    address: "Central Market, Shop F45, Behind Bawadi Mall, Al Ain, Abu Dhabi - UAE",
+    phone: "+971 52 151 1465",
+    phoneHref: "tel:+971521511465",
+    email: "pawsandclawsalain@gmail.com",
+    hours: [
+      { days: "Sat – Thu", time: "9:00 AM – 9:00 PM" },
+      { days: "Friday",    time: "2:00 PM – 9:00 PM" },
+    ],
+    mapsUrl: "https://maps.google.com/?q=Central+Market+Shop+F45+Bawadi+Mall+Al+Ain",
+    waText: "Hello! I would like to book an appointment at the PNCV Al Ain clinic. Please confirm availability.",
+  },
+  {
+    id: "dubai",
+    name: "PNCV Dubai (JVC)",
+    label: "Dubai Branch",
+    address: "Dar Al Jawhara Building, Jumeirah Village Circle (JVC), Dubai, UAE",
+    phone: "+971 50 340 8149",
+    phoneHref: "tel:+971503408149",
+    email: "Pawsandclawsdxb1@gmail.com",
+    hours: [
+      { days: "Mon, Tue, Thu, Sat, Sun", time: "9:00 AM – 9:00 PM" },
+      { days: "Wednesday",               time: "1:00 PM – 9:00 PM" },
+      { days: "Friday",                  time: "2:00 PM – 9:00 PM" },
+    ],
+    mapsUrl: "https://maps.google.com/?q=Dar+Al+Jawhara+Building+JVC+Dubai",
+    waText: "Hello! I would like to book an appointment at PNCV Dubai (JVC). Please confirm availability.",
+  },
+];
+
+// Inner component that uses useSearchParams
+function ContactContent() {
+  const searchParams = useSearchParams();
+  const locationParam = searchParams.get("location");
+
+  const initial = branches.find((b) => b.id === locationParam) ?? branches[0];
+  const [selected, setSelected] = useState(initial);
+  const [form, setForm] = useState({
+    name: "", email: "", phone: "", petType: "", message: "",
+  });
+  const [submitted, setSubmitted] = useState(false);
+  const [errors, setErrors] = useState<Record<string, string>>({});
+
+  useEffect(() => {
+    const found = branches.find((b) => b.id === locationParam);
+    if (found) setSelected(found);
+  }, [locationParam]);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+    if (errors[e.target.name]) setErrors({ ...errors, [e.target.name]: "" });
+  };
+
+  const handleSubmit = () => {
+    const newErrors: Record<string, string> = {};
+    if (!form.name.trim())    newErrors.name    = "Name is required";
+    if (!form.email.trim())   newErrors.email   = "Email is required";
+    if (!form.phone.trim())   newErrors.phone   = "Phone is required";
+    if (!form.message.trim()) newErrors.message = "Please tell us how we can help";
+    if (Object.keys(newErrors).length) { setErrors(newErrors); return; }
+    setSubmitted(true);
+    setTimeout(() => { setSubmitted(false); setForm({ name:"", email:"", phone:"", petType:"", message:"" }); }, 4000);
+  };
+
   return (
-    <div className="flex flex-col">
-      {/* Hero Section */}
-      <section className="relative py-20 lg:py-28 bg-gradient-to-b from-background to-muted">
-        <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <div className="text-center max-w-3xl mx-auto">
-            <p className="text-primary font-medium mb-4">Contact Us</p>
-            <h1 className="font-serif text-4xl font-bold tracking-tight text-foreground sm:text-5xl lg:text-6xl text-balance">
-              Contact Our Veterinary Clinic
-            </h1>
-            <p className="mt-6 text-lg text-muted-foreground leading-relaxed">
-              Have questions or need to schedule an appointment? We are here to help. Reach out to us through any of the methods below.
-            </p>
-          </div>
+    <div style={{ minHeight:"100vh", background:"linear-gradient(135deg,#eeedf8 0%,#e8e7f5 50%,#ece9f7 100%)", fontFamily:"'Poppins',sans-serif", padding:"64px 24px 80px" }}>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');
+
+        /* Blobs */
+        .cp-blob1 { position:fixed; width:500px; height:500px; border-radius:50%; background:#b8b0e8; filter:blur(100px); opacity:0.18; top:-100px; right:-100px; pointer-events:none; z-index:0; }
+        .cp-blob2 { position:fixed; width:400px; height:400px; border-radius:50%; background:#c9b8f0; filter:blur(90px); opacity:0.14; bottom:-80px; left:-80px; pointer-events:none; z-index:0; }
+
+        .cp-wrap { position:relative; z-index:1; max-width:1080px; margin:0 auto; }
+
+        /* Heading */
+        .cp-heading { text-align:center; margin-bottom:44px; }
+        .cp-heading h1 { font-size:clamp(26px,4.5vw,42px); font-weight:800; color:#1a1a2e; margin:0 0 10px; letter-spacing:-0.02em; }
+        .cp-heading p  { font-size:14.5px; color:#555570; margin:0; font-weight:400; }
+
+        /* Layout */
+        .cp-layout { display:grid; grid-template-columns:360px 1fr; gap:24px; align-items:start; }
+
+        /* Branch card */
+        .cp-branch {
+          background:rgba(255,255,255,0.82); border-radius:20px; padding:22px;
+          border:2px solid rgba(255,255,255,0.9);
+          backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px);
+          box-shadow:0 2px 20px rgba(90,80,160,0.07);
+          cursor:pointer; transition:border-color 0.2s, box-shadow 0.2s, transform 0.18s;
+          margin-bottom:16px; position:relative;
+        }
+        .cp-branch:last-of-type { margin-bottom:0; }
+        .cp-branch:hover { transform:translateY(-2px); box-shadow:0 6px 28px rgba(90,80,160,0.12); }
+        .cp-branch.active { border-color:#f57c20; box-shadow:0 6px 28px rgba(245,124,32,0.15); }
+        .cp-branch-dot { width:9px; height:9px; border-radius:50%; background:#e0ddf5; position:absolute; top:22px; right:22px; transition:background 0.2s; }
+        .cp-branch.active .cp-branch-dot { background:#f57c20; }
+
+        .cp-branch-head { display:flex; align-items:center; gap:12px; margin-bottom:14px; }
+        .cp-branch-icon { width:40px; height:40px; border-radius:12px; background:rgba(245,124,32,0.1); display:flex; align-items:center; justify-content:center; flex-shrink:0; transition:background 0.2s; }
+        .cp-branch.active .cp-branch-icon { background:rgba(245,124,32,0.18); }
+        .cp-branch-title { font-size:14.5px; font-weight:700; color:#1a1a2e; margin:0 0 2px; }
+        .cp-branch-label { font-size:11.5px; color:#9090b0; font-weight:500; margin:0; }
+
+        .cp-info-row { display:flex; align-items:flex-start; gap:9px; margin-bottom:7px; }
+        .cp-info-row:last-child { margin-bottom:0; }
+        .cp-info-text { font-size:12.5px; color:#555570; line-height:1.55; margin:0; text-decoration:none; transition:color 0.16s; }
+        a.cp-info-text:hover { color:#1a1a2e; }
+
+        .cp-divider { border:none; border-top:1px solid rgba(180,174,230,0.2); margin:12px 0; }
+
+        .cp-hours-row { display:flex; justify-content:space-between; align-items:center; gap:8px; margin-bottom:5px; }
+        .cp-hours-days { font-size:11.5px; color:#9090b0; }
+        .cp-hours-time { font-size:11.5px; color:#1a1a2e; font-weight:600; }
+
+        .cp-cta-row { display:flex; gap:7px; margin-top:14px; }
+        .cp-btn-directions {
+          flex:1; display:flex; align-items:center; justify-content:center; gap:6px;
+          padding:9px 12px; border-radius:10px; border:1.5px solid rgba(180,174,230,0.3);
+          background:#f9f8fd; font-family:'Poppins',sans-serif; font-size:12px; font-weight:600; color:#555570;
+          text-decoration:none; transition:background 0.16s, border-color 0.16s, color 0.16s;
+        }
+        .cp-btn-directions:hover { background:#f0edf9; border-color:#c9c2e8; color:#1a1a2e; }
+        .cp-btn-wa {
+          display:flex; align-items:center; justify-content:center; gap:6px;
+          padding:9px 14px; border-radius:10px;
+          background:rgba(37,211,102,0.08); border:1.5px solid rgba(37,211,102,0.2);
+          font-family:'Poppins',sans-serif; font-size:12px; font-weight:600; color:#16a34a;
+          text-decoration:none; transition:background 0.16s;
+        }
+        .cp-btn-wa:hover { background:rgba(37,211,102,0.16); }
+
+        /* Review pill */
+        .cp-review {
+          background:rgba(255,255,255,0.82); border-radius:16px; padding:16px 20px;
+          display:flex; align-items:center; gap:14px; margin-top:16px;
+          border:1.5px solid rgba(255,255,255,0.9); backdrop-filter:blur(12px);
+          box-shadow:0 2px 14px rgba(90,80,160,0.07);
+        }
+        .cp-review-score { background:#fffbe6; border-radius:10px; padding:8px 12px; text-align:center; font-size:20px; font-weight:800; color:#1a1a2e; min-width:50px; }
+        .cp-stars { display:flex; gap:2px; margin-bottom:2px; }
+        .cp-review-name { font-size:13px; font-weight:700; color:#1a1a2e; margin:0 0 2px; }
+        .cp-review-sub  { font-size:11.5px; color:#9090b0; margin:0; }
+
+        /* Form panel */
+        .cp-form-panel {
+          background:rgba(255,255,255,0.88); border-radius:24px; padding:36px;
+          border:1.5px solid rgba(255,255,255,0.95); backdrop-filter:blur(12px);
+          box-shadow:0 4px 32px rgba(90,80,160,0.09);
+        }
+        .cp-form-title { font-size:22px; font-weight:800; color:#1a1a2e; margin:0 0 4px; letter-spacing:-0.02em; }
+        .cp-form-sub { font-size:13px; color:#9090b0; margin:0 0 28px; }
+        .cp-form-sub span { color:#f57c20; font-weight:600; }
+
+        .cp-form-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:14px; }
+        .cp-form-full { margin-bottom:14px; }
+
+        .cp-label { font-size:11.5px; font-weight:600; color:#555570; margin:0 0 6px; display:block; text-transform:uppercase; letter-spacing:0.06em; }
+        .cp-label em { color:#f57c20; font-style:normal; }
+
+        .cp-input, .cp-textarea {
+          width:100%; padding:11px 14px; border-radius:12px;
+          border:1.5px solid rgba(180,174,230,0.3); background:rgba(249,248,253,0.9);
+          font-family:'Poppins',sans-serif; font-size:13.5px; color:#1a1a2e; font-weight:400;
+          outline:none; transition:border-color 0.18s, box-shadow 0.18s;
+          box-sizing:border-box;
+        }
+        .cp-input::placeholder, .cp-textarea::placeholder { color:#bbb8d0; }
+        .cp-input:focus, .cp-textarea:focus { border-color:#f57c20; box-shadow:0 0 0 3px rgba(245,124,32,0.1); background:#fff; }
+        .cp-input.error, .cp-textarea.error { border-color:#ef4444; }
+        .cp-textarea { resize:vertical; min-height:110px; }
+        .cp-error-msg { font-size:11px; color:#ef4444; margin:4px 0 0; display:block; font-weight:500; }
+
+        .cp-submit-btn {
+          width:100%; padding:14px; border-radius:14px; border:none;
+          background:linear-gradient(135deg,#f57c20,#e8650a);
+          font-family:'Poppins',sans-serif; font-size:14.5px; font-weight:700; color:#fff;
+          cursor:pointer; display:flex; align-items:center; justify-content:center; gap:9px;
+          margin-top:6px; transition:opacity 0.18s, transform 0.18s;
+          box-shadow:0 4px 18px rgba(245,124,32,0.32);
+        }
+        .cp-submit-btn:hover { opacity:0.92; transform:translateY(-1px); }
+        .cp-submit-btn:active { transform:translateY(0); }
+        .cp-submit-btn.success { background:linear-gradient(135deg,#22c55e,#16a34a); box-shadow:0 4px 18px rgba(34,197,94,0.32); }
+
+        /* ── Responsive ── */
+        @media (max-width:900px) {
+          .cp-layout { grid-template-columns:1fr; }
+          .cp-form-panel { padding:26px 22px; }
+        }
+        @media (max-width:540px) {
+          .cp-form-grid { grid-template-columns:1fr; }
+          .cp-form-panel { padding:20px 16px; border-radius:18px; }
+          .cp-branch { padding:18px; }
+          .cp-heading h1 { font-size:26px; }
+        }
+      `}</style>
+
+      {/* Blobs */}
+      <div className="cp-blob1" />
+      <div className="cp-blob2" />
+
+      <div className="cp-wrap">
+        {/* Heading */}
+        <div className="cp-heading">
+          <h1>Visit Us</h1>
+          <p>Two convenient clinics across the UAE — choose your nearest branch and book below</p>
         </div>
-      </section>
 
-      {/* Contact Information Cards */}
-      <section className="py-20 lg:py-28 bg-background">
-        <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
-            {contactInfo.map((info) => (
-              <Card key={info.title} className="bg-card hover:shadow-lg transition-shadow">
-                <CardContent className="p-6 text-center">
-                  <div className="h-14 w-14 rounded-xl bg-primary/10 flex items-center justify-center mx-auto mb-4">
-                    <info.icon className="h-7 w-7 text-primary" />
+        <div className="cp-layout">
+
+          {/* ── Left: Branches ── */}
+          <div>
+            {branches.map((b) => (
+              <div key={b.id} className={`cp-branch${selected.id === b.id ? " active" : ""}`} onClick={() => setSelected(b)}>
+                <div className="cp-branch-dot" />
+                <div className="cp-branch-head">
+                  <div className="cp-branch-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f57c20" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/>
+                    </svg>
                   </div>
-                  <h3 className="font-semibold text-foreground mb-2">{info.title}</h3>
-                  <p className="text-muted-foreground text-sm">{info.value}</p>
-                  {info.secondary && (
-                    <p className="text-muted-foreground text-sm">{info.secondary}</p>
-                  )}
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-
-          {/* Contact Form & Info Grid */}
-          <div className="grid lg:grid-cols-5 gap-12">
-            {/* Contact Form */}
-            <div className="lg:col-span-3">
-              <Card className="bg-card">
-                <CardContent className="p-8">
-                  <h2 className="font-serif text-2xl font-bold text-foreground mb-2">Send Us a Message</h2>
-                  <p className="text-muted-foreground mb-8">
-                    Fill out the form below and we will get back to you as soon as possible.
-                  </p>
-                  <form className="space-y-6">
-                    <div className="grid sm:grid-cols-2 gap-6">
-                      <div>
-                        <label htmlFor="firstName" className="block text-sm font-medium text-foreground mb-1.5">
-                          First Name
-                        </label>
-                        <Input id="firstName" placeholder="Enter your first name" />
-                      </div>
-                      <div>
-                        <label htmlFor="lastName" className="block text-sm font-medium text-foreground mb-1.5">
-                          Last Name
-                        </label>
-                        <Input id="lastName" placeholder="Enter your last name" />
-                      </div>
-                    </div>
-                    <div className="grid sm:grid-cols-2 gap-6">
-                      <div>
-                        <label htmlFor="email" className="block text-sm font-medium text-foreground mb-1.5">
-                          Email Address
-                        </label>
-                        <Input id="email" type="email" placeholder="Enter your email" />
-                      </div>
-                      <div>
-                        <label htmlFor="phone" className="block text-sm font-medium text-foreground mb-1.5">
-                          Phone Number
-                        </label>
-                        <Input id="phone" type="tel" placeholder="Enter your phone number" />
-                      </div>
-                    </div>
-                    <div>
-                      <label htmlFor="petType" className="block text-sm font-medium text-foreground mb-1.5">
-                        Pet Type
-                      </label>
-                      <Select>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select your pet type" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="dog">Dog</SelectItem>
-                          <SelectItem value="cat">Cat</SelectItem>
-                          <SelectItem value="bird">Bird</SelectItem>
-                          <SelectItem value="rabbit">Rabbit</SelectItem>
-                          <SelectItem value="hamster">Hamster</SelectItem>
-                          <SelectItem value="reptile">Reptile</SelectItem>
-                          <SelectItem value="other">Other</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-                    <div>
-                      <label htmlFor="subject" className="block text-sm font-medium text-foreground mb-1.5">
-                        Subject
-                      </label>
-                      <Select>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select a subject" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="appointment">Book an Appointment</SelectItem>
-                          <SelectItem value="general">General Inquiry</SelectItem>
-                          <SelectItem value="emergency">Emergency Question</SelectItem>
-                          <SelectItem value="billing">Billing Question</SelectItem>
-                          <SelectItem value="feedback">Feedback</SelectItem>
-                          <SelectItem value="other">Other</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-                    <div>
-                      <label htmlFor="message" className="block text-sm font-medium text-foreground mb-1.5">
-                        Message
-                      </label>
-                      <Textarea 
-                        id="message" 
-                        placeholder="Tell us how we can help you..."
-                        rows={5}
-                      />
-                    </div>
-                    <Button type="submit" size="lg" className="w-full sm:w-auto">
-                      Send Message
-                    </Button>
-                  </form>
-                </CardContent>
-              </Card>
-            </div>
-
-            {/* Additional Info */}
-            <div className="lg:col-span-2 space-y-6">
-              <Card className="bg-card">
-                <CardContent className="p-6">
-                  <h3 className="font-semibold text-foreground mb-4">Working Hours</h3>
-                  <div className="space-y-3">
-                    {workingHours.map((item) => (
-                      <div key={item.day} className="flex justify-between text-sm">
-                        <span className="text-muted-foreground">{item.day}</span>
-                        <span className="font-medium text-foreground">{item.hours}</span>
-                      </div>
-                    ))}
+                  <div>
+                    <p className="cp-branch-title">{b.name}</p>
+                    <p className="cp-branch-label">{b.label}</p>
                   </div>
-                </CardContent>
-              </Card>
-
-              <Card className="bg-card">
-                <CardContent className="p-6">
-                  <h3 className="font-semibold text-foreground mb-4">Emergency Services</h3>
-                  <div className="flex items-start gap-3 mb-4">
-                    <div className="h-10 w-10 rounded-lg bg-destructive/10 flex items-center justify-center shrink-0">
-                      <EmergencyIcon className="h-5 w-5 text-destructive" />
-                    </div>
-                    <div>
-                      <p className="text-sm text-muted-foreground">
-                        For after-hours emergencies, please call our 24/7 emergency line.
-                      </p>
-                    </div>
-                  </div>
-                  <a 
-                    href="tel:+15559119111" 
-                    className="flex items-center justify-center gap-2 w-full py-3 bg-destructive/10 text-destructive rounded-lg font-medium hover:bg-destructive/20 transition-colors"
-                  >
-                    <PhoneIcon className="h-5 w-5" />
-                    (555) 911-9111
-                  </a>
-                </CardContent>
-              </Card>
-
-              <Card className="bg-primary text-primary-foreground">
-                <CardContent className="p-6">
-                  <h3 className="font-semibold mb-2">Quick Appointment</h3>
-                  <p className="text-sm text-primary-foreground/80 mb-4">
-                    Need to book an appointment right away? Visit our locations page for instant booking.
-                  </p>
-                  <Button variant="secondary" className="w-full" asChild>
-                    <Link href="/locations">Book Now</Link>
-                  </Button>
-                </CardContent>
-              </Card>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Map Section */}
-      <section className="py-20 lg:py-28 bg-muted">
-        <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <div className="text-center max-w-2xl mx-auto mb-12">
-            <h2 className="font-serif text-3xl font-bold text-foreground sm:text-4xl text-balance">
-              Visit Our Main Clinic
-            </h2>
-            <p className="mt-4 text-muted-foreground">
-              Our downtown location is conveniently accessible with ample parking available.
-            </p>
-          </div>
-          <div className="aspect-[16/9] lg:aspect-[21/9] rounded-3xl overflow-hidden bg-card">
-            <img
-              src="/placeholder.svg?height=500&width=1200"
-              alt="Map showing main clinic location"
-              className="object-cover w-full h-full"
-            />
-          </div>
-        </div>
-      </section>
-
-      {/* Why Choose Us Section */}
-      <section className="py-20 lg:py-28 bg-background">
-        <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <div className="text-center max-w-2xl mx-auto mb-16">
-            <p className="text-primary font-medium mb-2">Why Choose Us</p>
-            <h2 className="font-serif text-3xl font-bold text-foreground sm:text-4xl text-balance">
-              Trusted by Pet Owners
-            </h2>
-          </div>
-          <div className="grid sm:grid-cols-3 gap-8">
-            {trustFeatures.map((feature) => (
-              <div key={feature.title} className="text-center">
-                <div className="h-14 w-14 rounded-xl bg-primary/10 flex items-center justify-center mx-auto mb-4">
-                  <feature.icon className="h-7 w-7 text-primary" />
                 </div>
-                <h3 className="font-semibold text-foreground mb-2">{feature.title}</h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">{feature.description}</p>
+
+                <div className="cp-info-row">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#f57c20" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink:0, marginTop:2 }}><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                  <p className="cp-info-text">{b.address}</p>
+                </div>
+                <div className="cp-info-row">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink:0 }}><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.42 9.81a19.79 19.79 0 01-3.07-8.63A2 2 0 012.33 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 9.91a16 16 0 006.72 6.72l1.27-.76a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+                  <a href={b.phoneHref} className="cp-info-text">{b.phone}</a>
+                </div>
+                <div className="cp-info-row">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#7c6fcd" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink:0 }}><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                  <a href={`mailto:${b.email}`} className="cp-info-text" style={{ wordBreak:"break-all" }}>{b.email}</a>
+                </div>
+
+                <hr className="cp-divider" />
+
+                <div style={{ display:"flex", alignItems:"center", gap:5, marginBottom:8 }}>
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                  <span style={{ fontSize:10, fontWeight:700, color:"#9090b0", textTransform:"uppercase", letterSpacing:"0.08em" }}>Opening Hours</span>
+                </div>
+                {b.hours.map((h, i) => (
+                  <div key={i} className="cp-hours-row">
+                    <span className="cp-hours-days">{h.days}</span>
+                    <span className="cp-hours-time">{h.time}</span>
+                  </div>
+                ))}
+
+                <div className="cp-cta-row">
+                  <a href={b.mapsUrl} target="_blank" rel="noopener noreferrer" className="cp-btn-directions">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 3 21 3 21 9"/><path d="M21 3L9 15"/><path d="M11 3H3v18h18v-8"/></svg>
+                    Get Directions
+                  </a>
+                  <a href={`https://wa.me/971581289605?text=${encodeURIComponent(b.waText)}`} target="_blank" rel="noopener noreferrer" className="cp-btn-wa">
+                    <svg width="13" height="13" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                    WhatsApp
+                  </a>
+                </div>
               </div>
             ))}
-          </div>
-        </div>
-      </section>
 
-      {/* CTA Section */}
-      <section className="py-20 lg:py-28 bg-primary">
-        <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <div className="text-center max-w-2xl mx-auto">
-            <h2 className="font-serif text-3xl font-bold text-primary-foreground sm:text-4xl text-balance mb-4">
-              Ready to Schedule an Appointment?
-            </h2>
-            <p className="text-primary-foreground/80 mb-8">
-              We are here to provide the best care for your beloved pets. Do not hesitate to reach out.
-            </p>
-            <div className="flex flex-wrap justify-center gap-4">
-              <Button size="lg" variant="secondary" asChild>
-                <Link href="/locations">Book Appointment</Link>
-              </Button>
-              <Button 
-                size="lg" 
-                variant="outline" 
-                className="bg-transparent text-primary-foreground border-primary-foreground hover:bg-primary-foreground hover:text-primary"
-                asChild
-              >
-                <a href="tel:+15551234567">
-                  <PhoneIcon className="h-4 w-4 mr-2" />
-                  Call Now
-                </a>
-              </Button>
+            
+          </div>
+
+          {/* ── Right: Form ── */}
+          <div className="cp-form-panel">
+            <p className="cp-form-title">Book Your Appointment</p>
+            <p className="cp-form-sub">Selected Location: <span>{selected.name}</span></p>
+
+            <div className="cp-form-grid">
+              <div>
+                <label className="cp-label">Your Name <em>*</em></label>
+                <input className={`cp-input${errors.name ? " error" : ""}`} name="name" placeholder="John Doe" value={form.name} onChange={handleChange} />
+                {errors.name && <span className="cp-error-msg">{errors.name}</span>}
+              </div>
+              <div>
+                <label className="cp-label">Email Address <em>*</em></label>
+                <input className={`cp-input${errors.email ? " error" : ""}`} name="email" type="email" placeholder="john@example.com" value={form.email} onChange={handleChange} />
+                {errors.email && <span className="cp-error-msg">{errors.email}</span>}
+              </div>
             </div>
+
+            <div className="cp-form-grid">
+              <div>
+                <label className="cp-label">Phone Number <em>*</em></label>
+                <input className={`cp-input${errors.phone ? " error" : ""}`} name="phone" placeholder="+971 XX XXX XXXX" value={form.phone} onChange={handleChange} />
+                {errors.phone && <span className="cp-error-msg">{errors.phone}</span>}
+              </div>
+              <div>
+                <label className="cp-label">Pet Type</label>
+                <input className="cp-input" name="petType" placeholder="Dog, Cat, Bird..." value={form.petType} onChange={handleChange} />
+              </div>
+            </div>
+
+            <div className="cp-form-full">
+              <label className="cp-label">How Can We Help? <em>*</em></label>
+              <textarea className={`cp-textarea${errors.message ? " error" : ""}`} name="message" placeholder="Tell us about your pet's needs or any questions you have..." value={form.message} onChange={handleChange} />
+              {errors.message && <span className="cp-error-msg">{errors.message}</span>}
+            </div>
+
+            {/* Location selector (visual only — driven by left cards) */}
+            <div className="cp-form-full" style={{ marginBottom:20 }}>
+              <label className="cp-label">Preferred Location</label>
+              <div style={{ display:"flex", gap:8 }}>
+                {branches.map((b) => (
+                  <div
+                    key={b.id}
+                    onClick={() => setSelected(b)}
+                    style={{
+                      flex:1, padding:"10px 14px", borderRadius:12, cursor:"pointer",
+                      border: selected.id === b.id ? "2px solid #f57c20" : "1.5px solid rgba(180,174,230,0.3)",
+                      background: selected.id === b.id ? "rgba(245,124,32,0.06)" : "rgba(249,248,253,0.9)",
+                      transition:"all 0.16s",
+                    }}
+                  >
+                    <p style={{ fontFamily:"'Poppins',sans-serif", fontSize:12, fontWeight:700, color: selected.id === b.id ? "#f57c20" : "#1a1a2e", margin:"0 0 2px" }}>{b.name}</p>
+                    <p style={{ fontFamily:"'Poppins',sans-serif", fontSize:11, color:"#9090b0", margin:0 }}>{b.label}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <button className={`cp-submit-btn${submitted ? " success" : ""}`} onClick={handleSubmit}>
+              {submitted ? (
+                <>
+                  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                  Appointment Booked!
+                </>
+              ) : (
+                <>
+                  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 2L11 13"/><path d="M22 2L15 22 11 13 2 9l20-7z"/></svg>
+                  Book Appointment
+                </>
+              )}
+            </button>
+
+            <p style={{ fontFamily:"'Poppins',sans-serif", fontSize:11.5, color:"#9090b0", textAlign:"center", margin:"14px 0 0", fontWeight:400 }}>
+              Or contact us directly via{" "}
+              <a href={`https://wa.me/971581289605?text=${encodeURIComponent(selected.waText)}`} target="_blank" rel="noopener noreferrer" style={{ color:"#16a34a", fontWeight:600, textDecoration:"none" }}>WhatsApp</a>
+              {" "}or{" "}
+              <a href={selected.phoneHref} style={{ color:"#f57c20", fontWeight:600, textDecoration:"none" }}>call us</a>
+            </p>
           </div>
+
         </div>
-      </section>
+      </div>
     </div>
-  )
+  );
 }
 
-const contactInfo = [
-  {
-    title: "Phone",
-    value: "(555) 123-4567",
-    secondary: "Mon - Sun, 8AM - 8PM",
-    icon: PhoneIcon,
-  },
-  {
-    title: "Email",
-    value: "contact@pawcare.com",
-    secondary: "We reply within 24 hours",
-    icon: EmailIcon,
-  },
-  {
-    title: "Address",
-    value: "123 Pet Care Lane",
-    secondary: "Downtown, VC 12345",
-    icon: LocationIcon,
-  },
-  {
-    title: "Working Hours",
-    value: "Mon - Fri: 8AM - 8PM",
-    secondary: "Sat - Sun: 9AM - 6PM",
-    icon: ClockIcon,
-  },
-]
-
-const workingHours = [
-  { day: "Monday", hours: "8:00 AM - 8:00 PM" },
-  { day: "Tuesday", hours: "8:00 AM - 8:00 PM" },
-  { day: "Wednesday", hours: "8:00 AM - 8:00 PM" },
-  { day: "Thursday", hours: "8:00 AM - 8:00 PM" },
-  { day: "Friday", hours: "8:00 AM - 8:00 PM" },
-  { day: "Saturday", hours: "9:00 AM - 6:00 PM" },
-  { day: "Sunday", hours: "10:00 AM - 4:00 PM" },
-]
-
-const trustFeatures = [
-  {
-    title: "Quick Response",
-    description: "We respond to all inquiries within 24 hours to address your concerns promptly.",
-    icon: QuickIcon,
-  },
-  {
-    title: "Expert Guidance",
-    description: "Our knowledgeable staff can answer your questions and guide you to the right services.",
-    icon: ExpertIcon,
-  },
-  {
-    title: "Flexible Scheduling",
-    description: "We offer convenient appointment times to fit your busy schedule.",
-    icon: ScheduleIcon,
-  },
-]
-
-// Icon Components
-function PhoneIcon({ className }: { className?: string }) {
+// Main page wraps in Suspense for useSearchParams
+export default function ContactPage() {
   return (
-    <svg className={className} fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-      <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" />
-    </svg>
-  )
-}
-
-function EmailIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-      <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
-    </svg>
-  )
-}
-
-function LocationIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-      <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
-      <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
-    </svg>
-  )
-}
-
-function ClockIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-      <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-    </svg>
-  )
-}
-
-function EmergencyIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-      <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
-    </svg>
-  )
-}
-
-function QuickIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-      <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
-    </svg>
-  )
-}
-
-function ExpertIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-      <path strokeLinecap="round" strokeLinejoin="round" d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0112 13.489a50.702 50.702 0 017.74-3.342M6.75 15a.75.75 0 100-1.5.75.75 0 000 1.5zm0 0v-3.675A55.378 55.378 0 0112 8.443m-7.007 11.55A5.981 5.981 0 006.75 15.75v-1.5" />
-    </svg>
-  )
-}
-
-function ScheduleIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-      <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5m-9-6h.008v.008H12v-.008zM12 15h.008v.008H12V15zm0 2.25h.008v.008H12v-.008zM9.75 15h.008v.008H9.75V15zm0 2.25h.008v.008H9.75v-.008zM7.5 15h.008v.008H7.5V15zm0 2.25h.008v.008H7.5v-.008zm6.75-4.5h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V15zm0 2.25h.008v.008h-.008v-.008zm2.25-4.5h.008v.008H16.5v-.008zm0 2.25h.008v.008H16.5V15z" />
-    </svg>
-  )
+    <Suspense fallback={<div style={{ minHeight:"100vh", background:"linear-gradient(135deg,#eeedf8,#ece9f7)", display:"flex", alignItems:"center", justifyContent:"center" }}><span style={{ fontFamily:"'Poppins',sans-serif", color:"#555570" }}>Loading...</span></div>}>
+      <ContactContent />
+    </Suspense>
+  );
 }
