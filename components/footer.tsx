@@ -291,13 +291,9 @@ export function Footer() {
 
       <hr className="ftr-divider" />
       <div className="ftr-bottom">
-        <p className="ftr-copy">© {new Date().getFullYear()} Paws &amp; Claws Veterinary. All rights reserved.</p>
-        <div className="ftr-btm-links">
-          <Link href="/privacy"  className="ftr-btm-link">Privacy Policy</Link>
-          <Link href="/terms"    className="ftr-btm-link">Terms of Use</Link>
-          <Link href="/sitemap"  className="ftr-btm-link">Sitemap</Link>
-        </div>
-      </div>
+  <p className="ftr-copy">© {new Date().getFullYear()} Paws &amp; Claws Veterinary. All rights reserved.</p>
+  <p className="ftr-copy">Powered by <a href="https://mindoxa.com" target="_blank" rel="noopener noreferrer" className="ftr-btm-link">Mindoxa</a></p>
+</div>
     </footer>
   );
 }
