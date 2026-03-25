@@ -4,8 +4,8 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { services } from "@/data/services-data";
-import BookingModal from "@/components/ui/Bookingmodal"; // adjust path as needed
 
+import AboutCTA from "@/components/about/Aboutcta";
 export default function ServicesPage() {
   const [modalOpen, setModalOpen] = useState(false);
 
@@ -13,8 +13,7 @@ export default function ServicesPage() {
     <div style={{ background: "linear-gradient(135deg, #eeedf8 0%, #e8e7f5 50%, #ece9f7 100%)" }}>
       <ServicesHero />
       <ServicesGrid />
-      <ServicesCTA onBookClick={() => setModalOpen(true)} />
-      <BookingModal isOpen={modalOpen} onClose={() => setModalOpen(false)} />
+      <AboutCTA />
     </div>
   );
 }
@@ -182,77 +181,3 @@ function ServicesGrid() {
   );
 }
 
-// ── CTA now accepts onBookClick prop ──────────────────────────────────────────
-function ServicesCTA({ onBookClick }: { onBookClick: () => void }) {
-  return (
-    <section style={{ padding: "0 48px 80px" }}>
-      <style>{`
-        @media (max-width: 768px) { .scta-wrap { padding: 56px 32px !important; border-radius: 20px !important; } }
-        @media (max-width: 580px) { .scta-wrap { padding: 44px 24px !important; } }
-        .scta-book-btn {
-          display: inline-flex; align-items: center; gap: 8px;
-          background: #fff; color: #f57c20;
-          font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 13px;
-          letter-spacing: 0.06em; text-transform: uppercase;
-          padding: 15px 32px; border-radius: 10px;
-          border: none; cursor: pointer;
-          box-shadow: 0 6px 20px rgba(0,0,0,0.12);
-          transition: transform 0.18s, box-shadow 0.18s;
-          text-decoration: none;
-        }
-        .scta-book-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(0,0,0,0.18); }
-        .scta-book-btn:active { transform: translateY(0); }
-      `}</style>
-      <div
-        className="scta-wrap"
-        style={{
-          position: "relative", overflow: "hidden", borderRadius: 28,
-          background: "#f57c20", maxWidth: 1200, margin: "0 auto",
-          padding: "72px 80px", textAlign: "center",
-        }}
-      >
-        {/* decorative rings */}
-        <div style={{ position: "absolute", width: 420, height: 420, borderRadius: "50%", border: "56px solid rgba(255,255,255,0.08)", top: -160, left: -100, pointerEvents: "none" }} />
-        <div style={{ position: "absolute", width: 260, height: 260, borderRadius: "50%", border: "36px solid rgba(255,255,255,0.06)", bottom: -100, right: 80, pointerEvents: "none" }} />
-
-        <div style={{ position: "relative", zIndex: 1, maxWidth: 580, margin: "0 auto" }}>
-          <h2 style={{ fontFamily: "'Poppins', sans-serif", fontWeight: 800, fontSize: "clamp(26px, 3.5vw, 44px)", color: "#fff", margin: "0 0 16px", lineHeight: 1.15 }}>
-            Ready to Book a Service?
-          </h2>
-          <p style={{ fontFamily: "'Poppins', sans-serif", fontSize: 15, color: "rgba(255,255,255,0.88)", lineHeight: 1.75, margin: "0 0 36px", fontWeight: 400 }}>
-            Schedule an appointment today and give your pet the exceptional care they deserve.
-          </p>
-
-          <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
-
-            {/* ── Book Appointment → opens modal ── */}
-            <button className="scta-book-btn" onClick={onBookClick}>
-              Book Appointment
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#f57c20" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M5 12h14M12 5l7 7-7 7" />
-              </svg>
-            </button>
-
-            {/* ── Contact Us → stays as link ── */}
-            <Link
-              href="/contact"
-              style={{
-                display: "inline-flex", alignItems: "center", gap: 8,
-                background: "transparent", color: "#fff",
-                fontFamily: "'Poppins', sans-serif", fontWeight: 700, fontSize: 13,
-                letterSpacing: "0.06em", textTransform: "uppercase",
-                padding: "15px 32px", borderRadius: 10, textDecoration: "none",
-                border: "2px solid rgba(255,255,255,0.6)",
-              }}
-            >
-              Contact Us
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M5 12h14M12 5l7 7-7 7" />
-              </svg>
-            </Link>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}

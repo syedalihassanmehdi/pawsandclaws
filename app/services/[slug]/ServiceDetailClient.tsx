@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Service, getRelatedServices } from "@/data/services-data";
+import AboutCTA from "@/components/about/Aboutcta";
 
 export default function ServiceDetailClient({ service }: { service: Service }) {
   return (
@@ -11,7 +12,7 @@ export default function ServiceDetailClient({ service }: { service: Service }) {
       <ServiceHero service={service} />
       <ServiceBody service={service} />
       <RelatedServices service={service} />
-      <ServiceCTA service={service} />
+      <AboutCTA />
     </div>
   );
 }
@@ -306,31 +307,3 @@ function RelatedServices({ service }: { service: Service }) {
   );
 }
 
-/* ─── CTA ─────────────────────────────────────────────────────── */
-function ServiceCTA({ service }: { service: Service }) {
-  return (
-    <section style={{ padding: "0 48px 80px" }}>
-      <div style={{ position: "relative", overflow: "hidden", borderRadius: 28, background: "#f57c20", maxWidth: 1200, margin: "0 auto", padding: "64px 80px", textAlign: "center" }}>
-        <div style={{ position: "absolute", width: 420, height: 420, borderRadius: "50%", border: "56px solid rgba(255,255,255,0.08)", top: -160, left: -100, pointerEvents: "none" }} />
-        <div style={{ position: "absolute", width: 260, height: 260, borderRadius: "50%", border: "36px solid rgba(255,255,255,0.06)", bottom: -100, right: 80, pointerEvents: "none" }} />
-        <div style={{ position: "relative", zIndex: 1, maxWidth: 560, margin: "0 auto" }}>
-          <h2 style={{ fontFamily: "'Poppins', sans-serif", fontWeight: 800, fontSize: "clamp(24px, 3vw, 40px)", color: "#fff", margin: "0 0 14px", lineHeight: 1.15 }}>
-            Book {service.title} Today
-          </h2>
-          <p style={{ fontFamily: "'Poppins', sans-serif", fontSize: 15, color: "rgba(255,255,255,0.88)", lineHeight: 1.75, margin: "0 0 32px", fontWeight: 400 }}>
-            Give your pet the expert care they deserve. Schedule an appointment now.
-          </p>
-          <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
-            <Link href="/locations" style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "#fff", color: "#f57c20", fontFamily: "'Poppins', sans-serif", fontWeight: 700, fontSize: 13, letterSpacing: "0.06em", textTransform: "uppercase", padding: "15px 32px", borderRadius: 10, textDecoration: "none", boxShadow: "0 6px 20px rgba(0,0,0,0.12)" }}>
-              Book Appointment
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#f57c20" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
-            </Link>
-            <Link href="/services" style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "transparent", color: "#fff", fontFamily: "'Poppins', sans-serif", fontWeight: 700, fontSize: 13, letterSpacing: "0.06em", textTransform: "uppercase", padding: "15px 32px", borderRadius: 10, textDecoration: "none", border: "2px solid rgba(255,255,255,0.6)" }}>
-              View All Services
-            </Link>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
