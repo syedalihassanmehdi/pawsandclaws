@@ -1,0 +1,128 @@
+(globalThis.TURBOPACK||(globalThis.TURBOPACK=[])).push(["object"==typeof document?document.currentScript:void 0,58274,e=>{"use strict";var i=e.i(43476),a=e.i(71645);let r=["All","Veterinarians","Medical Dept","Reception","Grooming","Accounts"],t={"al-ain":[{name:"Dr. Zaib Mahel",title:"Chief Head Surgeon",dept:"Veterinarians",years:"19+",color:"#f57c20",initials:"ZM",image:"/dr-mahel.png",specs:["Surgery","Endoscopy","Falcon Medicine"],bio:"Dr. Zaib Mahel leads our surgical team with over 19 years of veterinary experience. She specializes in soft tissue surgery, advanced endoscopy procedures, and falcon medicine, bringing world-class expertise to the UAE."},{name:"Dr. Mirza Salman",title:"Senior Veterinarian",dept:"Veterinarians",years:"16+",color:"#7c6fcd",initials:"MS",image:"/dr-salman.png",specs:["Small Animals","Wild Primates"],bio:"With 16+ years dedicated to small animal and wild primate medicine, Dr. Salman provides comprehensive veterinary services with a focus on preventive medicine and complex internal cases."},{name:"Dr. Asif Iqbal",title:"Veterinarian",dept:"Veterinarians",years:"14",color:"#2a9d8f",initials:"AI",image:"/dr-asif.png",specs:["Falcon Medicine","Endoscopy"],bio:"Dr. Asif brings 14 years of specialized experience in falcon medicine and endoscopy. His expertise in avian care makes him a sought-after specialist for exotic bird health in the region."},{name:"Dr. Kiran",title:"Veterinarian",dept:"Veterinarians",years:"8+",color:"#e05c7a",initials:"KR",image:"/dr-kiran.png",specs:["Small Animals","Diagnostics"],bio:"Dr. Kiran provides compassionate care for cats, dogs, and other small animals. Her gentle approach and thorough diagnostic skills ensure the best outcomes for every patient."},{name:"Dr. Amira",title:"Veterinarian",dept:"Veterinarians",years:"6+",color:"#4caf82",initials:"AM",image:"/dr-amira.png",specs:["General Practice","Preventive Care"],bio:"Dr. Amira is passionate about preventive care and building lasting relationships with pet families, ensuring long-term health and wellbeing for every animal in her care."},{name:"Christian",title:"Veterinary Assistant",dept:"Medical Dept",years:"",color:"#7c6fcd",initials:"CH",image:"/christian.png",specs:[],bio:"Christian provides essential support during surgical procedures and ensures all medical equipment is properly maintained and sterilized."},{name:"Roger",title:"Veterinary Assistant",dept:"Medical Dept",years:"",color:"#2a9d8f",initials:"RO",image:"/roger.png",specs:[],bio:"Roger assists with patient care, laboratory work, and ensuring smooth daily operations in our medical department."},{name:"Taeib",title:"Veterinary Assistant",dept:"Medical Dept",years:"",color:"#f57c20",initials:"TA",image:"/taeib.png",specs:[],bio:"Taeib provides dedicated support in patient handling, medication administration, and post-operative care."},{name:"Rizza",title:"Receptionist",dept:"Reception",years:"",color:"#e05c7a",initials:"RI",image:"/rizza.png",specs:[],bio:"Rizza is the welcoming face of our clinic, managing appointments and ensuring every pet parent feels at home."},{name:"Veron",title:"Receptionist",dept:"Reception",years:"",color:"#4caf82",initials:"VE",image:"/veron.png",specs:[],bio:"Veron handles client communications with care, ensuring seamless scheduling and follow-up coordination."},{name:"Bayzid",title:"Professional Groomer",dept:"Grooming",years:"",color:"#f5c842",initials:"BA",image:"/bayzid.png",specs:[],bio:"Bayzid is an expert groomer with years of experience handling all breeds, ensuring every pet leaves looking and feeling their best."},{name:"Mark",title:"Professional Groomer",dept:"Grooming",years:"",color:"#7c6fcd",initials:"MK",image:"/mark.png",specs:[],bio:"Mark specializes in breed-specific styling and therapeutic grooming treatments for sensitive pets."},{name:"Insha",title:"Accounts Manager",dept:"Accounts",years:"",color:"#2a9d8f",initials:"IN",image:"/insha.png",specs:[],bio:"Insha manages our financial operations with precision, ensuring transparent billing and smooth payment processes for all clients."}],dubai:[{name:"Dr. Zaib Mahel",title:"Chief Head Surgeon",dept:"Veterinarians",years:"19+",color:"#f57c20",initials:"ZM",image:"/dr-mahel.png",specs:["Surgery","Endoscopy","Falcon Medicine"],bio:"Dr. Zaib Mahel leads our surgical team with over 19 years of veterinary experience. She specializes in soft tissue surgery, advanced endoscopy procedures, and falcon medicine, bringing world-class expertise to the UAE."},{name:"Dr. Saada",title:"Senior Veterinarian",dept:"Veterinarians",years:"10+",color:"#7c6fcd",initials:"SA",image:"",specs:["Small Animals","Internal Medicine"],bio:"Dr. Saada brings extensive experience in small animal medicine to our Dubai branch, providing exceptional care for the JVC community."},{name:"Dr. Mehmood",title:"Veterinarian",dept:"Veterinarians",years:"8+",color:"#2a9d8f",initials:"ME",image:"",specs:["General Practice","Dermatology"],bio:"Dr. Mehmood offers comprehensive veterinary services with a focus on preventive care, wellness programs, and dermatological conditions."},{name:"Dr. Sarwat",title:"Veterinarian",dept:"Veterinarians",years:"7+",color:"#e05c7a",initials:"SW",image:"",specs:["Emergency Care","Critical Care"],bio:"Dr. Sarwat specializes in emergency medicine, providing rapid and effective care when your pets need it most."},{name:"Ahmad",title:"Veterinary Assistant",dept:"Medical Dept",years:"",color:"#4caf82",initials:"AH",image:"",specs:[],bio:"Ahmad provides essential clinical support at our Dubai branch, assisting with procedures and patient care."},{name:"Sara",title:"Receptionist",dept:"Reception",years:"",color:"#f57c20",initials:"SR",image:"",specs:[],bio:"Sara warmly welcomes all visitors to our Dubai clinic and manages daily scheduling with efficiency."},{name:"Ali",title:"Professional Groomer",dept:"Grooming",years:"",color:"#7c6fcd",initials:"AL",image:"",specs:[],bio:"Ali delivers premium grooming services with attention to detail and genuine care for every pet."}]};function n(){let[e,n]=(0,a.useState)("al-ain"),[s,o]=(0,a.useState)("All"),p=t[e].filter(e=>"All"===s||e.dept===s),l="All"===s?"Team":s;return(0,i.jsxs)("div",{style:{minHeight:"100vh",background:"linear-gradient(135deg,#eeedf8 0%,#e8e7f5 50%,#ece9f7 100%)",fontFamily:"'Poppins',sans-serif"},children:[(0,i.jsx)("style",{children:`
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');
+
+        .tp-blob1 { position:fixed; width:500px; height:500px; border-radius:50%; background:#b8b0e8; filter:blur(100px); opacity:0.18; top:-100px; right:-100px; pointer-events:none; z-index:0; }
+        .tp-blob2 { position:fixed; width:400px; height:400px; border-radius:50%; background:#c9b8f0; filter:blur(90px); opacity:0.13; bottom:-80px; left:-60px; pointer-events:none; z-index:0; }
+
+        .tp-wrap { position:relative; z-index:1; max-width:1100px; margin:0 auto; padding:72px 24px 100px; }
+
+        /* ── Hero heading ── */
+        .tp-hero { text-align:center; margin-bottom:48px; }
+        .tp-hero-eyebrow {
+          display:inline-block; font-size:13px; font-weight:600; letter-spacing:0.12em;
+          text-transform:uppercase; color:#f57c20;
+        }
+        .tp-hero h1 { font-size:clamp(32px,5vw,54px); font-weight:800; color:#1a1a2e; margin:0 0 14px; letter-spacing:-0.025em; line-height:1.12; }
+        .tp-hero h1 em { color:#f57c20; font-style:italic; }
+        .tp-hero p  { font-size:15px; color:#555570; margin:0 auto; max-width:520px; line-height:1.75; }
+
+        /* ── Branch tabs ── */
+        .tp-branches { display:flex; justify-content:center; gap:8px; margin-bottom:24px; flex-wrap:wrap; }
+        .tp-branch-btn {
+          display:flex; align-items:center; gap:7px; padding:10px 22px; border-radius:30px;
+          font-family:'Poppins',sans-serif; font-size:13px; font-weight:600; cursor:pointer;
+          border:2px solid transparent; transition:all 0.2s;
+        }
+        .tp-branch-btn.inactive { background:rgba(255,255,255,0.7); color:#555570; border-color:rgba(180,174,230,0.3); }
+        .tp-branch-btn.inactive:hover { border-color:rgba(245,124,32,0.3); color:#1a1a2e; }
+        .tp-branch-btn.active { background:#f57c20; color:#fff; border-color:#f57c20; box-shadow:0 4px 16px rgba(245,124,32,0.3); }
+
+        /* ── Dept filter pills ── */
+        .tp-filters { display:flex; justify-content:center; gap:8px; flex-wrap:wrap; margin-bottom:48px; }
+        .tp-filter-pill {
+          padding:7px 18px; border-radius:20px; cursor:pointer;
+          font-family:'Poppins',sans-serif; font-size:12.5px; font-weight:600;
+          border:1.5px solid transparent; transition:all 0.18s;
+        }
+        .tp-filter-pill.inactive { background:rgba(255,255,255,0.65); color:#555570; border-color:rgba(180,174,230,0.25); }
+        .tp-filter-pill.inactive:hover { background:rgba(255,255,255,0.9); border-color:rgba(124,111,205,0.3); color:#1a1a2e; }
+        .tp-filter-pill.active { background:#1a1a2e; color:#fff; border-color:#1a1a2e; }
+
+        /* ── Section heading ── */
+        .tp-section-title {
+          font-size:20px; font-weight:700; color:#1a1a2e; margin:0 0 28px;
+          display:flex; align-items:center; gap:10px;
+        }
+        .tp-section-title::after { content:''; flex:1; height:1px; background:rgba(180,174,230,0.3); }
+
+        /* ── Grid ── */
+        .tp-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:24px; }
+
+        /* ── Card ── */
+        .tp-card { display:flex; flex-direction:column; }
+        .tp-card-top {
+          border-radius:20px 20px 0 0; padding:32px 22px 26px; position:relative;
+          min-height:360px; display:flex; flex-direction:column; justify-content:flex-end;
+          overflow:hidden;
+        }
+
+        /* Photo styles */
+        .tp-card-photo {
+          position:absolute; inset:0; width:100%; height:100%;
+          object-fit:cover; object-position: center top;
+        }
+        .tp-card-photo-overlay {
+          position:absolute; inset:0;
+          background:linear-gradient(to bottom, transparent 30%, rgba(0,0,0,0.55) 100%);
+        }
+
+        /* Initials watermark (shown when no photo) */
+        .tp-card-watermark {
+          position:absolute; top:50%; left:50%; transform:translate(-50%,-60%);
+          font-size:110px; font-weight:900; color:rgba(255,255,255,0.18);
+          letter-spacing:-4px; pointer-events:none; user-select:none; line-height:1;
+          font-family:'Poppins',sans-serif;
+        }
+
+        .tp-years-badge {
+          position:absolute; top:14px; right:14px;
+          background:#f57c20; color:#fff; font-family:'Poppins',sans-serif;
+          font-size:11px; font-weight:700; padding:4px 10px; border-radius:20px;
+          letter-spacing:0.04em; z-index:2;
+        }
+        .tp-card-info {
+          background:rgba(255,255,255,0.92); backdrop-filter:blur(8px);
+          border-radius:12px; padding:12px 14px; position:relative; z-index:2;
+        }
+        .tp-card-name  { font-size:14px; font-weight:700; color:#1a1a2e; margin:0 0 2px; }
+        .tp-card-title { font-size:12px; font-weight:600; margin:0 0 8px; }
+        .tp-card-specs { display:flex; flex-wrap:wrap; gap:5px; }
+        .tp-spec-pill {
+          font-family:'Poppins',sans-serif; font-size:10.5px; font-weight:500; color:#555570;
+          background:rgba(85,85,112,0.07); border:1px solid rgba(85,85,112,0.12);
+          padding:3px 9px; border-radius:20px; display:flex; align-items:center; gap:4px;
+        }
+        .tp-card-bottom {
+          background:rgba(255,255,255,0.78); backdrop-filter:blur(10px);
+          border:1px solid rgba(255,255,255,0.9); border-top:none;
+          border-radius:0 0 18px 18px; padding:14px 18px;
+        }
+        .tp-card-bio { font-size:11.5px; color:#555570; line-height:1.65; margin:0; font-weight:400; }
+
+        /* ── Empty state ── */
+        .tp-empty { grid-column:1 / -1; text-align:center; padding:60px 20px; color:#9090b0; font-size:14px; }
+
+        /* ── CTA section ── */
+        .tp-cta {
+          text-align:center; margin-top:80px; padding:56px 32px;
+          background:rgba(255,255,255,0.6); backdrop-filter:blur(12px);
+          border:1.5px solid rgba(255,255,255,0.9); border-radius:28px;
+          box-shadow:0 4px 28px rgba(90,80,160,0.08);
+        }
+        .tp-cta-dot { width:40px; height:4px; border-radius:2px; background:#f57c20; margin:0 auto 24px; }
+        .tp-cta h2 { font-size:clamp(22px,3.5vw,32px); font-weight:800; color:#1a1a2e; margin:0 0 12px; letter-spacing:-0.02em; }
+        .tp-cta p  { font-size:14px; color:#555570; margin:0 auto 28px; max-width:480px; line-height:1.75; }
+        .tp-cta-btn {
+          display:inline-flex; align-items:center; gap:9px;
+          background:#1a1a2e; color:#fff; text-decoration:none;
+          font-family:'Poppins',sans-serif; font-weight:700; font-size:13.5px;
+          padding:14px 28px; border-radius:12px;
+          transition:background 0.18s, transform 0.15s;
+          box-shadow:0 4px 18px rgba(26,26,46,0.2);
+        }
+        .tp-cta-btn:hover { background:#f57c20; transform:translateY(-2px); box-shadow:0 6px 22px rgba(245,124,32,0.3); }
+
+        /* ── Responsive ── */
+        @media (max-width:900px)  { .tp-grid { grid-template-columns:repeat(2,1fr); } }
+        @media (max-width:540px)  { .tp-grid { grid-template-columns:1fr; } .tp-wrap { padding:48px 16px 72px; } }
+      `}),(0,i.jsx)("div",{className:"tp-blob1"}),(0,i.jsx)("div",{className:"tp-blob2"}),(0,i.jsxs)("div",{className:"tp-wrap",children:[(0,i.jsxs)("div",{className:"tp-hero",children:[(0,i.jsx)("span",{className:"tp-hero-eyebrow",children:"Our Experts"}),(0,i.jsxs)("h1",{children:["Meet Our ","Lead",(0,i.jsx)("br",{}),(0,i.jsx)("em",{children:l})]}),(0,i.jsx)("p",{children:"A dedicated team of specialists committed to providing the highest quality care for your beloved pets across our UAE clinics."})]}),(0,i.jsx)("div",{className:"tp-branches",children:[{id:"al-ain",label:"Al Ain Branch"},{id:"dubai",label:"Dubai (JVC)"}].map(a=>(0,i.jsxs)("button",{className:`tp-branch-btn ${e===a.id?"active":"inactive"}`,onClick:()=>{n(a.id),o("All")},children:[(0,i.jsxs)("svg",{width:"13",height:"13",viewBox:"0 0 24 24",fill:"none",stroke:"currentColor",strokeWidth:"2.2",strokeLinecap:"round",strokeLinejoin:"round",children:[(0,i.jsx)("path",{d:"M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"}),(0,i.jsx)("circle",{cx:"12",cy:"10",r:"3"})]}),a.label]},a.id))}),(0,i.jsx)("div",{className:"tp-filters",children:r.map(e=>(0,i.jsx)("button",{className:`tp-filter-pill ${s===e?"active":"inactive"}`,onClick:()=>o(e),children:e},e))}),(0,i.jsxs)("p",{className:"tp-section-title",children:["al-ain"===e?"Al Ain":"Dubai (JVC)"," — ",l,(0,i.jsxs)("span",{style:{fontFamily:"'Poppins',sans-serif",fontSize:12,fontWeight:600,color:"#9090b0",background:"rgba(255,255,255,0.7)",border:"1.5px solid rgba(180,174,230,0.25)",borderRadius:20,padding:"3px 12px",marginLeft:4},children:[p.length," member",1!==p.length?"s":""]})]}),(0,i.jsx)("div",{className:"tp-grid",children:0===p.length?(0,i.jsxs)("div",{className:"tp-empty",children:[(0,i.jsxs)("svg",{width:"40",height:"40",viewBox:"0 0 24 24",fill:"none",stroke:"#c9c2e8",strokeWidth:"1.5",strokeLinecap:"round",strokeLinejoin:"round",style:{marginBottom:12},children:[(0,i.jsx)("circle",{cx:"12",cy:"8",r:"4"}),(0,i.jsx)("path",{d:"M4 20c0-4 3.6-7 8-7s8 3 8 7"})]}),(0,i.jsx)("p",{style:{margin:0,fontFamily:"'Poppins',sans-serif",fontSize:14,color:"#9090b0",fontWeight:500},children:"No team members in this department yet."})]}):p.map((e,a)=>(0,i.jsxs)("div",{className:"tp-card",children:[(0,i.jsxs)("div",{className:"tp-card-top",style:{background:e.color},children:[e.image?(0,i.jsxs)(i.Fragment,{children:[(0,i.jsx)("img",{src:e.image,alt:e.name,className:"tp-card-photo"}),(0,i.jsx)("div",{className:"tp-card-photo-overlay"})]}):(0,i.jsx)("span",{className:"tp-card-watermark",children:e.initials}),e.years&&(0,i.jsxs)("span",{className:"tp-years-badge",children:[e.years," Years"]}),(0,i.jsxs)("div",{className:"tp-card-info",children:[(0,i.jsx)("p",{className:"tp-card-name",children:e.name}),(0,i.jsx)("p",{className:"tp-card-title",style:{color:e.color},children:e.title}),e.specs.length>0&&(0,i.jsx)("div",{className:"tp-card-specs",children:e.specs.map(a=>(0,i.jsxs)("span",{className:"tp-spec-pill",children:[(0,i.jsx)("svg",{width:"9",height:"9",viewBox:"0 0 24 24",fill:"none",stroke:e.color,strokeWidth:"3",strokeLinecap:"round",strokeLinejoin:"round",children:(0,i.jsx)("polyline",{points:"20 6 9 17 4 12"})}),a]},a))})]})]}),(0,i.jsx)("div",{className:"tp-card-bottom",children:(0,i.jsx)("p",{className:"tp-card-bio",children:e.bio})})]},`${e.name}-${a}`))}),(0,i.jsxs)("div",{className:"tp-cta",children:[(0,i.jsx)("div",{className:"tp-cta-dot"}),(0,i.jsx)("h2",{children:"Join Our Team"}),(0,i.jsx)("p",{children:"We're always looking for passionate veterinary professionals to join our growing family. If you share our commitment to ethical, compassionate care, we'd love to hear from you."}),(0,i.jsxs)("a",{href:"mailto:careers@pawsandclaws.ae",className:"tp-cta-btn",children:[(0,i.jsxs)("svg",{width:"15",height:"15",viewBox:"0 0 24 24",fill:"none",stroke:"currentColor",strokeWidth:"2",strokeLinecap:"round",strokeLinejoin:"round",children:[(0,i.jsx)("path",{d:"M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"}),(0,i.jsx)("polyline",{points:"22,6 12,13 2,6"})]}),"careers@pawsandclaws.ae"]})]})]})]})}e.s(["default",()=>n])}]);

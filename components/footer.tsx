@@ -4,23 +4,23 @@ import Link from "next/link";
 
 const serviceLinks = [
   { title: "Pet Consultation",      slug: "pet-consultation" },
-  { title: "In-House Diagnostics",  slug: "in-house-diagnostics" },
-  { title: "PCR Testing",           slug: "pcr-testing" },
-  { title: "Advanced Imaging",      slug: "advanced-imaging" },
-  { title: "Intensive Care (ICU)",  slug: "intensive-care" },
-  { title: "Dental Care",           slug: "dental-care" },
-  { title: "Laser Therapy",         slug: "laser-therapy" },
-  { title: "Vaccination Programs",  slug: "vaccination-programs" },
-  { title: "Surgical Services",     slug: "surgical-services" },
-  { title: "In-House Pharmacy",     slug: "in-house-pharmacy" },
+  { title: "Pet In-House Diagnostics",  slug: "in-house-diagnostics" },
+  { title: "Pet PCR Testing",           slug: "pcr-testing" },
+  { title: "Pet Advanced Imaging",      slug: "advanced-imaging" },
+  { title: "Pet Intensive Care (ICU)",  slug: "intensive-care" },
+  { title: "Pet Dental Care",           slug: "dental-care" },
+  { title: "Pet Laser Therapy",         slug: "laser-therapy" },
+  { title: "Pet Vaccination Programs",  slug: "vaccination-programs" },
+  { title: "Pet Surgical Services",     slug: "surgical-services" },
+  { title: "Pet Grooming",     slug: "pet-grooming" },
+  { title: "Pet Boarding",     slug: "pet-boarding" },
 ];
 
 const quickLinks = [
   { name: "Home",      href: "/" },
   { name: "About Us",  href: "/about" },
   { name: "Services",  href: "/services" },
-  
-  { name: "Locations", href: "/locations" },
+
   { name: "Contact",   href: "/contact" },
 ];
 

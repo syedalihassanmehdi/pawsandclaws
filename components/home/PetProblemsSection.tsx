@@ -136,21 +136,7 @@ const problems = [
       </svg>
     ),
   },
-  {
-    label: "Chronic Conditions",
-    sub: "In-House Pharmacy",
-    href: "/services/in-house-pharmacy",
-    color: "#4caf82",
-    bg: "rgba(76,175,130,0.08)",
-    border: "rgba(76,175,130,0.22)",
-    icon: (
-      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#4caf82" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M9 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V8l-5-5H9z"/>
-        <path d="M9 3v5h10"/>
-        <path d="M12 12v6M9 15h6"/>
-      </svg>
-    ),
-  },
+
 ];
 
 export default function PetProblemsSection() {

@@ -5,6 +5,48 @@ import { useState, useRef } from "react"
 import { useRouter } from "next/navigation"
 import BookingModal from "@/components/ui/Bookingmodal"
 
+type ServiceLink = {
+  slug: string
+  title: string
+  desc: string
+  color: string
+  icon: string
+  subServices?: { slug: string; title: string }[]
+}
+
+const serviceLinks: ServiceLink[] = [
+  { slug: "pet-consultation",         title: "Pet Consultation",         desc: "Complete wellness checkups & health plans",       color: "#f57c20", icon: "M12 18v3m0 0a3 3 0 003-3V9a3 3 0 00-3-3m0 15a3 3 0 01-3-3V9a3 3 0 013-3m0 0V3" },
+  { slug: "in-house-diagnostics", title: "Pet In-House Diagnostics", desc: "Blood panels, urinalysis & same-day results",     color: "#7c6fcd", icon: "M9.75 3.104v5.714a2.25 2.25 0 01-.659 1.591L5 14.5m4.75-11.396c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 014.5 0m0 0v5.714c0 .597.237 1.17.659 1.591L19 14.5M14.25 3.104c.251.023.501.05.75.082M19 14.5l-1.5 8.25h-11L5 14.5m14 0H5" },
+  { slug: "pcr-testing",          title: "Pet PCR Testing",          desc: "Molecular diagnostics for infectious disease",    color: "#2a9d8f", icon: "M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25" },
+  { slug: "advanced-imaging",     title: "Pet Advanced Imaging",     desc: "Digital X-rays, ultrasound & echocardiography",  color: "#e05c7a", icon: "M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75" },
+  { slug: "intensive-care",       title: "Pet Intensive Care (ICU)", desc: "24/7 critical care & continuous monitoring",      color: "#e05c7a", icon: "M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" },
+  { slug: "dental-care",          title: "Pet Dental Care",          desc: "Professional cleanings & oral health therapy",   color: "#f5c842", icon: "M12 2c-2.5 0-5 1.5-5 4 0 1.5.5 3 1 4.5.5 2 1 4 1 6 0 1.1.9 2 2 2s2-.9 2-2c0 1.1.9 2 2 2s2-.9 2-2c0-2 .5-4 1-6 .5-1.5 1-3 1-4.5 0-2.5-2.5-4-5-4z" },
+  { slug: "laser-therapy",        title: "Pet Laser Therapy",        desc: "Drug-free pain relief & accelerated healing",    color: "#4caf82", icon: "M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" },
+  { slug: "vaccination-programs", title: "Pet Vaccination Programs", desc: "Tailored immunization for every life stage",     color: "#f57c20", icon: "M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" },
+  {
+    slug: "surgical-services",
+    title: "Pet Surgical Services",
+    desc: "Board-certified surgeons & full OR support",
+    color: "#7c6fcd",
+    icon: "M9.75 3.104v5.714a2.25 2.25 0 01-.659 1.591L5 14.5 M14.25 3.104c.251.023.501.05.75.082M19 14.5l-2.047 2.047",
+    subServices: [
+      { slug: "spay-neuter-surgery",          title: "Spay & Neuter" },
+      { slug: "soft-tissue-surgery",          title: "Soft Tissue Surgery" },
+      { slug: "orthopedic-procedures",        title: "Orthopedic Procedures" },
+      { slug: "tumor-mass-removal",           title: "Tumor & Mass Removal" },
+      
+    ],
+  },
+  
+  { slug: "pet-grooming",             title: "Pet Grooming",             desc: "Breed-specific styling & professional coat care", color: "#e05c7a", icon: "M7 3a1 1 0 000 2h10a1 1 0 100-2H7zM4 7a1 1 0 011-1h14a1 1 0 110 2H5a1 1 0 01-1-1zM2 11a2 2 0 012-2h16a2 2 0 012 2v6a2 2 0 01-2 2H4a2 2 0 01-2-2v-6z" },
+  { slug: "pet-boarding",             title: "Pet Boarding",             desc: "Safe, vet-supervised overnight stays",           color: "#7c6fcd", icon: "M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" },
+]
+
+const locationLinks = [
+  { id: "al-ain", name: "PNCV Al Ain",      sub: "Al Ain, Abu Dhabi - UAE" },
+  { id: "dubai",  name: "PNCV Dubai (JVC)", sub: "Dubai, UAE" },
+]
+
 const navigation = [
   { name: "Home",      href: "/" },
   { name: "About",     href: "/about" },
@@ -14,37 +56,20 @@ const navigation = [
   { name: "Contact",   href: "/contact" },
 ]
 
-const serviceLinks = [
-  { slug: "pet-consultation",     title: "Pet Consultation",     desc: "Complete wellness checkups & health plans",       color: "#f57c20", icon: "M12 18v3m0 0a3 3 0 003-3V9a3 3 0 00-3-3m0 15a3 3 0 01-3-3V9a3 3 0 013-3m0 0V3" },
-  { slug: "in-house-diagnostics", title: "In-House Diagnostics", desc: "Blood panels, urinalysis & same-day results",     color: "#7c6fcd", icon: "M9.75 3.104v5.714a2.25 2.25 0 01-.659 1.591L5 14.5m4.75-11.396c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 014.5 0m0 0v5.714c0 .597.237 1.17.659 1.591L19 14.5M14.25 3.104c.251.023.501.05.75.082M19 14.5l-1.5 8.25h-11L5 14.5m14 0H5" },
-  { slug: "pcr-testing",          title: "PCR Testing",          desc: "Molecular diagnostics for infectious disease",    color: "#2a9d8f", icon: "M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25" },
-  { slug: "advanced-imaging",     title: "Advanced Imaging",     desc: "Digital X-rays, ultrasound & echocardiography",  color: "#e05c7a", icon: "M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75" },
-  { slug: "intensive-care",       title: "Intensive Care (ICU)", desc: "24/7 critical care & continuous monitoring",      color: "#e05c7a", icon: "M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" },
-  { slug: "dental-care",          title: "Dental Care",          desc: "Professional cleanings & oral health therapy",   color: "#f5c842", icon: "M12 2c-2.5 0-5 1.5-5 4 0 1.5.5 3 1 4.5.5 2 1 4 1 6 0 1.1.9 2 2 2s2-.9 2-2c0 1.1.9 2 2 2s2-.9 2-2c0-2 .5-4 1-6 .5-1.5 1-3 1-4.5 0-2.5-2.5-4-5-4z" },
-  { slug: "laser-therapy",        title: "Laser Therapy",        desc: "Drug-free pain relief & accelerated healing",    color: "#4caf82", icon: "M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" },
-  { slug: "vaccination-programs", title: "Vaccination Programs", desc: "Tailored immunization for every life stage",     color: "#f57c20", icon: "M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" },
-  { slug: "surgical-services",    title: "Surgical Services",    desc: "Board-certified surgeons & full OR support",     color: "#7c6fcd", icon: "M9.75 3.104v5.714a2.25 2.25 0 01-.659 1.591L5 14.5 M14.25 3.104c.251.023.501.05.75.082M19 14.5l-2.047 2.047" },
-  { slug: "in-house-pharmacy",    title: "In-House Pharmacy",    desc: "Same-day prescriptions & compounded meds",      color: "#4caf82", icon: "M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007z" },
-  { slug: "pet-grooming",         title: "Pet Grooming",         desc: "Breed-specific styling & professional coat care", color: "#e05c7a", icon: "M7 3a1 1 0 000 2h10a1 1 0 100-2H7zM4 7a1 1 0 011-1h14a1 1 0 110 2H5a1 1 0 01-1-1zM2 11a2 2 0 012-2h16a2 2 0 012 2v6a2 2 0 01-2 2H4a2 2 0 01-2-2v-6z" },
-  { slug: "pet-boarding",         title: "Pet Boarding",         desc: "Safe, vet-supervised overnight stays",           color: "#7c6fcd", icon: "M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" },
-]
-
-const locationLinks = [
-  { id: "al-ain", name: "PNCV Al Ain",      sub: "Al Ain, Abu Dhabi - UAE" },
-  { id: "dubai",  name: "PNCV Dubai (JVC)", sub: "Dubai, UAE" },
-]
-
 export function Header() {
   const router = useRouter()
-  const [modalOpen,           setModalOpen]           = useState(false)
-  const [mobileMenuOpen,      setMobileMenuOpen]      = useState(false)
-  const [servicesOpen,        setServicesOpen]        = useState(false)
-  const [locationsOpen,       setLocationsOpen]       = useState(false)
-  const [mobileServicesOpen,  setMobileServicesOpen]  = useState(false)
-  const [mobileLocationsOpen, setMobileLocationsOpen] = useState(false)
+  const [modalOpen,            setModalOpen]            = useState(false)
+  const [mobileMenuOpen,       setMobileMenuOpen]       = useState(false)
+  const [servicesOpen,         setServicesOpen]         = useState(false)
+  const [locationsOpen,        setLocationsOpen]        = useState(false)
+  const [mobileServicesOpen,   setMobileServicesOpen]   = useState(false)
+  const [mobileLocationsOpen,  setMobileLocationsOpen]  = useState(false)
+  const [surgicalFlyoutOpen,   setSurgicalFlyoutOpen]   = useState(false)
+  const [mobileSurgicalOpen,   setMobileSurgicalOpen]   = useState(false)
 
-  const svcTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
-  const locTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const svcTimer      = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const locTimer      = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const surgicalTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   const openSvc  = () => { if (svcTimer.current) clearTimeout(svcTimer.current); setServicesOpen(true);  setLocationsOpen(false) }
   const closeSvc = () => { svcTimer.current = setTimeout(() => setServicesOpen(false), 120) }
@@ -104,7 +129,6 @@ export function Header() {
         }
         .hdr-cta:hover { background: #e06b10; transform: translateY(-1px); }
 
-        /* ── Shared dropdown shell ── */
         .hdr-dropdown-wrap { position: relative; }
         .hdr-dropdown {
           position: absolute; top: calc(100% + 10px); left: 50%;
@@ -120,7 +144,6 @@ export function Header() {
           transform: translateX(-50%) translateY(0);
         }
 
-        /* ── Services dropdown (wide, 3-col for 12 items) ── */
         .hdr-dropdown-services { width: 780px; padding: 20px; }
         .hdr-dropdown-header {
           display: flex; align-items: center; justify-content: space-between;
@@ -153,7 +176,6 @@ export function Header() {
         }
         .hdr-view-all:hover { background: #e06b10; }
 
-        /* ── Locations dropdown ── */
         .hdr-dropdown-locations { width: 280px; padding: 10px; }
         .hdr-loc-item {
           display: flex; align-items: center; gap: 12px; padding: 12px 14px;
@@ -171,7 +193,34 @@ export function Header() {
         .hdr-loc-arrow { margin-left: auto; color: #ccc; flex-shrink: 0; transition: color 0.16s; }
         .hdr-loc-item:hover .hdr-loc-arrow { color: #f57c20; }
 
-        /* ── Mobile ── */
+        /* Surgical flyout */
+        .hdr-svc-item-wrap { position: relative; }
+        .hdr-svc-flyout {
+          position: absolute; left: 100%; top: -8px;
+          background: rgba(255,255,255,0.98); backdrop-filter: blur(20px);
+          border: 1.5px solid rgba(124,111,205,0.2); border-radius: 14px;
+          box-shadow: 0 16px 48px rgba(26,26,46,0.14);
+          padding: 8px; min-width: 220px; z-index: 200;
+          opacity: 0; pointer-events: none;
+          transform: translateX(-6px);
+          transition: opacity 0.16s ease, transform 0.16s ease;
+        }
+        .hdr-svc-flyout.open {
+          opacity: 1; pointer-events: all;
+          transform: translateX(0);
+        }
+        .hdr-svc-flyout-item {
+          display: flex; align-items: center; gap: 10px;
+          padding: 9px 12px; border-radius: 9px;
+          text-decoration: none; font-family: 'Poppins', sans-serif;
+          font-size: 12.5px; font-weight: 500; color: #1a1a2e;
+          transition: background 0.14s; white-space: nowrap;
+        }
+        .hdr-svc-flyout-item:hover { background: rgba(124,111,205,0.08); color: #7c6fcd; }
+        .hdr-svc-flyout-dot { width: 6px; height: 6px; border-radius: 50%; background: #7c6fcd; flex-shrink: 0; }
+        .hdr-svc-item-surgical { background: rgba(124,111,205,0.04); border-color: rgba(124,111,205,0.15) !important; }
+
+        /* Mobile */
         .hdr-mobile-btn {
           display: none; background: none; border: none; cursor: pointer;
           padding: 6px; border-radius: 8px; color: #1a1a2e; transition: background 0.15s;
@@ -195,6 +244,13 @@ export function Header() {
           transition: background 0.15s;
         }
         .hdr-mob-svc:hover { background: rgba(124,111,205,0.06); }
+        .hdr-mob-surgical-list { padding: 4px 0 4px 24px; display: flex; flex-direction: column; gap: 2px; }
+        .hdr-mob-surgical-item {
+          display: flex; align-items: center; gap: 8px; padding: 7px 10px; border-radius: 8px;
+          text-decoration: none; font-family: 'Poppins',sans-serif; font-size: 12px; font-weight: 500; color: #555570;
+          transition: background 0.15s;
+        }
+        .hdr-mob-surgical-item:hover { background: rgba(124,111,205,0.06); color: #7c6fcd; }
         .hdr-mob-loc-list { padding: 6px 0 4px 12px; display: flex; flex-direction: column; gap: 4px; }
         .hdr-mob-loc {
           display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 10px;
@@ -239,19 +295,85 @@ export function Header() {
                       </div>
                       <span style={{ fontFamily:"'Poppins',sans-serif", fontSize:11, fontWeight:600, color:"#f57c20", background:"#fff5ee", border:"1px solid #fdd5b0", borderRadius:6, padding:"3px 10px", letterSpacing:"0.04em" }}>12 Services</span>
                     </div>
+
                     <div className="hdr-dropdown-grid">
-                      {serviceLinks.map((s) => (
-                        <Link key={s.slug} href={`/services/${s.slug}`} className="hdr-svc-item" onClick={() => setServicesOpen(false)}>
-                          <div className="hdr-svc-icon" style={{ background:`${s.color}15`, border:`1px solid ${s.color}30` }}>
-                            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke={s.color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d={s.icon}/></svg>
-                          </div>
-                          <div>
-                            <p className="hdr-svc-title">{s.title}</p>
-                            <p className="hdr-svc-desc">{s.desc}</p>
-                          </div>
-                        </Link>
-                      ))}
+                      {serviceLinks.map((s) => {
+                        if (s.subServices) {
+                          return (
+                            <div
+                              key={s.slug}
+                              className="hdr-svc-item-wrap"
+                              onMouseEnter={() => { if (surgicalTimer.current) clearTimeout(surgicalTimer.current); setSurgicalFlyoutOpen(true); }}
+                              onMouseLeave={() => { surgicalTimer.current = setTimeout(() => setSurgicalFlyoutOpen(false), 120); }}
+                            >
+                              <Link
+                                href={`/services/${s.slug}`}
+                                className="hdr-svc-item hdr-svc-item-surgical"
+                                onClick={() => setServicesOpen(false)}
+                                style={{ width: "100%" }}
+                              >
+                                <div className="hdr-svc-icon" style={{ background: `${s.color}15`, border: `1px solid ${s.color}30` }}>
+                                  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke={s.color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d={s.icon} /></svg>
+                                </div>
+                                <div style={{ flex: 1 }}>
+                                  <p className="hdr-svc-title" style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                                    {s.title}
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7c6fcd" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M9 18l6-6-6-6" /></svg>
+                                  </p>
+                                  <p className="hdr-svc-desc">{s.desc}</p>
+                                </div>
+                              </Link>
+
+                              {/* Flyout */}
+                              <div
+                                className={`hdr-svc-flyout ${surgicalFlyoutOpen ? "open" : ""}`}
+                                onMouseEnter={() => { if (surgicalTimer.current) clearTimeout(surgicalTimer.current); setSurgicalFlyoutOpen(true); }}
+                                onMouseLeave={() => { surgicalTimer.current = setTimeout(() => setSurgicalFlyoutOpen(false), 120); }}
+                              >
+                                <p style={{ fontFamily:"'Poppins',sans-serif", fontSize:10.5, fontWeight:700, color:"#7c6fcd", letterSpacing:"0.08em", textTransform:"uppercase", padding:"4px 12px 8px", margin:0, borderBottom:"1px solid rgba(124,111,205,0.1)" }}>
+                                  Surgical Procedures
+                                </p>
+                                {s.subServices.map((sub) => (
+                                  <Link
+                                    key={sub.slug}
+                                    href={`/services/surgical-services/${sub.slug}`}
+                                    className="hdr-svc-flyout-item"
+                                    onClick={() => { setServicesOpen(false); setSurgicalFlyoutOpen(false); }}
+                                  >
+                                    <span className="hdr-svc-flyout-dot" />
+                                    {sub.title}
+                                  </Link>
+                                ))}
+                                <div style={{ borderTop:"1px solid rgba(124,111,205,0.1)", marginTop:4, paddingTop:4 }}>
+                                  <Link
+                                    href="/services/surgical-services"
+                                    className="hdr-svc-flyout-item"
+                                    style={{ color:"#7c6fcd", fontWeight:600 }}
+                                    onClick={() => { setServicesOpen(false); setSurgicalFlyoutOpen(false); }}
+                                  >
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7c6fcd" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+                                    View All Surgical Services
+                                  </Link>
+                                </div>
+                              </div>
+                            </div>
+                          )
+                        }
+
+                        return (
+                          <Link key={s.slug} href={`/services/${s.slug}`} className="hdr-svc-item" onClick={() => setServicesOpen(false)}>
+                            <div className="hdr-svc-icon" style={{ background:`${s.color}15`, border:`1px solid ${s.color}30` }}>
+                              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke={s.color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d={s.icon}/></svg>
+                            </div>
+                            <div>
+                              <p className="hdr-svc-title">{s.title}</p>
+                              <p className="hdr-svc-desc">{s.desc}</p>
+                            </div>
+                          </Link>
+                        )
+                      })}
                     </div>
+
                     <div className="hdr-dropdown-footer">
                       <p style={{ fontFamily:"'Poppins',sans-serif", fontSize:12, color:"#888", margin:0, fontWeight:400 }}>
                         🐾 Need help? <Link href="/contact" style={{ color:"#f57c20", fontWeight:600, textDecoration:"none" }} onClick={() => setServicesOpen(false)}>Talk to our team</Link>
@@ -323,14 +445,59 @@ export function Header() {
                   </button>
                   {mobileServicesOpen && (
                     <div className="hdr-mob-services-grid">
-                      {serviceLinks.map((s) => (
-                        <Link key={s.slug} href={`/services/${s.slug}`} className="hdr-mob-svc" onClick={() => { setMobileMenuOpen(false); setMobileServicesOpen(false); }}>
-                          <div style={{ width:28, height:28, borderRadius:7, background:`${s.color}15`, display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}>
-                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke={s.color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d={s.icon}/></svg>
-                          </div>
-                          {s.title}
-                        </Link>
-                      ))}
+                      {serviceLinks.map((s) => {
+                        if (s.subServices) {
+                          return (
+                            <div key={s.slug} style={{ gridColumn: "1 / -1" }}>
+                              <button
+                                className="hdr-mob-svc"
+                                style={{ width: "100%", justifyContent: "space-between", background: "rgba(124,111,205,0.05)", borderRadius: 8, border: "1px solid rgba(124,111,205,0.12)" }}
+                                onClick={() => setMobileSurgicalOpen(!mobileSurgicalOpen)}
+                              >
+                                <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                                  <div style={{ width:28, height:28, borderRadius:7, background:`${s.color}15`, display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}>
+                                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke={s.color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d={s.icon}/></svg>
+                                  </div>
+                                  <span style={{ fontWeight: 600, color: "#1a1a2e" }}>{s.title}</span>
+                                </div>
+                                <svg style={{ transition:"transform 0.2s", transform: mobileSurgicalOpen ? "rotate(180deg)" : "none", flexShrink: 0 }} width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7c6fcd" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+                              </button>
+                              {mobileSurgicalOpen && (
+                                <div className="hdr-mob-surgical-list">
+                                  {s.subServices.map((sub) => (
+                                    <Link
+                                      key={sub.slug}
+                                      href={`/services/surgical-services/${sub.slug}`}
+                                      className="hdr-mob-surgical-item"
+                                      onClick={() => { setMobileMenuOpen(false); setMobileServicesOpen(false); setMobileSurgicalOpen(false); }}
+                                    >
+                                      <span style={{ width:6, height:6, borderRadius:"50%", background:"#7c6fcd", flexShrink:0, display:"inline-block" }} />
+                                      {sub.title}
+                                    </Link>
+                                  ))}
+                                  <Link
+                                    href="/services/surgical-services"
+                                    className="hdr-mob-surgical-item"
+                                    style={{ color:"#7c6fcd", fontWeight:600 }}
+                                    onClick={() => { setMobileMenuOpen(false); setMobileServicesOpen(false); setMobileSurgicalOpen(false); }}
+                                  >
+                                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#7c6fcd" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                                    View All Surgical
+                                  </Link>
+                                </div>
+                              )}
+                            </div>
+                          )
+                        }
+                        return (
+                          <Link key={s.slug} href={`/services/${s.slug}`} className="hdr-mob-svc" onClick={() => { setMobileMenuOpen(false); setMobileServicesOpen(false); }}>
+                            <div style={{ width:28, height:28, borderRadius:7, background:`${s.color}15`, display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}>
+                              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke={s.color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d={s.icon}/></svg>
+                            </div>
+                            {s.title}
+                          </Link>
+                        )
+                      })}
                       <Link href="/services" className="hdr-mob-svc" style={{ gridColumn:"1 / -1", color:"#f57c20", fontWeight:600 }} onClick={() => { setMobileMenuOpen(false); setMobileServicesOpen(false); }}>
                         View All Services →
                       </Link>

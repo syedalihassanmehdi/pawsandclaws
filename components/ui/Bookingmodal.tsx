@@ -66,13 +66,7 @@ const SERVICES = [
         icon: "M4 4l16 16M9 9l-5 5M15 15l5-5",
         color: "#7c6fcd"
       },
-      {
-        id: "pharmacy",
-        label: "In-House Pharmacy",
-        desc: "Same-day prescriptions & compounded meds",
-        icon: "M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5",
-        color: "#4caf82"
-      },
+      
       {
         id: "grooming",
         label: "Pet Grooming",
