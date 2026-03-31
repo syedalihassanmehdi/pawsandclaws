@@ -9,7 +9,7 @@ export function ServiceHeroo({ service }: { service: Service }) {
             padding: "90px 0 70px",
             position: "relative",
             overflow: "hidden",
-            background: "linear-gradient(135deg, #f8f7fc 0%, #f0eff9 100%)",
+            background: "#EBEAF7",
             display: "flex",
             alignItems: "center",
             minHeight: "100vh"
